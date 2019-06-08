@@ -33,7 +33,7 @@ binary_sensor: !include binary_sensor.yaml
 switch: !include switch.yaml
 camera: !include camera.yaml
 light: !include lights.yaml
-sensor: !include sensor.yaml
+sensor: !include sensors.yaml
 media_player: !include media_player.yaml
 cover: !include covers.yaml
 
