@@ -61,6 +61,13 @@ mqtt:
 
 ios:
 
+notify:
+  - name: iphone_tyf
+    platform: group
+    services:
+      - service: ios_iphone_tere
+      - service: ios_iphonesef
+
 ring:
   username: !secret ring_user
   password: !secret ring_pass
@@ -100,7 +107,7 @@ input_boolean:
   washing_machine_cycle:
     name: "washing machine cycle"
     initial: off
-    
+
 input_number:
   pool_run_time:
     name: Pool run time
