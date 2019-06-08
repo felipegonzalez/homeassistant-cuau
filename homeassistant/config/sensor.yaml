@@ -1,5 +1,4 @@
-  # Weather prediction
-  - platform: yr
+
 
   # Temperature
   - platform: mqtt
@@ -127,7 +126,7 @@
         value_template: '{{ (60*state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}'
         unit_of_measurement: 'L/m'
 
-## Weather ##########3
+## Local Weather ##########3
   - platform: rest
     resource: "http://192.168.100.50:8090/get_weather"
     name: "Weather station"
@@ -156,3 +155,23 @@
         value_template:  "{{ state_attr('sensor.weather_station', 'rain_mm_day') | float }}"
           #states.sensor.weather_station.attributes.rain_mm_day | float}}'
         unit_of_measurement: "mm"
+
+## Washing machine sensors
+  - platform: mqtt
+    name: washing_machine
+    state_topic: sonoff/power_1/oficina/tele/SENSOR
+    availability_topic: sonoff/power_1/oficina/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    value_template: '{{ value_json.ENERGY.Power }}'    
+    json_attributes_topic: '{{ value_json.ENERGY }}'
+    unit_of_measurement: 'W'
+  - platform: mqtt
+    name: voltage_house
+    state_topic: sonoff/power_1/oficina/tele/SENSOR
+    value_template: '{{ value_json.ENERGY.Voltage }}'
+    unit_of_measurement: 'V'
+  - platform: statistics
+    name: washing_machine_stats
+    entity_id: sensor.washing_machine
+    sampling_size: 5
