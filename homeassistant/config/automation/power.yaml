@@ -1,0 +1,9 @@
+- alias: Voltage alarm
+  trigger:
+  - platform: numeric_state
+    entity_id: sensor.voltage_house
+    below: 90
+  action:
+  - service: notify.iphone_tyf
+    data:
+      message: La casa está sufriendo de voltaje bajo.
