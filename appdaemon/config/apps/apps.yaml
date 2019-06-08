@@ -1,0 +1,64 @@
+
+Installer:
+  class: DepeInstaller
+  module: installer
+
+Motion Lights:
+  class: MotionLights
+  module: motion_lights
+  constrain_input_boolean: input_boolean.dark_house
+  grouping: >
+    {"binary_sensor.motion_bano_visitas":{"lights": "light.downstairs_bath", "delay":240, "use_sleep":0},
+    "binary_sensor.motion_sala":{"lights":"light.living_room_lights", "delay":240, "use_sleep":0},
+    "binary_sensor.motion_bano_principal":{"lights":"light.main_bathroom","delay":240, "use_sleep":1},
+    "binary_sensor.motion_cocina":{"lights":"light.kitchen_lights","delay":240, "use_sleep":0},
+    "binary_sensor.motion_comedor":{"lights":"light.dining_room_lights","delay":240, "use_sleep":0},
+    "binary_sensor.motion_estudiof":{"lights":"light.study","delay":360, "use_sleep":0},
+    "binary_sensor.motion_estudiot":{"lights":"light.study_tere","delay":240, "use_sleep":0},
+    "binary_sensor.motion_hall_entrada":{"lights":"light.entrance_hall_lights","delay":120, "use_sleep":1},
+    "binary_sensor.motion_pasillo_comedor_1":{"lights":"light.dining_room_hall","delay":60, "use_sleep":1, "brightness":100},
+    "binary_sensor.motion_pasillo_comedor_2":{"lights":"light.dining_room_hall","delay":60, "use_sleep":1, "brightness":100},
+    "binary_sensor.motion_pasillo_recamaras":{"lights":"light.bedroom_hall_lights","delay":60, "use_sleep":1, "brightness":250},
+    "binary_sensor.motion_recamara":{"lights":"light.bedroom_lights","delay":480, "use_sleep":1, "bright_sleep":0, "alt":{"bright_alt":40, "entity_alt":"media_player.apple_telly", "state_alt":"idle"}},
+    "binary_sensor.motion_terraza":{"lights":"light.backyard_terrace","delay":240, "use_sleep":0},
+    "binary_sensor.motion_tvroom":{"lights":"light.tv_room","delay":360, "use_sleep":1}}
+
+Sound:
+  base: media
+  class: Sound
+  ip: 192.168.100.50
+  module: sound
+  base: sounds
+  player: media_player.living_room
+  port: '8123'
+
+
+Grandfather:
+  class: Grandfather
+  dependencies:
+    - Sound
+  end_time: '21:01:00'
+  media: GFChime
+  module: grandfather
+  #mute_if_home: device_tracker.dedb5e711a24415baaae5cf8e880d852
+  player: media_player.living_room
+  start_time: 07:59:00
+  volume: '0.5'
+
+Solar Panels:
+  class: APSystems
+  module: ap_systems
+  ecu_id: "216000005669"
+
+Door Sensors:
+  class: DoorSensors
+  module: door_sensors
+  rf_bridge: "sensor.rf_bridge_result"
+  codes: >
+    {"FBE86":"door_window/felipe_study",
+     "F6946":"door_window/tita_door",
+     "70186":"door_window/main_bath",
+     "F5D86":"door_window/workshop_door",
+     "B95BA":"door_window/main_garden_door",
+     "AA246":"door_window/kitchen_door"} 
+  

@@ -1,0 +1,9 @@
+.storage
+.cloud
+tts
+__pycache__
+secrets.yaml
+known_devices.yaml
+.ring_cache.pickle
+.DS_Store
+.ios.conf

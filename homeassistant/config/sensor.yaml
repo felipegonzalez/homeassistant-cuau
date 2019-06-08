@@ -1,0 +1,158 @@
+  # Weather prediction
+  - platform: yr
+
+  # Temperature
+  - platform: mqtt
+    name: TV room temperature 
+    state_topic: "caja_tv/temperature"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Living room temperature
+    state_topic: "xbeebox/sala/temperature/1/cajasala"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Bedroom temperature 
+    state_topic: "xbeebox/recamara_principal/temperature/1/cajarecamara"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Kitchen temperature 
+    state_topic: "xbeebox/cocina/temperature/1/cajacocina"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Kitchen humidity 
+    state_topic: "xbeebox/cocina/humidity/1/cajacocina"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Living Room humidity 
+    state_topic: "xbeebox/sala/humidity/1/cajasala"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(1) }}'
+# Light sensors
+  - platform: mqtt
+    name: Kitchen photo level
+    state_topic: "xbeebox/cocina/photo/1/cajacocina"
+    unit_of_measurement: "V"
+    value_template: '{{ 5 * (value | int) / 1024 }}'
+  - platform: mqtt
+    name: Living photo level
+    state_topic: "xbeebox/sala/photo/1/cajasala"
+    unit_of_measurement: "V"
+    value_template: '{{ 5 * (value | int) / 1024 }}'
+  - platform: mqtt
+    name: Felipe study photo level
+    state_topic: "xbeebox/estudiof/photo/1/caja_estudiof"
+    unit_of_measurement: "V"
+    value_template: '{{ 5 * (value | int) / 1024 }}'
+## Pool
+  - platform: mqtt
+    name: Pool Temperature
+    state_topic: "esp8266/caja_bomba_alberca/tele/temperature_in"
+    value_template: "{{ value | float }}"
+    unit_of_measurement: "°C"    
+  - platform: mqtt
+    name: pool_panel_timer_minutes
+    state_topic: "esp8266/caja_bomba_alberca/tele/timer_minutes"
+    value_template: "{{ value | int }}" 
+# Gas lp
+  - platform: mqtt
+    name: Kitchen LP gas 
+    state_topic: "xbeebox/cocina/gaslpg/1/cajacocina"
+    unit_of_measurement: "V"
+  - platform: mqtt
+    name: Bedroom LP gas 
+    state_topic: "xbeebox/recamara_principal/gaslpg/1/cajarecamara"
+    unit_of_measurement: "V"
+## Bridge
+  - platform: mqtt
+    name: rf_bridge_result
+    state_topic: tele/rfbridge/RESULT
+    availability_topic: tele/rfbridge/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    value_template: '{{ value_json.RfReceived.Data }}'
+
+# Rf available sensor
+  - platform: time_date
+    display_options:
+      - 'time'
+      - 'date'
+      - 'date_time'
+      - 'time_date'
+
+
+## Solar output #############3
+  - platform: template
+    sensors:
+      pv_output_w: 
+        entity_id: sensor.pv_power
+        value_template: '{{ states.sensor.pv_power.state | int }}'
+        unit_of_measurement: 'W'
+      pv_today_kw: 
+        entity_id: sensor.pv_power_today_appd
+        value_template: '{{ (0.001*(states.sensor.pv_power_today_appd.state | float)) | round(1) }}'
+        unit_of_measurement: 'kWh'
+        friendly_name: 'kWh Solar hoy'
+
+
+
+# Water monitoring ##############
+  - platform: mqtt
+    state_topic: "caja_cisterna/distancia"
+    name: water_tank_distance_raw
+    unit_of_measurement: "cm"
+
+  - platform: filter
+    name: water_tank_distance_filtered
+    entity_id: sensor.water_tank_distance_raw
+    filters:
+      - filter: outlier
+        window_size: 20
+        radius: 3.0
+      - filter: lowpass
+        time_constant: 3
+
+  - platform: template
+    sensors:
+      water_tank_liters:
+        #value_template: '{{ (5.6*(2120-10*(states.sensor.distancia_cisterna_filtrada.state | float))) | int - 500 }}'
+        value_template: '{{ (66*(200 - states.sensor.water_tank_distance_filtered.state | float)) | int }}'
+        unit_of_measurement: 'liters'
+      water_usage_rate:
+        entity_id: binary_sensor.high_water_usage
+        value_template: '{{ (60*state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}'
+        unit_of_measurement: 'L/m'
+
+## Weather ##########3
+  - platform: rest
+    resource: "http://192.168.100.50:8090/get_weather"
+    name: "Weather station"
+    scan_interval: 120
+    force_update: true
+    json_attributes:
+        - humidity
+        - temperature
+        - date
+        - wind_direction
+        - wind_speed
+        - rain_mm_day
+  - platform: template
+    sensors:
+      temperature_outside:
+        entity_id: sensor.weather_station
+        friendly_name: 'Temperatura Exterior'
+        value_template: '{{ states.sensor.weather_station.attributes.temperature | float }}'
+        unit_of_measurement: "°C"
+      wind_speed_outside:
+        entity_id: sensor.weather_station
+        value_template: '{{ states.sensor.weather_station.attributes.wind_speed }}'
+        unit_of_measurement: "km/h"
+      cumulative_rain_day:
+        entity_id: sensor.weather_sensor
+        value_template:  "{{ state_attr('sensor.weather_station', 'rain_mm_day') | float }}"
+          #states.sensor.weather_station.attributes.rain_mm_day | float}}'
+        unit_of_measurement: "mm"

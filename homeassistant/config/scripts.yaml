@@ -1,0 +1,116 @@
+## Porton de entrada ##############
+  toggle_gate: 
+    alias: Toggle gate
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - service: homeassistant.turn_on
+        data:
+          entity_id: input_boolean.gate_door_working
+      - delay: '00:00:01'
+      - service: homeassistant.turn_off
+        data:
+          entity_id: input_boolean.gate_door_working
+
+# para cover:
+  open_gate_timed:
+    alias: Open gate timed
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - delay: '00:00:02'
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - service: homeassistant.turn_on
+        data:
+          entity_id: input_boolean.gate_door_working
+      - delay: '00:00:02'
+      - service: homeassistant.turn_off
+        data:
+          entity_id: input_boolean.gate_door_working
+      - service: homeassistant.turn_on
+        data:
+          entity_id: input_boolean.gate_state
+  close_gate:
+    alias: Close gate 
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - delay: '00:00:02'
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - service: homeassistant.turn_on
+        data:
+          entity_id: input_boolean.gate_door_working
+      - delay: '00:00:02'
+      - service: homeassistant.turn_off
+        data:
+          entity_id: input_boolean.gate_door_working
+      - service: homeassistant.turn_off
+        data:
+          entity_id: input_boolean.gate_state
+
+## Sonos TTS and sound
+
+  sonos_say:
+    alias: "Sonos TTS script"
+    sequence:
+     - service: sonos.snapshot
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+     - service: sonos.unjoin
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+     - service: media_player.volume_set
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+         volume_level: "{{ volume }}"
+     - service: tts.amazon_polly_say
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+         message: "{{ message }}"
+     - delay: "{{ delay }}"
+     - service: sonos.restore
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+
+  sonos_play:
+    alias: "Sonos play script"
+    sequence:
+     - service: sonos.snapshot
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+     - service: sonos.unjoin
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+     - service: media_player.volume_set
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+         volume_level: "{{ volume }}"
+     - service: media_player.play_media
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+         media_content_id: "{{ media_content_id }}"
+         media_content_type: "audio/mp3"
+     - delay: "{{ delay }}"
+     - service: sonos.restore
+       data_template:
+         entity_id: "{{ sonos_entity }}"
+
+  test_script:
+    alias: "test TTS"
+    sequence:
+     - service: tts.amazon_polly_say
+       data_template:
+         entity_id: "media_player.office"
+         message: "Hola, aquí estoy."    

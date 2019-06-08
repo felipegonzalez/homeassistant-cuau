@@ -1,0 +1,22 @@
+
+### Consumo de agua o electricidad
+- id: voicehighwaterusage2223441
+  alias: high water usage speak
+  initial_state: true
+  trigger:
+    platform: state
+    entity_id: binary_sensor.high_water_usage
+    from: 'off'
+    to: 'on'
+    for: 00:03:00
+  condition:
+    condition: time
+    after: 07:00:00
+    before: '22:00:00'
+  action:
+  - service: script.sonos_say
+    data_template:
+      sonos_entity: media_player.living_room
+      volume: 0.8
+      delay: 00:00:10
+      message: La casa ha estado consumiendo mucha agua.

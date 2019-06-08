@@ -1,0 +1,62 @@
+
+# Doorbells entrance doors notifications and light ##############
+- alias: Patio doorbell ring
+  id: patiodoorbellring89102
+  trigger:
+    platform: state
+    entity_id: binary_sensor.patio_doorbell
+    to: 'on'
+  action:
+  - service: script.sonos_play
+    data:
+      sonos_entity: media_player.office
+      volume: 0.96
+      delay: 00:00:06
+      media_content_id: http://192.168.100.50:8123/local/sounds/doorbell_o.mp3
+  - service: mqtt.publish
+    data:
+      topic: xbeebox/patio/timbre/1/caja_garage
+      payload: '0'
+
+- alias: Notify of ding in gate
+  id: 99938832notifygatedoor
+  trigger:
+    platform: state
+    entity_id: binary_sensor.ring_front_door_ding
+    from: 'off'
+    to: 'on'
+  action:
+  - service: script.sonos_play
+    data:
+      sonos_entity: media_player.living_room
+      volume: 0.95
+      delay: 00:00:06
+      media_content_id: http://192.168.100.50:8123/local/sounds/store_bell.mp3
+
+- alias: Patio door notification
+  trigger:
+    platform: state
+    entity_id: binary_sensor.patio_gate
+    to: 'on'
+  action:
+  - service: script.sonos_play
+    data:
+      sonos_entity: media_player.living_room
+      volume: 0.9
+      delay: 00:00:06
+      media_content_id: http://192.168.100.50:8123/local/sounds/level_up.mp3
+
+- alias: Tita door notification
+  trigger:
+    platform: state
+    entity_id: binary_sensor.tita_door
+    from: 'off'
+    to: 'on'
+  action:
+  - service: script.sonos_play
+    data:
+      sonos_entity: media_player.living_room
+      volume: 0.9
+      delay: 00:00:06
+      media_content_id: http://192.168.100.50:8123/local/sounds/meow1.mp3
+  id: 433743d713c7427c9b456c8aff12cf8b

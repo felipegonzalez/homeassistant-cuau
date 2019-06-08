@@ -1,0 +1,63 @@
+# pool automations
+- alias: Start pool timer when on
+  trigger:
+    platform: state
+    entity_id: switch.pool_pump
+    to: 'on'
+  action:
+    service: timer.start
+    data_template:
+      entity_id: timer.pump_run
+      duration: '{{ states.input_number.pool_run_time.state | int }}:00:00'
+  id: d7632bcb53be469eafcde8772eec70d6
+- alias: Turn off timer when manual off pool
+  trigger:
+    platform: state
+    entity_id: switch.pool_pump
+    to: 'off'
+  action:
+  - service: timer.cancel
+    entity_id: timer.pump_run
+  id: 61db7852c0934e6ebc7dc82f59e82b99
+- alias: Finish pump timer
+  trigger:
+  - platform: event
+    event_type: timer.finished
+    event_data:
+      entity_id: timer.pump_run
+  action:
+  - service: switch.turn_off
+    entity_id: switch.pool_pump
+  id: a895beda006341d480ad0818563380f5
+- alias: send pool run time
+  trigger:
+    platform: state
+    entity_id: input_number.pool_run_time
+  action:
+  - service: mqtt.publish
+    data_template:
+      topic: esp8266/caja_bomba_alberca/cmd/timer_set
+      payload: '{{ (trigger.to_state.state | int)*60 }}'
+  id: 921fcac630d84726a09a768bc11a085d
+- alias: Auto pump run schedule
+  trigger:
+    platform: time
+    at: '11:30:00'
+  condition:
+  - condition: state
+    entity_id: input_boolean.pump_auto
+    state: 'on'
+  - condition: time
+    weekday:
+    - mon
+    - tue
+    - wed
+    - thu
+    - fri
+    - sat
+    - sun
+  action:
+    service: switch.turn_on
+    entity_id: switch.pool_pump
+  id: c4d42cf1f5274331b58638955b2ecb4d
+

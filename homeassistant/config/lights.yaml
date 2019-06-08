@@ -1,0 +1,182 @@
+## Indoors
+  - platform: mqtt
+    name: "Felipe Desk"
+    state_topic: sonoff/lampara_oficina/stat/POWER
+    command_topic: sonoff/lampara_oficina/cmnd/POWER
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: sonoff/lampara_oficina/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: "Chicken coop"
+    state_topic: sonoff/gallinero/stat/POWER
+    command_topic: sonoff/gallinero/cmnd/POWER
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: sonoff/gallinero/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: "Patio door lights"
+    state_topic: sonoff/patio/stat/POWER
+    command_topic: sonoff/patio/cmnd/POWER
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: sonoff/patio/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: mqtt
+    name: "Patio strip"
+    state_topic: "sonoff/basic/serie_patio/stat/POWER"
+    command_topic: "sonoff/basic/serie_patio/cmnd/POWER"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: "sonoff/basic/serie_patio/tele/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline" 
+
+  - platform: mqtt
+    name: "Garden strip"
+    command_topic: "xbeebox/caja_terraza/send_tx"
+    payload_on: "1"
+    payload_off: "0"
+
+  - platform: mqtt
+    name: "Kitchen strip"
+    command_topic: "xbeebox/cajacocina/send_tx"
+    payload_on: "1"
+    payload_off: "0"
+
+  - platform: mqtt
+    name: "Garden tree lights"
+    state_topic: "sonoff/jardin/stat/POWER1"
+    command_topic: "sonoff/jardin/cmnd/POWER1"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: "sonoff/jardin/tele/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline" 
+  - platform: mqtt
+    name: "Garden bulbs"
+    state_topic: "sonoff/jardin/stat/POWER2"
+    command_topic: "sonoff/jardin/cmnd/POWER2"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: "sonoff/jardin/tele/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline" 
+  - platform: mqtt
+    name: "Pool lights"
+    state_topic: "sonoff/jardin/stat/POWER3"
+    command_topic: "sonoff/jardin/cmnd/POWER3"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: "sonoff/jardin/tele/LWT"
+    payload_available: "Online"
+    payload_not_available: "Offline" 
+  - platform: mqtt
+
+    name: "Patio floodlight"
+    state_topic: sonoff/reflector_patio/stat/POWER
+    command_topic: sonoff/reflector_patio/cmnd/POWER
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: sonoff/reflector_patio/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+  - platform: mqtt
+    name: "Laundry light"
+    state_topic: sonoff/luzlavado/stat/POWER
+    command_topic: sonoff/luzlavado/cmnd/POWER
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: sonoff/luzlavado/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+  - platform: group
+    name: Garden lights
+    entities:
+      - light.garden_tree_lights
+      - light.garden_bulbs
+      - light.pool_lights
+
+  - platform: group
+    name: Living room lights
+    entities:
+      - light.living_room
+      #- light.living_room_foot_1
+      #- light.living_room_foot_2
+      #- light.living_room_wall
+
+  - platform: group
+    name: Dining room lights
+    entities:
+      - light.dining_room
+      - light.hue_bloom_1
+
+  - platform: group
+    name: Kitchen lights
+    entities:
+      - light.kitchen_one
+      - light.kitchen_two
+      - light.laundry_light
+      - light.kitchen_strip
+
+  - platform: group
+    name: Kitchen lights day
+    entities:
+      - light.kitchen_one
+      - light.kitchen_two
+      - light.kitchen_strip
+      
+  - platform: group
+    name: Entrance hall lights
+    entities:
+      - light.entrance_hall
+      - light.entrance_table
+
+  - platform: group
+    name: Main bathroom
+    entities:
+      - light.main_bath_three
+      - light.main_bath_two
+      - light.dressing_room
+
+  - platform: group
+    name: Entrance
+    entities:
+      - light.patio_stairs
+      - light.caballeriza_uno
+      - light.caballeriza_dos
+      - light.front_door
+      - light.patio_door_lights
+      - light.patio_strip
+
+  - platform: group
+    name: Backyard terrace
+    entities:
+      - light.backyard
+      - light.garden_strip
+
+  - platform: group
+    name: Bedroom lights
+    entities:
+      - light.bedroom_one
+      - light.bedroom_two
+
+  - platform: group
+    name: Bedroom hall lights
+    entities:
+      - light.stairs
+      #- light.dressing_room
+
+  - platform: group
+    name: Dining room hall
+    entities:
+      - light.dining_hall_1
+      - light.dining_hall_2

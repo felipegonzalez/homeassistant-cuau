@@ -1,0 +1,16 @@
+# Alberca
+
+  - platform: mqtt
+    name: Pool pump
+    state_topic: "esp8266/caja_bomba_alberca/tele/pump"
+    command_topic: "esp8266/caja_bomba_alberca/cmd/pump"
+    payload_on: "on"
+    payload_off: "off"
+    state_on: "1"
+    state_off: "0"  
+
+  - platform: mqtt
+    name: "Raised beds water"
+    command_topic: "xbeebox/caja_goteo/pin/D2"
+    payload_on: "1"
+    payload_off: "0"
