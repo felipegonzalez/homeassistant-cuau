@@ -175,3 +175,13 @@
     name: washing_machine_stats
     entity_id: sensor.washing_machine
     sampling_size: 5
+
+# Gas lp
+  - platform: mqtt
+    name: Kitchen LP gas
+    state_topic: "xbeebox/cocina/gaslpg/1/cajacocina"
+    unit_of_measurement: "V"
+  - platform: mqtt
+    name: Bedroom LP gas
+    state_topic: "xbeebox/recamara_principal/gaslpg/1/cajarecamara"
+    unit_of_measurement: "V"
