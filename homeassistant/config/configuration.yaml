@@ -94,7 +94,13 @@ input_boolean:
     initial: off
   pump_auto:
     name: "Pool pump schedule"
-
+  washing_machine_high:
+    name: "washing machine high"
+    initial: off
+  washing_machine_cycle:
+    name: "washing machine cycle"
+    initial: off
+    
 input_number:
   pool_run_time:
     name: Pool run time
