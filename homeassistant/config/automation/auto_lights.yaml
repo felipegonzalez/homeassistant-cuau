@@ -12,6 +12,7 @@
   - service: input_boolean.turn_on
     entity_id: input_boolean.dark_house
   id: 1809c2e3c3054036a7a63507375f733f
+
 - alias: set bright house
   trigger:
   - platform: numeric_state
@@ -25,6 +26,7 @@
   - service: input_boolean.turn_off
     entity_id: input_boolean.dark_house
   id: 95f1ea628ca54006ab2d2f9fc4dc0624
+
 - alias: turn off all lights
   id: turnoffall112233
   trigger:
@@ -38,3 +40,76 @@
   action:
   - service: light.turn_off
     entity_id: group.all_lights
+
+#### Kitchen lights during day
+
+- alias: Dark kitchen lights
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_cocina
+    from: 'off'
+    to: 'on'
+  condition:
+  - condition: numeric_state
+    entity_id: sensor.kitchen_photo_level
+    below: 1.8
+  - condition: sun
+    after: sunrise
+  - condition: sun
+    before: sunset
+  action:
+  - service: light.turn_on
+    data:
+      entity_id: light.kitchen_lights_day
+      brightness: 255
+      kelvin: 2800
+  id: eb3adabfeb6a4823affea82c1b7bbd42
+
+- alias: Auto off kitchen
+  trigger:
+    platform: state
+    entity_id: binary_sensor.motion_cocina
+    to: 'off'
+    for:
+      minutes: 5
+  action:
+  - service: light.turn_off
+    data:
+      entity_id: light.kitchen_lights_day
+  id: ac42b2d053f547b5bb139eeba43491d9
+
+
+  ### Entrance outside lights
+- alias: Turn off outside lights after close or at sunrise
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hall_door
+    to: 'off'
+  - platform: state
+    entity_id: sun.sun
+    to: above_horizon
+  action:
+  - service: light.turn_off
+    entity_id: light.entrance
+    data:
+      transition: 120
+  - service: light.turn_off
+    entity_id: light.patio_floodlight
+  id: 10815039505e41bab83c4ebc63c83260
+
+- alias: Turn on outside lights when dark
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.hall_door
+    to: 'on'
+  - platform: state
+    entity_id: sun.sun
+    to: below_horizon
+  condition:
+  - condition: state
+    entity_id: sun.sun
+    state: below_horizon
+  action:
+  - service: script.turn_on
+    entity_id: script.patio_lights_scene
+  id: 830dd9b1a2ed4506b15123f5f129a51b

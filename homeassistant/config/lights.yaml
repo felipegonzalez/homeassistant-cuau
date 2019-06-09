@@ -79,7 +79,6 @@
     payload_available: "Online"
     payload_not_available: "Offline" 
   - platform: mqtt
-
     name: "Patio floodlight"
     state_topic: sonoff/reflector_patio/stat/POWER
     command_topic: sonoff/reflector_patio/cmnd/POWER
@@ -151,8 +150,7 @@
     name: Entrance
     entities:
       - light.patio_stairs
-      - light.caballeriza_uno
-      - light.caballeriza_dos
+      - light.caballeriza
       - light.front_door
       - light.patio_door_lights
       - light.patio_strip
