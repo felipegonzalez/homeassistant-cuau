@@ -1,2 +1,7 @@
 binary_sensor.192_168_100_51:
   friendly_name: Zoneminder
+
+person.felipe:
+  entity_picture: "/local/felipe.png"
+person.teresa:
+  entity_picture: "/local/tere.jpg"

@@ -39,6 +39,8 @@ light: !include lights.yaml
 sensor: !include sensors.yaml
 media_player: !include media_player.yaml
 cover: !include covers.yaml
+homeassistant:
+  customize: !include customize.yaml
 
 weather:
   - platform: darksky
