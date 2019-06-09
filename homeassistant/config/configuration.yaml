@@ -125,7 +125,13 @@ input_number:
     min: 1
     max: 6
     step: 1
-
+  gas_correction:
+    name: Gas correction values
+    initial: 5
+    min: -20
+    max: 20
+    step: 1
+    
 timer: 
   pump_run:
     duration: '03:00:00'

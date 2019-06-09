@@ -8,20 +8,20 @@ views:
       - entities:
           - entity: light.entrance
             name: Luces entrada
-          - entity: light.patio_floodlight
-            name: Reflector patio
           - entity: sensor.water_tank_liters
             icon: 'mdi:gas-cylinder'
             name: Cisterna
           - entity: sensor.water_usage_rate
             icon: 'mdi:water'
             name: Uso de agua
+          - entity: sensor.gas_tank_filtered
+            name: Gas LP
           - entity: cover.street_gate
             name: Portón
         type: entities
       - entities:
           - entity: input_boolean.gate_door_working
-            name: Click Portón
+            name: Click
             icon: 'mdi:car'
             hold_action: 
               action: call-service
@@ -30,11 +30,20 @@ views:
                 entity_id: script.toggle_gate
           - entity: input_boolean.sleep_mode
             name: Dormir
-          - entity: input_boolean.auto_light
-            name: Auto luces
-            icon: 'mdi:lightbulb'
+            tap_action:
+              action: toggle
+            icon: 'mdi:sleep'
+          - entity: light.patio_floodlight
+            name: Reflector
+            icon: 'mdi:car-parking-lights'
+            tap_action:
+              action: toggle
+        columns: 4
         type: glance
       - entities:
+          - entity: input_boolean.auto_light
+            name: Auto luces
+            icon: 'mdi:flash-outline'
           - entity: media_player.bedroom_apple_tv
             name: Apple TV Recámara
           - entity: media_player.tv_room_apple_tv
@@ -137,6 +146,8 @@ views:
           - entity: group.all_scripts
           - entity: group.all_lights
         type: entities
+      - type: picture-entity
+        entity: camera.gas_tank_camera
     icon: 'mdi:cogs'
     title: Settings
   - badges:

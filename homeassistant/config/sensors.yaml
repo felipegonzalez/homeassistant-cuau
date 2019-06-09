@@ -164,6 +164,28 @@
         value_template: '{{ (states.sensor.cumulative_rain_yesterday.state | float) + (states.sensor.cumulative_rain_today.state | float) }}'
         unit_of_measurement: mm
 
+## Gas tank monitoring
+  - platform: rest
+    name: gas_tank_raw
+    resource: "http://192.168.100.27/get_reading"
+    value_template: '{{ (value_json.value | int) - (states.input_number.gas_correction.state | int) }}'
+    unit_of_measurement: '%'
+    timeout: 5
+    force_update: true
+
+  - platform: filter
+    name: gas_tank_filtered
+    entity_id: sensor.gas_tank_raw
+    filters:
+      - filter: range
+        lower_bound: -5
+        upper_bound: 105
+      - filter: outlier    
+        window_size: 5
+        radius: 10.0
+      - filter: lowpass
+        time_constant: 4
+        precision: 0
 
 ## Washing machine sensors
   - platform: mqtt
