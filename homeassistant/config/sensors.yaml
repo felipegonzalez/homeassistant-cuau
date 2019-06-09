@@ -151,9 +151,8 @@
         value_template: '{{ states.sensor.weather_station.attributes.wind_speed }}'
         unit_of_measurement: "km/h"
       cumulative_rain_day:
-        entity_id: sensor.weather_sensor
+        entity_id: sensor.weather_station
         value_template:  "{{ state_attr('sensor.weather_station', 'rain_mm_day') | float }}"
-          #states.sensor.weather_station.attributes.rain_mm_day | float}}'
         unit_of_measurement: "mm"
 
 ## Washing machine sensors
