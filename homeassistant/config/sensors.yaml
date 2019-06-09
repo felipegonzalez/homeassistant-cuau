@@ -176,3 +176,19 @@
     entity_id: sensor.washing_machine
     sampling_size: 5
 
+### sql sensors
+  - platform: sql
+    db_url: !secret hass_db
+    queries:
+      - name: HA db size
+        query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / (1024 * 1024), 1) "value" FROM information_schema.tables WHERE table_schema="ha_db" GROUP BY table_schema;'
+        column: 'value'
+        unit_of_measurement: MB
+      - name: cumulative_rain_yesterday
+        query: "select coalesce(max(state+0),0) as maximum from states where entity_id = 'sensor.cumulative_rain_day' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),1);"
+        column: 'maximum'
+        unit_of_measurement: mm
+      - name: cumulative_rain_today
+        query: "select coalesce(max(state+0)) as maximum from states where entity_id = 'sensor.cumulative_rain_day' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),0);"
+        column: 'maximum'
+        unit_of_measurement: mm
