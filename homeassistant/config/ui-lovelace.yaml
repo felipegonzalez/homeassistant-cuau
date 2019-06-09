@@ -20,6 +20,14 @@ views:
             name: Portón
         type: entities
       - entities:
+          - entity: input_boolean.gate_door_working
+            name: Click Portón
+            icon: 'mdi:car'
+            hold_action: 
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.toggle_gate
           - entity: input_boolean.sleep_mode
             name: Dormir
           - entity: input_boolean.auto_light
