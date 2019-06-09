@@ -128,3 +128,40 @@ input_number:
 timer: 
   pump_run:
     duration: '03:00:00'
+
+##############
+# Cloud alexa
+cloud:
+  alexa:
+    filter:
+      exclude_entities:
+        - light.backyard
+        - light.bedroom_one
+        - light.bedroom_two
+        - light.caballeriza_dos
+        - light.caballeriza_uno
+        - light.dining_hall_1
+        - light.dining_hall_2
+        - light.downstairs_bath
+        - light.dressing_room
+        - light.entrance_ahll
+        - light.entrance_table
+        - light.front_door
+        - light.hue_bloom_1
+        - light.kitchen_lights_day
+        - light.kitchen_one
+        - light.kitchen_two
+        - light.living_room_foot_1
+        - light.living_room_foot_2
+        - light.living_room_wall
+        - light.main_bath_three
+        - light.main_bath_two
+        - media_player.office
+        - light.pasillo_coronas
+        - light.patio_stairs_one
+        - light.patio_stairs_two
+        - light.patio_stairs_three
+        - light.stairs
+        - light.study
+        - light.study_tere
+        - light.tv_room
