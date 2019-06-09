@@ -1,0 +1,278 @@
+title: Cuauhtemoc97
+views:
+  - badges:
+      - person.felipe
+      - person.teresa
+      - sensor.pv_today_kw
+    cards:
+      - entities:
+          - entity: light.entrance
+            name: Luces entrada
+          - entity: light.patio_floodlight
+            name: Reflector patio
+          - entity: sensor.water_tank_liters
+            icon: 'mdi:gas-cylinder'
+            name: Cisterna
+          - entity: sensor.water_usage_rate
+            icon: 'mdi:water'
+            name: Uso de agua
+          - entity: cover.street_gate
+            name: Portón
+        type: entities
+      - entities:
+          - entity: input_boolean.sleep_mode
+            name: Dormir
+          - entity: input_boolean.auto_light
+            name: Auto luces
+            icon: 'mdi:lightbulb'
+        type: glance
+      - entities:
+          - entity: media_player.bedroom_apple_tv
+            name: Apple TV Recámara
+          - entity: media_player.tv_room_apple_tv
+            name: Apple TV cuarto Tele
+          - entity: media_player.bedroom_tv
+            name: Samsung TV
+        type: entities
+    icon: 'mdi:home'
+    path: default_view
+    title: Casa
+  - badges:
+      - sensor.pool_temperature
+      - switch.pool_pump
+      - timer.pump_run
+    cards:
+      - entities:
+          - entity: switch.pool_pump
+            name: Bomba
+          - entity: input_number.pool_run_time
+            name: Tiempo
+          - entity: input_boolean.pump_auto
+            name: Auto alberca
+        type: entities
+    icon: 'mdi:pool'
+    panel: false
+    title: Alberca
+  - badges:
+      - sensor.temperature_outside
+    cards:
+      - entities:
+          - entity: light.garden_lights
+            name: Luces Jardín
+          - entity: switch.raised_beds_water
+            name: Riego camas
+        type: entities
+      - entity: weather.dark_sky
+        type: weather-forecast
+    icon: 'mdi:flower'
+    title: Jardin
+  - badges:
+      - sensor.voltage_house
+      - sensor.kitchen_lp_gas
+      - sensor.bedroom_lp_gas
+    cards:
+      - entities:
+          - entity: binary_sensor.192_168_100_51
+            name: Zoneminder
+        type: glance
+      - entities:
+          - entity: binary_sensor.felipe_window
+          - entity: binary_sensor.hall
+          - entity: binary_sensor.kitchen_door
+          - entity: binary_sensor.main_bathroom
+          - entity: binary_sensor.tita_door
+          - entity: binary_sensor.patio_gate
+          - entity: binary_sensor.workshop
+          - entity: binary_sensor.main_garden_door
+        type: entities
+      - entities:
+          - binary_sensor.motion_bano_principal
+          - binary_sensor.motion_bano_visitas
+          - binary_sensor.motion_cocina
+          - binary_sensor.motion_comedor
+          - binary_sensor.motion_estudiof
+          - binary_sensor.motion_estudiot
+          - binary_sensor.motion_hall_entrada
+          - binary_sensor.motion_pasillo_comedor_1
+          - binary_sensor.motion_pasillo_recamaras
+          - binary_sensor.motion_recamara
+          - binary_sensor.motion_sala
+          - binary_sensor.motion_terraza
+          - binary_sensor.motion_tvroom
+          - entity: binary_sensor.ring_front_door_motion
+            name: Front gate
+          - binary_sensor.motion_camera_escaleras
+          - binary_sensor.motion_camera_hall
+          - binary_sensor.motion_camera_patio
+          - binary_sensor.motion_camera_puerta_patio
+        state_filter:
+          - 'on'
+        type: entity-filter
+      - entity: camera.front_door
+        type: picture-entity
+    icon: 'mdi:shield-home-outline'
+    title: Seguridad
+  - badges: []
+    cards:
+      - entities:
+          - entity: group.all_automations
+          - entity: group.all_scripts
+          - entity: group.all_lights
+        type: entities
+    icon: 'mdi:cogs'
+    title: Settings
+  - badges:
+      - binary_sensor.high_water_usage
+      - binary_sensor.patio_gate
+      - binary_sensor.patio_doorbell
+      - binary_sensor.main_garden_door
+      - binary_sensor.ring_front_door_motion
+      - binary_sensor.ring_front_door_ding
+      - binary_sensor.remote_ui
+      - person.felipe
+      - person.teresa
+      - device_tracker.iphonesef
+      - device_tracker.iphone_tere
+      - sensor.water_usage_rate
+      - sensor.water_tank_liters
+      - sensor.time_date
+      - sensor.date_time
+      - sensor.time
+      - sensor.date
+      - sensor.pv_today_kw
+      - sensor.pv_output_w
+      - sensor.water_tank_distance_filtered
+      - sensor.living_room_temperature
+      - sensor.bedroom_temperature
+      - sensor.kitchen_temperature
+      - sensor.kitchen_humidity
+      - sensor.living_room_humidity
+      - sensor.kitchen_photo_level
+      - sensor.living_photo_level
+      - sensor.water_tank_distance_raw
+      - sensor.felipe_study_photo_level
+      - sensor.pool_panel_timer_minutes
+      - sensor.kitchen_lp_gas
+      - sensor.bedroom_lp_gas
+      - sensor.tv_room_temperature
+      - sensor.rf_bridge_result
+      - sensor.iphonesef_battery_level
+      - sensor.iphone_tere_battery_level
+      - sensor.iphone_tere_battery_state
+      - sensor.iphonesef_battery_state
+      - sensor.pv_power_today_appd
+      - sun.sun
+      - timer.pump_run
+    cards:
+      - entity: media_player.office
+        type: media-control
+      - entity: media_player.living_room
+        type: media-control
+      - entities:
+          - input_boolean.dark_house
+          - input_boolean.pump_auto
+          - input_boolean.gate_door_working
+          - input_boolean.gate_state
+        title: Input boolean
+        type: entities
+      - entities:
+          - input_number.pool_run_time
+        title: Input number
+        type: entities
+      - entities:
+          - light.living_room_lights
+          - light.dining_room_lights
+          - light.kitchen_lights
+          - light.kitchen_lights_day
+          - light.entrance_hall_lights
+          - light.entrance
+          - light.backyard_terrace
+          - light.bedroom_lights
+          - light.bedroom_hall_lights
+          - light.dining_room_hall
+          - light.main_bathroom
+          - light.garden_lights
+          - light.garden_strip
+          - light.kitchen_strip
+          - light.chicken_coop
+          - light.patio_door_lights
+          - light.patio_strip
+          - light.garden_tree_lights
+          - light.garden_bulbs
+          - light.pool_lights
+          - light.patio_floodlight
+          - light.felipe_desk
+          - light.laundry_light
+          - light.entrance_2
+          - light.bathroom_downstairs
+          - light.main_bath
+          - light.study_tere_2
+          - light.study_felipe
+          - light.dining_hall
+          - light.dining_room_2
+          - light.entertainment_room
+          - light.patio_stairs
+          - light.bedroom
+          - light.kitchen
+          - light.caballeriza
+          - light.recreation_room
+          - light.living_room
+          - light.terrace
+          - light.patio_stairs_one
+          - light.patio_stairs_three
+          - light.pasillo_coronas
+          - light.kitchen_two
+          - light.hue_bloom_1
+          - light.main_bath_three
+          - light.caballeriza_uno
+          - light.study
+          - light.dining_hall_2
+          - light.living_room_wall
+          - light.study_tere
+          - light.living_room_foot_2
+          - light.downstairs_bath
+          - light.caballeriza_dos
+          - light.patio_stairs_two
+          - light.living_room_foot_1
+          - light.dressing_room
+          - light.entrance_table
+          - light.front_door
+          - light.backyard
+          - light.dining_room
+          - light.bedroom_one
+          - light.stairs
+          - light.entrance_hall
+          - light.dining_hall_1
+          - light.bedroom_two
+          - light.main_bath_two
+          - light.tv_room
+          - light.kitchen_one
+        title: Light
+        type: entities
+      - entity: media_player.bedroom_tv
+        type: media-control
+      - entity: media_player.bedroom_apple_tv
+        type: media-control
+      - entity: media_player.tv_room_apple_tv
+        type: media-control
+      - entities:
+          - remote.bedroom_apple_tv
+          - remote.tv_room_apple_tv
+        title: Remote
+        type: entities
+      - entities:
+          - script.close_gate
+          - script.sonos_say
+          - script.sonos_play
+          - script.toggle_gate
+          - script.open_gate_timed
+        title: Script
+        type: entities
+      - entities:
+          - switch.raised_beds_water
+          - switch.pool_pump
+        title: Switch
+        type: entities
+    icon: 'mdi:trash-can'
+    path: ''
+    title: Varios

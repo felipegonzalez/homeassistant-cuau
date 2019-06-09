@@ -7,6 +7,9 @@ logger:
 
 person:
 
+lovelace:
+  mode: yaml
+
 recorder:
   db_url: !secret hass_db
   purge_keep_days: 20
@@ -93,6 +96,10 @@ input_boolean:
   auto_light:
     name: "Auto light"
     initial: on
+  sleep_mode:
+    name: "Sleep mode"
+    initial: off
+    icon: mdi:sleep
   gate_door_working:
     name: "gate door working"
     initial: off
