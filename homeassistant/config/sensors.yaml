@@ -155,6 +155,16 @@
         value_template:  "{{ state_attr('sensor.weather_station', 'rain_mm_day') | float }}"
         unit_of_measurement: "mm"
 
+  - platform: template
+    sensors:
+      rain_mm_twoday:
+        entity_id:
+          - sensor.cumulative_rain_yesterday
+          - sensor.cumulative_rain_today
+        value_template: '{{ (states.sensor.cumulative_rain_yesterday.state | float) + (states.sensor.cumulative_rain_today.state | float) }}'
+        unit_of_measurement: mm
+
+
 ## Washing machine sensors
   - platform: mqtt
     name: washing_machine

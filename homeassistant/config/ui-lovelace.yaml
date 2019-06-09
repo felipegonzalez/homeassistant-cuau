@@ -68,6 +68,9 @@ views:
           - entity: sensor.cumulative_rain_yesterday
             name: Lluvia ayer
             icon: mdi:weather-rainy
+          - entity: sensor.rain_mm_twoday
+            name: Lluvia 2 días
+            icon: mdi:weather-rainy
         type: entities
       - entity: weather.dark_sky
         type: weather-forecast
