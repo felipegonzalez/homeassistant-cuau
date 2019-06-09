@@ -113,3 +113,64 @@
   - service: script.turn_on
     entity_id: script.patio_lights_scene
   id: 830dd9b1a2ed4506b15123f5f129a51b
+
+### Floodlight control #############3
+
+- id: reflectorencender2223
+  alias: turn on floodlight after patio gate and notify
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.patio_gate
+    to: 'on'
+  condition:
+    condition: time
+    after: '20:00:00'
+    before: 05:00:00
+  action:
+  - service: light.turn_on
+    entity_id: light.patio_floodlight
+  - service: notify.iphone_tyf
+    data:
+      message: La puerta del patio se abrió.
+
+- id: reflectormov0009212
+  alias: turn on floodlight with Movement
+  trigger:
+  # - platform: state
+  #   entity_id:  binary_sensor.motion_camera_puerta_patio
+  #   from: 'off'
+  #   to: 'on'
+   - platform: state
+     entity_id:  binary_sensor.motion_camera_patio
+     from: 'off'
+     to: 'on'
+  condition:
+    condition: time
+    after: '20:00:00'
+    before: 05:00:00
+  action:
+  - service: light.turn_on
+    entity_id: light.patio_floodlight
+
+- id: reflectoroff98342
+  alias: Turn off floodlight after door or motion
+  trigger:
+  - platform: state
+    entity_id: binary_sensor.patio_floodlight
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 10
+  - platform: state
+    entity_id: binary_sensor.motion_camera_puerta_patio
+    from: 'on'
+    to: 'off'
+    for:
+      minutes: 2
+  condition:
+  - condition: state
+    entity_id: light.patio_floodlight
+    state: 'on'
+  action:
+  - service: light.turn_off
+    entity_id: light.patio_floodlight
