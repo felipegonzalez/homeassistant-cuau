@@ -29,14 +29,11 @@
           payload: "g"
       - service: homeassistant.turn_on
         data:
-          entity_id: input_boolean.gate_door_working
-      - delay: '00:00:02'
+          entity_id: input_boolean.gate_state
+      - delay: '00:06:00'
       - service: homeassistant.turn_off
         data:
-          entity_id: input_boolean.gate_door_working
-      - service: homeassistant.turn_on
-        data:
-          entity_id: input_boolean.gate_state
+          entity_id: input_boolean.gate_state        
   close_gate:
     alias: Close gate 
     sequence:
@@ -49,13 +46,6 @@
         data:
           topic: "xbeebox/caja_garage/send_tx"
           payload: "g"
-      - service: homeassistant.turn_on
-        data:
-          entity_id: input_boolean.gate_door_working
-      - delay: '00:00:02'
-      - service: homeassistant.turn_off
-        data:
-          entity_id: input_boolean.gate_door_working
       - service: homeassistant.turn_off
         data:
           entity_id: input_boolean.gate_state
