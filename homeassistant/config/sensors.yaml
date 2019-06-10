@@ -110,8 +110,8 @@
     entity_id: sensor.water_tank_distance_raw
     filters:
       - filter: outlier
-        window_size: 20
-        radius: 3.0
+        window_size: 30
+        radius: 5.0
       - filter: lowpass
         time_constant: 3
 
@@ -125,6 +125,16 @@
         entity_id: binary_sensor.high_water_usage
         value_template: '{{ (60*state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}'
         unit_of_measurement: 'L/m'
+
+  - platform: filter
+    name: water_usage_rate_f
+    entity_id: sensor.water_usage_rate
+    filters:
+      - filter: outlier
+        window_size: 5
+        radius: 10.0
+      - filter: lowpass
+        time_constant: 5
 
 ## Local Weather ##########3
   - platform: rest
@@ -161,7 +171,7 @@
         entity_id:
           - sensor.cumulative_rain_yesterday
           - sensor.cumulative_rain_today
-        value_template: '{{ (states.sensor.cumulative_rain_yesterday.state | float) + (states.sensor.cumulative_rain_today.state | float) }}'
+        value_template: '{{ ((states.sensor.cumulative_rain_yesterday.state | float) + (states.sensor.cumulative_rain_today.state | float)) | round(1) }}'
         unit_of_measurement: mm
 
 ## Gas tank monitoring
@@ -181,17 +191,17 @@
         lower_bound: -5
         upper_bound: 105
       - filter: outlier    
-        window_size: 5
-        radius: 10.0
+        window_size: 10
+        radius: 6.0
       - filter: lowpass
-        time_constant: 4
+        time_constant: 10
         precision: 0
 
 ## Washing machine sensors
   - platform: mqtt
     name: washing_machine
-    state_topic: sonoff/power_1/oficina/tele/SENSOR
-    availability_topic: sonoff/power_1/oficina/tele/LWT
+    state_topic: tele/washer/SENSOR
+    availability_topic: tele/washer/LWT
     payload_available: "Online"
     payload_not_available: "Offline"
     value_template: '{{ value_json.ENERGY.Power }}'    
@@ -199,7 +209,7 @@
     unit_of_measurement: 'W'
   - platform: mqtt
     name: voltage_house
-    state_topic: sonoff/power_1/oficina/tele/SENSOR
+    state_topic: tele/washer/SENSOR
     value_template: '{{ value_json.ENERGY.Voltage }}'
     unit_of_measurement: 'V'
   - platform: statistics
@@ -223,3 +233,16 @@
         query: "select coalesce(max(state+0)) as maximum from states where entity_id = 'sensor.cumulative_rain_day' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),0);"
         column: 'maximum'
         unit_of_measurement: mm
+
+### load monitoring
+
+  - platform: systemmonitor
+    resources: 
+      - type: memory_free
+      - type: load_1m
+  - platform: glances
+    host: 192.168.100.51
+    name: zoneminder_host
+    resources:
+      - cpu_use_percent
+      - memory_free

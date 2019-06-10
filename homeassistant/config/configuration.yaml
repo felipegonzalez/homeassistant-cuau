@@ -29,6 +29,8 @@ recorder:
       - sensor.iphone_tere_battery_level
       - sensor.iphone_tere_battery_state
       - camera.front_door
+      - sensor.memory_free
+      - sensor.load_1m
 
 
 group: !include groups.yaml
@@ -131,7 +133,7 @@ input_number:
     min: -20
     max: 20
     step: 1
-    
+
 timer: 
   pump_run:
     duration: '03:00:00'

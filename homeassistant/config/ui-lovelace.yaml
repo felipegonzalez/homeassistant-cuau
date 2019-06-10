@@ -11,7 +11,7 @@ views:
           - entity: sensor.water_tank_liters
             icon: 'mdi:gas-cylinder'
             name: Cisterna
-          - entity: sensor.water_usage_rate
+          - entity: sensor.water_usage_rate_f
             icon: 'mdi:water'
             name: Uso de agua
           - entity: sensor.gas_tank_filtered
@@ -51,6 +51,10 @@ views:
           - entity: media_player.bedroom_tv
             name: Samsung TV
         type: entities
+      - entities:
+          - sensor.gas_tank_filtered
+        hours_to_show: 6
+        type: history-graph
     icon: 'mdi:home'
     path: default_view
     title: Casa
@@ -139,7 +143,11 @@ views:
         type: picture-entity
     icon: 'mdi:shield-home-outline'
     title: Seguridad
-  - badges: []
+  - badges:
+      - sensor.ha_db_size
+      - binary_sensor.remote_ui
+      - sensor.load_1m
+      - sensor.memory_free
     cards:
       - entities:
           - entity: group.all_automations
