@@ -1,7 +1,16 @@
 binary_sensor.192_168_100_51:
   friendly_name: Zoneminder
-
+sensor.zoneminder_host_cpu_used:
+  friendly_name: Zoneminder CPU
 person.felipe:
   entity_picture: "/local/felipe.png"
 person.teresa:
   entity_picture: "/local/tere.jpg"
+sensor.pool_panel_timer_minutes:
+  friendly_name: Minutos de ciclo
+timer.pump_run:
+  friendly_name: Tiempo
+switch.pool_pump:
+  friendly_name: Bomba
+sensor.pool_temperature:
+  friendly_name: Temp Alberca

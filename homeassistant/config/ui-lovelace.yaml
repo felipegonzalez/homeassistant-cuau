@@ -62,6 +62,7 @@ views:
       - sensor.pool_temperature
       - switch.pool_pump
       - timer.pump_run
+      - sensor.pool_panel_timer_minutes
     cards:
       - entities:
           - entity: switch.pool_pump
@@ -148,6 +149,7 @@ views:
       - binary_sensor.remote_ui
       - sensor.load_1m
       - sensor.memory_free
+      - sensor.zoneminder_host_cpu_used
     cards:
       - entities:
           - entity: group.all_automations
