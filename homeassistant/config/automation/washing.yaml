@@ -28,7 +28,7 @@
     entity_id: input_boolean.washing_machine_high
     to: 'off'
     for:
-      minutes: 5
+      minutes: 3
   action:
   - service: homeassistant.turn_off
     data:

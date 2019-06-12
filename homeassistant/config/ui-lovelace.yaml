@@ -10,13 +10,14 @@ views:
           - entity: light.entrance
             name: Luces entrada
           - entity: sensor.water_tank_liters
-            icon: 'mdi:gas-cylinder'
+            icon: 'mdi:cup-water'
             name: Cisterna
           - entity: sensor.water_usage_rate_f
-            icon: 'mdi:water'
+            icon: 'mdi:water-pump'
             name: Uso de agua
           - entity: sensor.gas_tank_filtered
             name: Gas LP
+            icon: 'mdi:gas-cylinder'
           - entity: cover.street_gate
             name: Portón
         type: entities

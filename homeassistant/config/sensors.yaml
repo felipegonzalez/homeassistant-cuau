@@ -131,7 +131,7 @@
     entity_id: sensor.water_usage_rate
     filters:
       - filter: outlier
-        window_size: 5
+        window_size: 20
         radius: 10.0
       - filter: lowpass
         time_constant: 5
