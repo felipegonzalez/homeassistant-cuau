@@ -31,6 +31,10 @@ recorder:
       - camera.front_door
       - sensor.memory_free
       - sensor.load_1m
+      - sensor.ups_input_voltage
+      - sensor.ups_battery
+      - sensor.ups_time_left
+      - sensor.ups_loadpct
 
 
 group: !include groups.yaml
@@ -87,6 +91,9 @@ apple_tv:
   - name: tv_room_apple_tv
     host: 192.168.100.15
     login_id: !secret apple_tv_login
+
+apcupsd:
+  host: 192.168.100.51
 
 shell_command:
   watchdog: 'curl --retry 3 https://hc-ping.com/8ff32001-f721-46be-982f-4b6d2659039b'

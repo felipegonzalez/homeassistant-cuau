@@ -246,3 +246,14 @@
     resources:
       - cpu_use_percent
       - memory_free
+
+### ups 
+  - platform: apcupsd
+    resources:
+      - upsname
+      - upsmode
+      - linev
+      - bcharge
+      - timeleft
+      - loadpct
+      - status

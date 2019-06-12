@@ -4,6 +4,7 @@ views:
       - person.felipe
       - person.teresa
       - sensor.pv_today_kw
+      - binary_sensor.192_168_100_51
     cards:
       - entities:
           - entity: light.entrance
@@ -53,7 +54,9 @@ views:
         type: entities
       - entities:
           - sensor.gas_tank_filtered
-        hours_to_show: 6
+          - sensor.water_usage_rate_f
+          - sensor.water_usage_rate
+        hours_to_show: 4
         type: history-graph
     icon: 'mdi:home'
     path: default_view
@@ -100,13 +103,20 @@ views:
     title: Jardin
   - badges:
       - sensor.voltage_house
+      - sensor.ups_input_voltage
       - sensor.kitchen_lp_gas
       - sensor.bedroom_lp_gas
     cards:
       - entities:
           - entity: binary_sensor.192_168_100_51
             name: Zoneminder
-        type: glance
+          - entity: sensor.zoneminder_host_cpu_used
+            name: ZM cpu
+          - entity: sensor.zoneminder_host_ram_free
+            name: ZM mem
+          - entity: sensor.ups_status
+          - entity: sensor.ups_battery
+        type: entities
       - entities:
           - entity: binary_sensor.felipe_window
           - entity: binary_sensor.hall_door
@@ -148,8 +158,6 @@ views:
       - sensor.ha_db_size
       - binary_sensor.remote_ui
       - sensor.load_1m
-      - sensor.memory_free
-      - sensor.zoneminder_host_cpu_used
     cards:
       - entities:
           - entity: group.all_automations
