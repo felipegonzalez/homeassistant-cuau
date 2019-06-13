@@ -115,7 +115,6 @@
         radius: 5.0
       - filter: lowpass
         time_constant: 10
-    force_update: true
 
   - platform: template
     sensors:
