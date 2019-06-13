@@ -217,3 +217,14 @@
         max_samples: 1000
         sample_duration: 120
         min_gradient: -0.1
+
+### bad weather sensor ############
+  - platform: trend
+    sensors:
+      pressure_falling:
+        entity_id: sensor.cuauhtemoc_abs_pressure
+        device_class: safety
+        max_samples: 1000
+        sample_duration: 600
+        min_gradient: -0.000016
+

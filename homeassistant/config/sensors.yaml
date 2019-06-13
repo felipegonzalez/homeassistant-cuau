@@ -112,9 +112,9 @@
     filters:
       - filter: outlier
         window_size: 30
-        radius: 5.0
+        radius: 10.0
       - filter: lowpass
-        time_constant: 10
+        time_constant: 5
 
   - platform: template
     sensors:
@@ -137,7 +137,7 @@
       - filter: lowpass
         time_constant: 5
 
-## Local Weather ##########3
+## Local Weather ##########3 ####################
   - platform: rest
     resource: "http://192.168.100.50:8090/get_weather"
     name: "Weather station"
@@ -174,6 +174,9 @@
           - sensor.cumulative_rain_today
         value_template: '{{ ((states.sensor.cumulative_rain_yesterday.state | float) + (states.sensor.cumulative_rain_today.state | float)) | round(1) }}'
         unit_of_measurement: mm
+
+
+
 
 ## Gas tank monitoring
   - platform: rest

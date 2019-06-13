@@ -14,3 +14,9 @@ switch.pool_pump:
   friendly_name: Bomba
 sensor.pool_temperature:
   friendly_name: Temp Alberca
+sensor.cuauhtemoc_humidity:
+  friendly_name: Humedad Exterior
+sensor.cuauhtemoc_temp:
+  friendly_name: Temperatura Exterior
+binary_sensor.pressure_falling:
+  friendly_name: Mal clima

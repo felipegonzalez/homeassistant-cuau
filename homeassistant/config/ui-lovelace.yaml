@@ -5,6 +5,7 @@ views:
       - person.teresa
       - sensor.pv_today_kw
       - binary_sensor.192_168_100_51
+      - binary_sensor.pressure_falling
     cards:
       - entities:
           - entity: light.entrance
@@ -53,12 +54,6 @@ views:
           - entity: media_player.bedroom_tv
             name: Samsung TV
         type: entities
-      - entities:
-          - sensor.gas_tank_filtered
-          - sensor.water_usage_rate_f
-          - sensor.water_usage_rate
-        hours_to_show: 4
-        type: history-graph
     icon: 'mdi:home'
     path: default_view
     title: Casa
@@ -80,7 +75,8 @@ views:
     panel: false
     title: Alberca
   - badges:
-      - sensor.temperature_outside
+      - sensor.cuauhtemoc_temp
+      - sensor.cuauhtemoc_humidity
     cards:
       - entities:
           - entity: light.garden_lights
@@ -88,6 +84,8 @@ views:
           - entity: switch.raised_beds_water
             name: Riego camas
             secondary_info: last-changed
+          - entity: sensor.cuauhtemoc_daily_rain
+            name: Lluvia hoy 2
           - entity: sensor.cumulative_rain_today
             name: Lluvia hoy
             icon: mdi:weather-rainy
@@ -167,13 +165,22 @@ views:
         type: entities
       - type: picture-entity
         entity: camera.gas_tank_camera
+      - entities:
+          - sensor.gas_tank_filtered
+          - sensor.gas_tank_raw
+          - sensor.water_usage_rate_f
+          - sensor.water_usage_rate
+          - sensor.water_tank_liters
+          - sensor.water_tank_distance_raw
+          - sensor.water_tank_distance_filtered
+          - sensor.cuauhtemoc_abs_pressure
+        hours_to_show: 4
+        type: history-graph    
     icon: 'mdi:cogs'
     title: Settings
   - badges:
       - binary_sensor.high_water_usage
-      - binary_sensor.patio_gate
       - binary_sensor.patio_doorbell
-      - binary_sensor.main_garden_door
       - binary_sensor.ring_front_door_motion
       - binary_sensor.ring_front_door_ding
       - binary_sensor.remote_ui
@@ -181,36 +188,8 @@ views:
       - person.teresa
       - device_tracker.iphonesef
       - device_tracker.iphone_tere
-      - sensor.water_usage_rate
-      - sensor.water_tank_liters
-      - sensor.time_date
-      - sensor.date_time
-      - sensor.time
-      - sensor.date
-      - sensor.pv_today_kw
-      - sensor.pv_output_w
-      - sensor.water_tank_distance_filtered
-      - sensor.living_room_temperature
-      - sensor.bedroom_temperature
-      - sensor.kitchen_temperature
-      - sensor.kitchen_humidity
-      - sensor.living_room_humidity
-      - sensor.kitchen_photo_level
-      - sensor.living_photo_level
-      - sensor.water_tank_distance_raw
-      - sensor.felipe_study_photo_level
-      - sensor.pool_panel_timer_minutes
-      - sensor.kitchen_lp_gas
-      - sensor.bedroom_lp_gas
-      - sensor.tv_room_temperature
-      - sensor.rf_bridge_result
-      - sensor.iphonesef_battery_level
-      - sensor.iphone_tere_battery_level
-      - sensor.iphone_tere_battery_state
-      - sensor.iphonesef_battery_state
-      - sensor.pv_power_today_appd
       - sun.sun
-      - timer.pump_run
+
     cards:
       - entity: media_player.office
         type: media-control
@@ -227,76 +206,6 @@ views:
           - input_number.pool_run_time
         title: Input number
         type: entities
-      - entities:
-          - light.living_room_lights
-          - light.dining_room_lights
-          - light.kitchen_lights
-          - light.kitchen_lights_day
-          - light.entrance_hall_lights
-          - light.entrance
-          - light.backyard_terrace
-          - light.bedroom_lights
-          - light.bedroom_hall_lights
-          - light.dining_room_hall
-          - light.main_bathroom
-          - light.garden_lights
-          - light.garden_strip
-          - light.kitchen_strip
-          - light.chicken_coop
-          - light.patio_door_lights
-          - light.patio_strip
-          - light.garden_tree_lights
-          - light.garden_bulbs
-          - light.pool_lights
-          - light.patio_floodlight
-          - light.felipe_desk
-          - light.laundry_light
-          - light.entrance_2
-          - light.bathroom_downstairs
-          - light.main_bath
-          - light.study_tere_2
-          - light.study_felipe
-          - light.dining_hall
-          - light.dining_room_2
-          - light.entertainment_room
-          - light.patio_stairs
-          - light.bedroom
-          - light.kitchen
-          - light.caballeriza
-          - light.recreation_room
-          - light.living_room
-          - light.terrace
-          - light.patio_stairs_one
-          - light.patio_stairs_three
-          - light.pasillo_coronas
-          - light.kitchen_two
-          - light.hue_bloom_1
-          - light.main_bath_three
-          - light.caballeriza_uno
-          - light.study
-          - light.dining_hall_2
-          - light.living_room_wall
-          - light.study_tere
-          - light.living_room_foot_2
-          - light.downstairs_bath
-          - light.caballeriza_dos
-          - light.patio_stairs_two
-          - light.living_room_foot_1
-          - light.dressing_room
-          - light.entrance_table
-          - light.front_door
-          - light.backyard
-          - light.dining_room
-          - light.bedroom_one
-          - light.stairs
-          - light.entrance_hall
-          - light.dining_hall_1
-          - light.bedroom_two
-          - light.main_bath_two
-          - light.tv_room
-          - light.kitchen_one
-        title: Light
-        type: entities
       - entity: media_player.bedroom_tv
         type: media-control
       - entity: media_player.bedroom_apple_tv
@@ -307,14 +216,6 @@ views:
           - remote.bedroom_apple_tv
           - remote.tv_room_apple_tv
         title: Remote
-        type: entities
-      - entities:
-          - script.close_gate
-          - script.sonos_say
-          - script.sonos_play
-          - script.toggle_gate
-          - script.open_gate_timed
-        title: Script
         type: entities
       - entities:
           - switch.raised_beds_water
