@@ -98,7 +98,9 @@ apcupsd:
 shell_command:
   watchdog: 'curl --retry 3 https://hc-ping.com/8ff32001-f721-46be-982f-4b6d2659039b'
 
-
+ambient_station:
+  api_key: !secret aw_api_key
+  app_key: !secret aw_app_key
 ##### inputs, timers #############
 
 input_boolean:
