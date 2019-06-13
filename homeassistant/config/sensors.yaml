@@ -104,6 +104,7 @@
     state_topic: "caja_cisterna/distancia"
     name: water_tank_distance_raw
     unit_of_measurement: "cm"
+    force_update: true
 
   - platform: filter
     name: water_tank_distance_filtered
@@ -113,7 +114,8 @@
         window_size: 30
         radius: 5.0
       - filter: lowpass
-        time_constant: 3
+        time_constant: 10
+    force_update: true
 
   - platform: template
     sensors:
@@ -191,10 +193,10 @@
         lower_bound: -5
         upper_bound: 105
       - filter: outlier    
-        window_size: 10
-        radius: 6.0
+        window_size: 30
+        radius: 10.0
       - filter: lowpass
-        time_constant: 10
+        time_constant: 15
         precision: 0
 
 ## Washing machine sensors
