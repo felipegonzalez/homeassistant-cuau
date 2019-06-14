@@ -1,5 +1,4 @@
 
-  - platform: ring
 
   # Motion sensors ##################################3
   ## Motion sensors #########
@@ -120,18 +119,6 @@
     device_class: motion
     off_delay: 8
   - platform: mqtt
-    name: motion_camera_puerta_patio
-    state_topic: "zoneminder/3"
-    value_template: '{{ "ON" }}'
-    device_class: motion
-    off_delay: 8
-  - platform: mqtt
-    name: motion_camera_patio
-    state_topic: "zoneminder/5"
-    value_template: '{{ "ON" }}'
-    device_class: motion
-    off_delay: 8
-  - platform: mqtt
     name: motion_camera_escaleras
     state_topic: "zoneminder/6"
     value_template: '{{ "ON" }}'
@@ -187,44 +174,5 @@
     payload_on: False
     value_template: '{{ value_json[0]["dio-2"] }}'
     device_class: door
-  - platform: mqtt
-    name: Patio gate
-    state_topic: "sonoff/patio_door/cmnd/POWER2"
-    payload_on: "ON"
-    payload_off: "OFF"
-    device_class: door
 
-
-
-
-##############################
-
-## Timbre en patio
-  - platform: mqtt
-    name: "patio doorbell"
-    state_topic: xbeebox/patio/timbre/1/caja_garage
-    payload_on: "1"
-    payload_off: "0"
-
-
-######### high water usage ###########
-  - platform: trend
-    sensors:
-      high_water_usage:
-        entity_id: sensor.water_tank_liters
-        device_class: moisture
-        friendly_name: High water usage
-        max_samples: 1000
-        sample_duration: 360
-        min_gradient: -0.1
-
-### bad weather sensor ############
-  - platform: trend
-    sensors:
-      pressure_falling:
-        entity_id: sensor.cuauhtemoc_abs_pressure
-        device_class: safety
-        max_samples: 1000
-        sample_duration: 3600
-        min_gradient: -0.000016
 

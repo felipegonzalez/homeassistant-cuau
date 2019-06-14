@@ -1,0 +1,62 @@
+# gas tank camera
+camera:
+  - platform: generic
+    name: Gas tank camera
+    still_image_url: http://192.168.100.27/img/gauge.jpg
+
+sensor:
+  ## Solar output #############
+  - platform: template
+    sensors:
+      pv_output_w: 
+        entity_id: sensor.pv_power
+        value_template: '{{ states.sensor.pv_power.state | int }}'
+        unit_of_measurement: 'W'
+      pv_today_kw: 
+        entity_id: sensor.pv_power_today_appd
+        value_template: '{{ (0.001*(states.sensor.pv_power_today_appd.state | float)) | round(1) }}'
+        unit_of_measurement: 'kWh'
+        friendly_name: 'kWh Solar hoy'
+
+  ## Gas tank monitoring
+  - platform: rest
+    name: gas_tank_raw
+    resource: "http://192.168.100.27/get_reading"
+    value_template: '{{ (value_json.value | int) - (states.input_number.gas_correction.state | int) }}'
+    unit_of_measurement: '%'
+    timeout: 5
+    force_update: true
+
+  - platform: filter
+    name: gas_tank_filtered
+    entity_id: sensor.gas_tank_raw
+    filters:
+      - filter: range
+        lower_bound: -5
+        upper_bound: 105
+      - filter: outlier    
+        window_size: 30
+        radius: 10.0
+      - filter: lowpass
+        time_constant: 15
+        precision: 2
+
+input_number:
+  gas_correction:
+    name: Gas correction values
+    initial: 0
+    min: -10
+    max: 10
+    step: 1
+
+automation:
+  - alias: Voltage alarm
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.voltage_house
+      below: 90
+    action:
+    - service: notify.iphone_tyf
+      data:
+        message: La casa está sufriendo de voltaje bajo.
+

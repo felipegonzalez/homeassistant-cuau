@@ -1,0 +1,118 @@
+sensor:
+  # Light sensors, apart from weather station sensor
+  - platform: mqtt
+    name: Kitchen photo level
+    state_topic: "xbeebox/cocina/photo/1/cajacocina"
+    unit_of_measurement: "V"
+    value_template: '{{ 5 * (value | int) / 1024 }}'
+  - platform: mqtt
+    name: Living photo level
+    state_topic: "xbeebox/sala/photo/1/cajasala"
+    unit_of_measurement: "V"
+    value_template: '{{ 5 * (value | int) / 1024 }}'
+  - platform: mqtt
+    name: Felipe study photo level
+    state_topic: "xbeebox/estudiof/photo/1/caja_estudiof"
+    unit_of_measurement: "V"
+    value_template: '{{ 5 * (value | int) / 1024 }}'
+
+input_boolean:
+  dark_house:
+    name: "Dark house"
+    initial: off
+  auto_light:
+    name: "Auto light"
+    initial: on
+
+automation:
+  ### auto lights and illumination in house ######################
+  - alias: set dark house
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.living_photo_level
+      below: 1.0
+    - platform: numeric_state
+      entity_id: sensor.felipe_study_photo_level
+      below: 1.2
+    - platform: numeric_state
+      entity_id: sensor.kitchen_photo_level
+      below: 0.3
+    - platform: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      below: -6.0
+    - platform: numeric_state
+      entity_id: sensor.cuauhtemoc_solar_rad
+      below: 10
+    action:
+    - service: input_boolean.turn_on
+      entity_id: input_boolean.dark_house
+    id: 1809c2e3c3054036a7a63507375f733f
+
+  - alias: set bright house
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.living_photo_level
+      above: 1.7
+    - platform: numeric_state
+      entity_id: sensor.cuauhtemoc_solar_rad
+      above: 16
+    - platform: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      above: 4.0
+    action:
+    - service: input_boolean.turn_off
+      entity_id: input_boolean.dark_house
+    id: 95f1ea628ca54006ab2d2f9fc4dc0624
+
+  - alias: turn off all lights
+    id: turnoffall112233
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.living_photo_level
+      above: 2.0
+    - platform: numeric_state
+      entity_id: sun.sun
+      value_template: '{{ state.attributes.elevation }}'
+      above: 4.0
+    action:
+    - service: light.turn_off
+      entity_id: group.all_lights
+
+  #### Kitchen lights during day
+
+  - alias: Dark kitchen lights
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_cocina
+      from: 'off'
+      to: 'on'
+    condition:
+    - condition: numeric_state
+      entity_id: sensor.kitchen_photo_level
+      below: 1.8
+    - condition: sun
+      after: sunrise
+    - condition: sun
+      before: sunset
+    action:
+    - service: light.turn_on
+      data:
+        entity_id: light.kitchen_lights_day
+        brightness: 255
+        kelvin: 2800
+    id: eb3adabfeb6a4823affea82c1b7bbd42
+
+  - alias: Auto off kitchen
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_cocina
+      to: 'off'
+      for:
+        minutes: 5
+    action:
+    - service: light.turn_off
+      data:
+        entity_id: light.kitchen_lights_day
+    id: ac42b2d053f547b5bb139eeba43491d9

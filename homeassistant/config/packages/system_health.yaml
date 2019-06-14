@@ -1,0 +1,63 @@
+apcupsd:
+  host: 192.168.100.51
+
+shell_command:
+  watchdog: 'curl --retry 3 https://hc-ping.com/8ff32001-f721-46be-982f-4b6d2659039b'
+
+sensor:
+### sql sensors
+  - platform: sql
+    db_url: !secret hass_db
+    queries:
+      - name: HA db size
+        query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / (1024 * 1024), 1) "value" FROM information_schema.tables WHERE table_schema="ha_db" GROUP BY table_schema;'
+        column: 'value'
+        unit_of_measurement: MB
+
+### load monitoring
+
+  - platform: systemmonitor
+    resources: 
+      - type: memory_free
+      - type: load_1m
+  - platform: glances
+    host: 192.168.100.51
+    name: zoneminder_host
+    resources:
+      - cpu_use_percent
+      - memory_free
+
+### ups 
+  - platform: apcupsd
+    resources:
+      - upsname
+      - upsmode
+      - linev
+      - bcharge
+      - timeleft
+      - loadpct
+      - status
+
+automation:
+# ping watchdog
+  - alias: watchdog
+    id: 123331aa
+    trigger:
+      platform: time_pattern
+      minutes: '/5'
+    action:
+      - service: shell_command.watchdog
+
+  # UPS Automation
+  - id: UPS_01
+    alias: 'Notify when UPS goes on battery'
+    trigger:
+      - platform: state
+        entity_id: sensor.ups_status
+        from: 'ONLINE'
+        to: 'ONBATT'
+    action:
+      - service: notify.iphone_tyf
+        data:
+          title: "Alerta de HomeAssistant"
+          message: "Sistema de casa usando batería."

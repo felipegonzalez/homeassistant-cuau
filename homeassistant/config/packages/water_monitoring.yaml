@@ -1,0 +1,105 @@
+
+sensor:
+  - platform: mqtt
+    state_topic: "caja_cisterna/distancia"
+    name: water_tank_distance_raw
+    unit_of_measurement: "cm"
+    force_update: true
+
+  - platform: filter
+    name: water_tank_distance_filtered
+    entity_id: sensor.water_tank_distance_raw
+    filters:
+      - filter: outlier
+        window_size: 30
+        radius: 10.0
+      - filter: lowpass
+        time_constant: 5
+
+  - platform: template
+    sensors:
+      water_tank_liters:
+        entity_id: sensor.water_tank_distance_filtered
+        #value_template: '{{ (5.6*(2120-10*(states.sensor.distancia_cisterna_filtrada.state | float))) | int - 500 }}'
+        value_template: '{{ (66*(200 - states.sensor.water_tank_distance_filtered.state | float)) | int }}'
+        unit_of_measurement: 'liters'
+      water_usage_rate:
+        entity_id: binary_sensor.high_water_usage
+        value_template: '{{ (60*state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}'
+        unit_of_measurement: 'L/m'
+
+  - platform: filter
+    name: water_usage_rate_f
+    entity_id: sensor.water_usage_rate
+    filters:
+      - filter: outlier
+        window_size: 60
+        radius: 10.0
+      - filter: lowpass
+        time_constant: 3
+        precision: 4
+
+binary_sensor:
+  - platform: trend
+    sensors:
+      high_water_usage:
+        entity_id: sensor.water_tank_liters
+        device_class: moisture
+        friendly_name: High water usage
+        max_samples: 1000
+        sample_duration: 360
+        min_gradient: -0.1
+
+automation:
+  - id: voicehighwaterusage2223441
+    alias: high water usage speak
+    initial_state: true
+    trigger:
+      platform: state
+      entity_id: binary_sensor.high_water_usage
+      from: 'off'
+      to: 'on'
+      for: 00:20:00
+    condition:
+      condition: time
+      after: 07:00:00
+      before: '22:00:00'
+    action:
+    - service: script.sonos_say
+      data_template:
+        sonos_entity: media_player.living_room
+        volume: 0.8
+        delay: 00:00:10
+        message: La casa ha estado consumiendo mucha agua.
+
+
+  ### Consumo de agua o electricidad
+  - id: 1234llowwaterwarning2223441
+    alias: low water warning
+    initial_state: true
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.water_tank_liters
+      below: 2000
+    action:
+    - service: notify.iphone_tyf
+      data:
+        message: Queda poca agua en la cisterna.
+
+  - id: 1234extremelowwaterwarning2223441
+    alias: extreme low water warning
+    initial_state: true
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.water_tank_liters
+      below: 1000
+    action:
+    - service: notify.iphone_tyf
+      data:
+        message: Quedan 1000 litros de agua en la cisterna.
+    - service: script.sonos_say
+      data_template:
+        sonos_entity: media_player.living_room
+        volume: 0.8
+        delay: 00:00:10
+        message: El agua se está acabando. Llamen por una pipa.

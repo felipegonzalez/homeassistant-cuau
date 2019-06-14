@@ -1,8 +1,0 @@
-# ping watchdog
-- alias: watchdog
-  id: 123331aa
-  trigger:
-    platform: time_pattern
-    minutes: '/5'
-  action:
-    - service: shell_command.watchdog  

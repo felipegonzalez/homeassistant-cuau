@@ -1,6 +1,0 @@
-
-  - platform: ring
-
-  - platform: generic
-    name: Gas tank camera
-    still_image_url: http://192.168.100.27/img/gauge.jpg

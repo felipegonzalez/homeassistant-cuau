@@ -1,0 +1,320 @@
+ring:
+  username: !secret ring_user
+  password: !secret ring_pass
+## Monitoring sensors
+
+camera:
+  - platform: ring
+
+binary_sensor:
+  - platform: ring
+  - platform: ring
+  # camera motion detection
+  - platform: mqtt
+    name: motion_camera_puerta_patio
+    state_topic: "zoneminder/3"
+    value_template: '{{ "ON" }}'
+    device_class: motion
+    off_delay: 8
+
+  - platform: mqtt
+    name: motion_camera_patio
+    state_topic: "zoneminder/5"
+    value_template: '{{ "ON" }}'
+    device_class: motion
+    off_delay: 8
+
+  ## Patio doorbell
+  - platform: mqtt
+    name: "patio doorbell"
+    state_topic: xbeebox/patio/timbre/1/caja_garage
+    payload_on: "1"
+    payload_off: "0"
+
+  ## Patio door sensor
+  - platform: mqtt
+    name: Patio gate
+    state_topic: "sonoff/patio_door/cmnd/POWER2"
+    payload_on: "ON"
+    payload_off: "OFF"
+    device_class: door
+
+input_boolean:
+  gate_door_working:
+    name: "gate door working"
+    initial: off
+  gate_state:
+    name: "gate state"
+    initial: off
+
+light:
+  - platform: mqtt
+    name: "Patio door lights"
+    state_topic: sonoff/patio/stat/POWER
+    command_topic: sonoff/patio/cmnd/POWER
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: sonoff/patio/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+  - platform: mqtt
+    name: "Patio floodlight"
+    state_topic: sonoff/reflector_patio/stat/POWER
+    command_topic: sonoff/reflector_patio/cmnd/POWER
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: sonoff/reflector_patio/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+####### Garage operation 
+cover:
+  - platform: template
+    covers:
+      street_gate:
+        friendly_name: "Gate"
+        device_class: garage
+        entity_id: input_boolean.gate_state
+        value_template: >-
+          {% if is_state('input_boolean.gate_state', 'off') %}
+            closed
+          {% else %}
+            open
+          {% endif %}
+        open_cover:
+          service: script.open_gate_timed
+        close_cover:
+          service: script.close_gate
+
+script:
+  toggle_gate: 
+    alias: Toggle gate
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - service: homeassistant.turn_on
+        data:
+          entity_id: input_boolean.gate_door_working
+      - delay: '00:00:01'
+      - service: homeassistant.turn_off
+        data:
+          entity_id: input_boolean.gate_door_working
+
+  open_gate_timed:
+    alias: Open gate timed
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - delay: '00:00:02'
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - service: homeassistant.turn_on
+        data:
+          entity_id: input_boolean.gate_state
+      - delay: '00:06:00'
+      - service: homeassistant.turn_off
+        data:
+          entity_id: input_boolean.gate_state        
+  close_gate:
+    alias: Close gate 
+    sequence:
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - delay: '00:00:02'
+      - service: mqtt.publish
+        data:
+          topic: "xbeebox/caja_garage/send_tx"
+          payload: "g"
+      - service: homeassistant.turn_off
+        data:
+          entity_id: input_boolean.gate_state
+
+######### Automations ###################
+
+automation:
+  - alias: notify garage open
+    trigger:
+    - platform: state
+      entity_id: script.toggle_gate
+      to: 'on'
+    - platform: state
+      entity_id: script.open_gate_timed
+      to: 'on'
+    condition:
+      condition: template
+      value_template: '{{ as_timestamp(now()) - as_timestamp(states.automation.notify_garage_open.attributes.last_triggered) | int > 120 }}'
+    action:
+    - service: notify.iphone_tyf
+      data:
+        message: La puerta del garage se abrió.
+
+# Doorbells entrance doors notifications and light ##############
+  - alias: Patio doorbell ring
+    id: patiodoorbellring89102
+    trigger:
+      platform: state
+      entity_id: binary_sensor.patio_doorbell
+      to: 'on'
+    action:
+    - service: script.sonos_play
+      data:
+        sonos_entity: media_player.office
+        volume: 0.96
+        delay: 00:00:06
+        media_content_id: http://192.168.100.50:8123/local/sounds/doorbell_o.mp3
+    - service: mqtt.publish
+      data:
+        topic: xbeebox/patio/timbre/1/caja_garage
+        payload: '0'
+
+  - alias: Notify of ding in gate
+    id: 99938832notifygatedoor
+    trigger:
+      platform: state
+      entity_id: binary_sensor.ring_front_door_ding
+      from: 'off'
+      to: 'on'
+    action:
+    - service: script.sonos_play
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.95
+        delay: 00:00:06
+        media_content_id: http://192.168.100.50:8123/local/sounds/store_bell.mp3
+
+  - alias: Patio door notification
+    trigger:
+      platform: state
+      entity_id: binary_sensor.patio_gate
+      to: 'on'
+    action:
+    - service: script.sonos_play
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.9
+        delay: 00:00:06
+        media_content_id: http://192.168.100.50:8123/local/sounds/level_up.mp3
+
+  - alias: Patio door opened at night
+    trigger:
+      platform: state
+      entity_id: binary_sensor.patio_gate
+      to: 'on'
+    condition:
+      condition: time
+      after: '20:00:00'
+      before: '05:00:00'
+    action:
+      - service: notify.iphone_tyf
+        data:
+          message: La puerta del patio se abrió.    
+      - service: light.turn_on
+        entity_id: light.patio_floodlight      
+
+
+## Doors left open
+  - alias: Notify about open patio gate
+    trigger:
+      platform: state
+      entity_id: binary_sensor.patio_gate
+      to: 'on'
+      for:
+        minutes: 5
+    action:
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.9
+        delay: 00:00:10
+        message: La puerta del patio se quedó abierta.
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.9
+        delay: 00:00:10
+        message: Se quedó abierta la puerta del patio.
+    - service: notify.iphone_tyf
+      data:
+        message: La puerta del patio se quedó abierta.
+    id: 63429534314348499cf61eda707386d2
+
+  - id: reflectormov0009212
+    alias: turn on floodlight with Movement
+    trigger:
+      - platform: state
+        entity_id:  binary_sensor.motion_camera_puerta_patio
+        from: 'off'
+        to: 'on'
+      - platform: state
+        entity_id:  binary_sensor.motion_camera_patio
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: time
+      after: '20:00:00'
+      before: '05:00:00'
+    action:
+      - service: light.turn_on
+        entity_id: light.patio_floodlight
+
+  - id: reflectoroff98342
+    alias: Turn off floodlight after motion
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_camera_puerta_patio
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+    condition:
+      condition: state
+      entity_id: light.patio_floodlight
+      state: 'on'
+    action:
+      - service: light.turn_off
+        entity_id: light.patio_floodlight
+
+  ### Entrance outside lights
+  - alias: Turn off outside lights after close or at sunrise
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.hall_door
+        to: 'off'
+      - platform: state
+        entity_id: sun.sun
+        to: above_horizon
+    action:
+      - service: light.turn_off
+        entity_id: light.entrance
+        data:
+          transition: 120
+      - service: light.turn_off
+        entity_id: light.patio_floodlight
+    id: 10815039505e41bab83c4ebc63c83260
+
+  - alias: Turn on outside lights when dark
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.hall_door
+        to: 'on'
+      - platform: state
+        entity_id: sun.sun
+        to: below_horizon
+    condition:
+      condition: state
+      entity_id: sun.sun
+      state: below_horizon
+    action:
+        - service: script.turn_on
+          entity_id: script.patio_lights_scene
+    id: 830dd9b1a2ed4506b15123f5f129a51b
+
+

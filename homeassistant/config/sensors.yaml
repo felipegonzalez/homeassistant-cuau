@@ -31,32 +31,8 @@
     state_topic: "xbeebox/sala/humidity/1/cajasala"
     unit_of_measurement: "%"
     value_template: '{{ value | round(1) }}'
-# Light sensors
-  - platform: mqtt
-    name: Kitchen photo level
-    state_topic: "xbeebox/cocina/photo/1/cajacocina"
-    unit_of_measurement: "V"
-    value_template: '{{ 5 * (value | int) / 1024 }}'
-  - platform: mqtt
-    name: Living photo level
-    state_topic: "xbeebox/sala/photo/1/cajasala"
-    unit_of_measurement: "V"
-    value_template: '{{ 5 * (value | int) / 1024 }}'
-  - platform: mqtt
-    name: Felipe study photo level
-    state_topic: "xbeebox/estudiof/photo/1/caja_estudiof"
-    unit_of_measurement: "V"
-    value_template: '{{ 5 * (value | int) / 1024 }}'
-## Pool
-  - platform: mqtt
-    name: Pool Temperature
-    state_topic: "esp8266/caja_bomba_alberca/tele/temperature_in"
-    value_template: "{{ value | float }}"
-    unit_of_measurement: "°C"    
-  - platform: mqtt
-    name: pool_panel_timer_minutes
-    state_topic: "esp8266/caja_bomba_alberca/tele/timer_minutes"
-    value_template: "{{ value | int }}" 
+
+
 # Gas lp
   - platform: mqtt
     name: Kitchen LP gas 
@@ -79,7 +55,7 @@
     name: pressure 
     state_topic: "xbeebox/pasillo_comedor/pressure/1/caja_pasillo_comedor"
     unit_of_measurement: "hPa"
-# Rf available sensor
+
   - platform: time_date
     display_options:
       - 'time'
@@ -88,124 +64,6 @@
       - 'time_date'
 
 
-## Solar output #############3
-  - platform: template
-    sensors:
-      pv_output_w: 
-        entity_id: sensor.pv_power
-        value_template: '{{ states.sensor.pv_power.state | int }}'
-        unit_of_measurement: 'W'
-      pv_today_kw: 
-        entity_id: sensor.pv_power_today_appd
-        value_template: '{{ (0.001*(states.sensor.pv_power_today_appd.state | float)) | round(1) }}'
-        unit_of_measurement: 'kWh'
-        friendly_name: 'kWh Solar hoy'
-
-
-
-# Water monitoring ##############
-  - platform: mqtt
-    state_topic: "caja_cisterna/distancia"
-    name: water_tank_distance_raw
-    unit_of_measurement: "cm"
-    force_update: true
-
-  - platform: filter
-    name: water_tank_distance_filtered
-    entity_id: sensor.water_tank_distance_raw
-    filters:
-      - filter: outlier
-        window_size: 30
-        radius: 10.0
-      - filter: lowpass
-        time_constant: 5
-
-  - platform: template
-    sensors:
-      water_tank_liters:
-        entity_id: sensor.water_tank_distance_filtered
-        #value_template: '{{ (5.6*(2120-10*(states.sensor.distancia_cisterna_filtrada.state | float))) | int - 500 }}'
-        value_template: '{{ (66*(200 - states.sensor.water_tank_distance_filtered.state | float)) | int }}'
-        unit_of_measurement: 'liters'
-      water_usage_rate:
-        entity_id: binary_sensor.high_water_usage
-        value_template: '{{ (60*state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}'
-        unit_of_measurement: 'L/m'
-
-  - platform: filter
-    name: water_usage_rate_f
-    entity_id: sensor.water_usage_rate
-    filters:
-      - filter: outlier
-        window_size: 60
-        radius: 10.0
-      - filter: lowpass
-        time_constant: 3
-        precision: 4
-
-## Local Weather ##########3 ####################
-  - platform: rest
-    resource: "http://192.168.100.50:8090/get_weather"
-    name: "Weather station"
-    scan_interval: 120
-    force_update: true
-    json_attributes:
-        - humidity
-        - temperature
-        - date
-        - wind_direction
-        - wind_speed
-        - rain_mm_day
-  - platform: template
-    sensors:
-      temperature_outside:
-        entity_id: sensor.weather_station
-        friendly_name: 'Temperatura Exterior'
-        value_template: '{{ states.sensor.weather_station.attributes.temperature | float }}'
-        unit_of_measurement: "°C"
-      wind_speed_outside:
-        entity_id: sensor.weather_station
-        value_template: '{{ states.sensor.weather_station.attributes.wind_speed }}'
-        unit_of_measurement: "km/h"
-      cumulative_rain_day:
-        entity_id: sensor.weather_station
-        value_template:  "{{ state_attr('sensor.weather_station', 'rain_mm_day') | float }}"
-        unit_of_measurement: "mm"
-
-  - platform: template
-    sensors:
-      rain_mm_twoday:
-        entity_id:
-          - sensor.cumulative_rain_yesterday
-          - sensor.cumulative_rain_today
-        value_template: '{{ ((states.sensor.cumulative_rain_yesterday.state | float) + (states.sensor.cumulative_rain_today.state | float)) | round(1) }}'
-        unit_of_measurement: mm
-
-
-
-
-## Gas tank monitoring
-  - platform: rest
-    name: gas_tank_raw
-    resource: "http://192.168.100.27/get_reading"
-    value_template: '{{ (value_json.value | int) - (states.input_number.gas_correction.state | int) }}'
-    unit_of_measurement: '%'
-    timeout: 5
-    force_update: true
-
-  - platform: filter
-    name: gas_tank_filtered
-    entity_id: sensor.gas_tank_raw
-    filters:
-      - filter: range
-        lower_bound: -5
-        upper_bound: 105
-      - filter: outlier    
-        window_size: 30
-        radius: 10.0
-      - filter: lowpass
-        time_constant: 15
-        precision: 2
 
 ## Washing machine sensors
   - platform: mqtt
@@ -227,43 +85,5 @@
     entity_id: sensor.washing_machine
     sampling_size: 5
 
-### sql sensors
-  - platform: sql
-    db_url: !secret hass_db
-    queries:
-      - name: HA db size
-        query: 'SELECT table_schema "database", Round(Sum(data_length + index_length) / (1024 * 1024), 1) "value" FROM information_schema.tables WHERE table_schema="ha_db" GROUP BY table_schema;'
-        column: 'value'
-        unit_of_measurement: MB
-      - name: cumulative_rain_yesterday
-        query: "select coalesce(max(state+0),0) as maximum from states where entity_id = 'sensor.cumulative_rain_day' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),1);"
-        column: 'maximum'
-        unit_of_measurement: mm
-      - name: cumulative_rain_today
-        query: "select coalesce(max(state+0)) as maximum from states where entity_id = 'sensor.cumulative_rain_day' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),0);"
-        column: 'maximum'
-        unit_of_measurement: mm
 
-### load monitoring
-
-  - platform: systemmonitor
-    resources: 
-      - type: memory_free
-      - type: load_1m
-  - platform: glances
-    host: 192.168.100.51
-    name: zoneminder_host
-    resources:
-      - cpu_use_percent
-      - memory_free
-
-### ups 
-  - platform: apcupsd
-    resources:
-      - upsname
-      - upsmode
-      - linev
-      - bcharge
-      - timeleft
-      - loadpct
-      - status
+      

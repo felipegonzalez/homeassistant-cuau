@@ -3,6 +3,7 @@ default_config:
 
 homeassistant:
   customize: !include customize.yaml
+  packages: !include_dir_named packages
 
 logger:
   default: info
@@ -36,22 +37,17 @@ recorder:
       - sensor.ups_time_left
       - sensor.ups_loadpct
 
-
-group: !include groups.yaml
-automation: !include_dir_merge_list automation/
 script: !include scripts.yaml
 binary_sensor: !include binary_sensor.yaml
-switch: !include switch.yaml
-camera: !include camera.yaml
+#switch: !include switch.yaml
+#camera: !include camera.yaml
 light: !include lights.yaml
 sensor: !include sensors.yaml
 media_player: !include media_player.yaml
-cover: !include covers.yaml
+group: !include groups.yaml
+automation: !include_dir_merge_list automation/
 
 
-weather:
-  - platform: darksky
-    api_key: !secret darksky_api_key
 ###### zoneminder
 
 zoneminder:
@@ -80,10 +76,6 @@ notify:
       - service: ios_iphone_tere
       - service: ios_iphonesef
 
-ring:
-  username: !secret ring_user
-  password: !secret ring_pass
-
 apple_tv:
   - name: bedroom_apple_tv
     host: 192.168.100.206
@@ -92,36 +84,13 @@ apple_tv:
     host: 192.168.100.15
     login_id: !secret apple_tv_login
 
-apcupsd:
-  host: 192.168.100.51
-
-shell_command:
-  watchdog: 'curl --retry 3 https://hc-ping.com/8ff32001-f721-46be-982f-4b6d2659039b'
-
-ambient_station:
-  api_key: !secret aw_api_key
-  app_key: !secret aw_app_key
 ##### inputs, timers #############
 
 input_boolean:
-  dark_house:
-    name: "Dark house"
-    initial: off
-  auto_light:
-    name: "Auto light"
-    initial: on
   sleep_mode:
     name: "Sleep mode"
     initial: off
     icon: mdi:sleep
-  gate_door_working:
-    name: "gate door working"
-    initial: off
-  gate_state:
-    name: "gate state"
-    initial: off
-  pump_auto:
-    name: "Pool pump schedule"
   washing_machine_high:
     name: "washing machine high"
     initial: off
@@ -129,23 +98,7 @@ input_boolean:
     name: "washing machine cycle"
     initial: off
 
-input_number:
-  pool_run_time:
-    name: Pool run time
-    initial: 3
-    min: 1
-    max: 6
-    step: 1
-  gas_correction:
-    name: Gas correction values
-    initial: 5
-    min: -20
-    max: 20
-    step: 1
 
-timer: 
-  pump_run:
-    duration: '03:00:00'
 
 ##############
 # Cloud alexa
