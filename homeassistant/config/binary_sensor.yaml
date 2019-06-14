@@ -215,7 +215,7 @@
         device_class: moisture
         friendly_name: High water usage
         max_samples: 1000
-        sample_duration: 120
+        sample_duration: 360
         min_gradient: -0.1
 
 ### bad weather sensor ############
@@ -225,6 +225,6 @@
         entity_id: sensor.cuauhtemoc_abs_pressure
         device_class: safety
         max_samples: 1000
-        sample_duration: 600
+        sample_duration: 3600
         min_gradient: -0.000016
 
