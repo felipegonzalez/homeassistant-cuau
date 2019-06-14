@@ -74,7 +74,11 @@
     payload_available: "Online"
     payload_not_available: "Offline"
     value_template: '{{ value_json.RfReceived.Data }}'
-
+## Pressure
+  - platform: mqtt
+    name: pressure 
+    state_topic: "xbeebox/pasillo_comedor/pressure/1/caja_pasillo_comedor"
+    unit_of_measurement: "hPa"
 # Rf available sensor
   - platform: time_date
     display_options:
@@ -119,6 +123,7 @@
   - platform: template
     sensors:
       water_tank_liters:
+        entity_id: sensor.water_tank_distance_filtered
         #value_template: '{{ (5.6*(2120-10*(states.sensor.distancia_cisterna_filtrada.state | float))) | int - 500 }}'
         value_template: '{{ (66*(200 - states.sensor.water_tank_distance_filtered.state | float)) | int }}'
         unit_of_measurement: 'liters'
@@ -132,10 +137,11 @@
     entity_id: sensor.water_usage_rate
     filters:
       - filter: outlier
-        window_size: 20
+        window_size: 60
         radius: 10.0
       - filter: lowpass
-        time_constant: 5
+        time_constant: 3
+        precision: 4
 
 ## Local Weather ##########3 ####################
   - platform: rest
@@ -199,7 +205,7 @@
         radius: 10.0
       - filter: lowpass
         time_constant: 15
-        precision: 0
+        precision: 2
 
 ## Washing machine sensors
   - platform: mqtt
