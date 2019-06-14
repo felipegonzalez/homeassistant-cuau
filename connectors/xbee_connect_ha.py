@@ -164,32 +164,16 @@ def on_disconnect(client, userdata, rc):
 
 def monitor():
 
-    #p = r.pubsub()
-    #p.subscribe('xbee-commands')
     print("Activar xbee coordinator...")
-    #try:
     serialConnection = serial.Serial( SERIAL_PORT, 9600,timeout=0.5)
     xbee = ZigBee(serialConnection)
     print("Conexión xbee serial...OK")
-    #except:
-    #    e = sys.exc_info()[0]
-    #    print( "Error: %s" % e )
-    #    print("Error connecting serial/xbee")
     client = mqtt.Client("xbee_reader", userdata = xbee)
     client.username_pw_set(user)
     client.on_connect = on_connect
     client.on_disconnect = on_disconnect
     client.connected_flag = False
     client.on_message = on_message
-
-    #client.on_disconnect = on_disconnect()
-    #try:
-    #    client.connect(broker_address, port=port)
-    #except:
-    #    print("Could not connect to mqtt server!")
-    #    raise
-    #client.subscribe("xbeebox/+/send_tx")
-    #client.subscribe("xbeebox/+/pin/#")
     client.loop_start()   
     try:
         client.connect(broker_address, port=port)
@@ -210,26 +194,17 @@ def monitor():
         response = {}
         response = xbee.wait_read_frame(timeout = 0.2)
         if(len(response)>0 and response['id']!='tx_status'):
-            #print(response)
             response['source_addr_long'] = response['source_addr_long'].hex()
-            #print(response["source_addr_long"])
             response['source_addr'] = response['source_addr'].hex()
             #print(response)
-            if(xbee_dict[response['source_addr_long']]=='cajarecamara'):
-            #if(xbee_dict[response['source_addr_long']]=='cajacocina'):
-              if(True):
-                pass
-                #print("----------Recamara--------")
-                #print(response)
-                #print(response['source_addr_long'])
-                #print(xbee_dict[response['source_addr_long']])
+            #if(xbee_dict[response['source_addr_long']]=='cajarecamara'):
+            #    pass        
             if('rf_data' in response.keys()):
                 try:
                     response['rf_data'] = response['rf_data'].decode('utf-8')
                     message = json.dumps({'device_type':'xbeebox', 'device_name':xbee_dict[response['source_addr_long']],
                         'source':response['source_addr_long'], 'type':'rf_data',
                         'content':response['rf_data']})
-                    #r.publish('xbee-events', message)
                     for elem in response['rf_data'].split('\r\n'):
                         try:
                             if(len(elem) > 0):
@@ -241,24 +216,14 @@ def monitor():
                                 if(event_type=='pir'):
                                     event_type ='motion'
                                     value = int(value)==1
-                                #if(value):
-                                #    print("motion reg***********")
                                 place = device_settings[xbee_dict[response['source_addr_long']]]['place']
                                 topic = "xbeebox/" + place + "/" + event_type + "/" + internal_id + "/" + xbee_dict[response['source_addr_long']] 
-                                if(units != "A"): ### do not send Amps value
-                                    client.publish(topic, value)
-                                    #print(topic)
-                                    #print(value)
-                                #events.append({'device_name':self.name, 
-                                #'event_type':event_type, 'value':value,
-                                #'internal_id':internal_id, 'units':units})
+                                client.publish(topic, value)
+                                print(topic)
+                                print(value)
                         except:
                             print("xxError parsing element")
                             print(elem)
-                    #print("----")
-                    #client.publish(xbee_dict[response['source_addr_long']] + "/" + event_type, value)
-                    #if(json.loads(message)['device_name']=='cajarecamara'):
-                    #    print('\a')
                 except:
                     print("Error decoding xbee message")
                     
@@ -272,8 +237,7 @@ def monitor():
                 #print(response["samples"])
                 #print(topic)
                 client.publish(topic, json.dumps(response['samples']))
-                #print("------")
-                #r.publish('xbee-events', message)
+
 
 
 if __name__ == "__main__":
