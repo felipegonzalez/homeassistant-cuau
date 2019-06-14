@@ -8,7 +8,7 @@
     entity_id: binary_sensor.high_water_usage
     from: 'off'
     to: 'on'
-    for: 00:03:00
+    for: 00:20:00
   condition:
     condition: time
     after: 07:00:00
@@ -33,7 +33,7 @@
   action:
   - service: notify.iphone_tyf
     data:
-      message: Quedan 2000 litros de agua en la cisterna.
+      message: Queda poca agua en la cisterna.
 
 - id: 1234extremelowwaterwarning2223441
   alias: extreme low water warning
@@ -46,3 +46,9 @@
   - service: notify.iphone_tyf
     data:
       message: Quedan 1000 litros de agua en la cisterna.
+  - service: script.sonos_say
+    data_template:
+      sonos_entity: media_player.living_room
+      volume: 0.8
+      delay: 00:00:10
+      message: El agua se está acabando. Llamen por una pipa.

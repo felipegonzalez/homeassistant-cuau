@@ -174,7 +174,7 @@ views:
           - sensor.water_tank_distance_raw
           - sensor.water_tank_distance_filtered
           - sensor.cuauhtemoc_abs_pressure
-        hours_to_show: 4
+        hours_to_show: 8
         type: history-graph    
     icon: 'mdi:cogs'
     title: Settings
