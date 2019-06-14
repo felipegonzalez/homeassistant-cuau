@@ -4,22 +4,19 @@
   - platform: numeric_state
     entity_id: sensor.living_photo_level
     below: 1.0
-    for:
-      minutes: 1
   - platform: numeric_state
     entity_id: sensor.felipe_study_photo_level
     below: 1.2
-    for:
-      minutes: 1
   - platform: numeric_state
     entity_id: sensor.kitchen_photo_level
-    below: 1.0
-    for:
-      minutes: 1
+    below: 0.3
   - platform: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
     below: -6.0
+  - platform: numeric_state
+    entity_id: sensor.cuauhtemoc_solar_rad
+    below: 10
   action:
   - service: input_boolean.turn_on
     entity_id: input_boolean.dark_house
@@ -29,11 +26,14 @@
   trigger:
   - platform: numeric_state
     entity_id: sensor.living_photo_level
-    above: 1.5
+    above: 1.7
+  - platform: numeric_state
+    entity_id: sensor.cuauhtemoc_solar_rad
+    above: 16
   - platform: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
-    above: 2.0
+    above: 4.0
   action:
   - service: input_boolean.turn_off
     entity_id: input_boolean.dark_house
