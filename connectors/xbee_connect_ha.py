@@ -210,17 +210,17 @@ def monitor():
                             if(len(elem) > 0):
                                 ev_split = elem.split(',')
                                 event_type = ev_split[0]
-                                value = ev_split[3]
+                                payload = ev_split[3]
                                 internal_id = ev_split[2]
                                 units = ev_split[1]
                                 if(event_type=='pir'):
                                     event_type ='motion'
-                                    value = int(value)==1
+                                    payload = int(payload)==1
                                 place = device_settings[xbee_dict[response['source_addr_long']]]['place']
                                 topic = "xbeebox/" + place + "/" + event_type + "/" + internal_id + "/" + xbee_dict[response['source_addr_long']] 
-                                client.publish(topic, value)
+                                client.publish(topic, payload)
                                 print(topic)
-                                print(value)
+                                print(payload)
                         except:
                             print("xxError parsing element")
                             print(elem)
@@ -234,9 +234,11 @@ def monitor():
                 #    'content':response['samples']})
                 place = device_settings[xbee_dict[response['source_addr_long']]]['place']
                 topic = "xbeebox/" + place + "/samples" + "/" + xbee_dict[response['source_addr_long']] 
+                payload = json.dumps(response['samples'])
                 #print(response["samples"])
-                #print(topic)
-                client.publish(topic, json.dumps(response['samples']))
+                print(topic)
+                print(payload)
+                client.publish(topic, payload)
 
 
 
