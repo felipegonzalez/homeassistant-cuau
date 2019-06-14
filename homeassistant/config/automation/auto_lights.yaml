@@ -4,6 +4,18 @@
   - platform: numeric_state
     entity_id: sensor.living_photo_level
     below: 1.0
+    for:
+      minutes: 1
+  - platform: numeric_state
+    entity_id: sensor.felipe_study_photo_level
+    below: 1.2
+    for:
+      minutes: 1
+  - platform: numeric_state
+    entity_id: sensor.kitchen_photo_level
+    below: 1.0
+    for:
+      minutes: 1
   - platform: numeric_state
     entity_id: sun.sun
     value_template: '{{ state.attributes.elevation }}'
