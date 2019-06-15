@@ -4,6 +4,10 @@ homeassistant:
       friendly_name: Tiempo
     switch.pool_pump:
       friendly_name: Bomba
+    sensor.pool_temperature:
+      friendly_name: Temp Alberca
+    sensor.pool_panel_timer_minutes:
+      friendly_name: Minutos de ciclo
 
 sensor:
   - platform: mqtt
@@ -42,12 +46,6 @@ timer:
   pump_run:
     duration: '03:00:00'
 
-homeassistant:
-  customize:
-    sensor.pool_temperature:
-      friendly_name: Temp Alberca
-    sensor.pool_panel_timer_minutes:
-      friendly_name: Minutos de ciclo
 
 automation:
   - alias: 'Start pool timer when on'
