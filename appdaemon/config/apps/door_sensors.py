@@ -32,10 +32,12 @@ class DoorSensors(hass.Hass):
       if(end_code == "E"):
         self.call_service("mqtt/publish", topic = topic, payload= "open",
           retain = True)
+        self.log("Open door: {} on".format(topic))
       if(end_code == "7"):
         topic = self.codes[door_id]
         self.call_service("mqtt/publish", topic = topic, payload = "closed",
           retain = True)
+        self.log("Closed door: {} off".format(topic))
       if(end_code == "B"):
         # send notification of tamper
         self.call_service("persistent_notification/create", message = "Tamper alert on " + topic)
