@@ -145,13 +145,7 @@ binary_sensor:
     value_template: '{{ "ON" }}'
     device_class: motion
     off_delay: 8
-
-
-
-
-######### door sensors ########
-
-## Doors and windows
+  ## Doors and windows
   - platform: mqtt
     name: Felipe window
     state_topic: door_window/felipe_study
@@ -195,6 +189,11 @@ binary_sensor:
     payload_on: False
     value_template: '{{ value_json[0]["dio-2"] }}'
     device_class: door
+
+input_boolean:
+  high_temperature:
+    name: "High temperature"
+    initial: off
 
 automation:
   - alias: Tita door notification
@@ -246,3 +245,34 @@ automation:
     - service: notify.iphone_tyf
       data:
         message: La puerta del taller se quedó abierta.
+
+  - alias: Hign temperatures
+    trigger:
+      platform: numeric_state
+      entity_id:
+        - sensor.tv_room_temperature
+        - sensor.bedroom_temperature
+        - sensor.living_room_temperature
+        - sensor.kitchen_temperature
+      above: 40.0
+    action:
+      - service: input_boolean.turn_on
+        data:
+          entity_id: input_boolean.high_temperature_indoor
+      - service: script.sonos_say
+        data:
+          sonos_entity: media_player.living_room
+          volume: 0.9
+          delay: 00:00:10
+          message: Temperaturas demasiado
+
+alert:
+  high_temperature_alert:
+    name: Algunas temperaturas son demasiado altas
+    done_message: Temperaturas normales
+    entity_id: input_boolean.high_temperature
+    state: 'on'
+    repeat: 1
+    can_acknowledge: true
+    notifiers:
+      notify.iphone_tyf

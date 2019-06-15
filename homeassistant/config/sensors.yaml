@@ -1,4 +1,4 @@
-## Bridge
+
   - platform: mqtt
     name: rf_bridge_result
     state_topic: tele/rfbridge/RESULT

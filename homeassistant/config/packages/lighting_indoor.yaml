@@ -15,6 +15,11 @@ sensor:
     state_topic: "xbeebox/estudiof/photo/1/caja_estudiof"
     unit_of_measurement: "V"
     value_template: '{{ 5 * (value | int) / 1024 }}'
+  - platform: mqtt
+    name: Bedroom photo level
+    state_topic: "xbeebox/recamara_principal/photo/1/cajarecamara"
+    unit_of_measurement: "V"
+    value_template: '{{ 5 * (value | int) / 1024 }}'
 
 input_boolean:
   dark_house:
