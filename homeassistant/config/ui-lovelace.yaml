@@ -157,6 +157,8 @@ views:
         type: entity-filter
       - entity: camera.front_door
         type: picture-entity
+      - type: picture-entity
+        entity: camera.entrada_personas
     icon: 'mdi:shield-home-outline'
     title: Seguridad
 

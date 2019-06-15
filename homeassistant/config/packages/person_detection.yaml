@@ -1,0 +1,45 @@
+image_processing:
+  - platform: tensorflow
+    source:
+      - entity_id: camera.hall_entrada
+      # - entity_id: camera.huerto
+      - entity_id: camera.patio
+      # - entity_id: camera.escaleras
+    file_out:
+      - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_latest.jpg"
+      - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
+    scan_interval: 20000
+    model:
+      graph: /Volumes/SSD2/hass-cuauhtemoc97/homeassistant/config/tensorflow/frozen_inference_graph.pb
+      categories:
+        - person
+        - cat
+        - dog
+
+camera:
+  - platform: local_file
+    name: Entrada personas
+    file_path: /Volumes/SSD2/tmp_image_recog/hall_entrada_latest.jpg
+
+automation:
+#image processing scans
+  - id: cam1222345
+    alias: scan cam hall
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_camera_hall
+      to: 'on'
+    action:
+    - service: image_processing.scan
+      data:
+        entity_id: image_processing.tensorflow_hall_entrada
+  - id: cam1222345
+    alias: scan cam patio
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_camera_patio
+      to: 'on'
+    action:
+    - service: image_processing.scan
+      data:
+        entity_id: image_processing.tensorflow_patio
