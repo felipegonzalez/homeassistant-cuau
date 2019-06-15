@@ -4,6 +4,9 @@ zoneminder:
     username: !secret zm_user
     password: !secret zm_pass
 
+camera:
+  - platform: zoneminder
+
 homeassistant:
   customize:
     binary_sensor.192_168_100_51:
