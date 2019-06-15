@@ -183,6 +183,27 @@ views:
             name: Cocina
           - entity: sensor.living_room_humidity
             name: Sala
+
+  - cards:
+      - entity: media_player.office
+        type: media-control
+      - entity: media_player.living_room
+        type: media-control
+      - entity: media_player.bedroom_tv
+        type: media-control
+      - entity: media_player.bedroom_apple_tv
+        type: media-control
+      - entity: media_player.tv_room_apple_tv
+        type: media-control
+      - entities:
+          - remote.bedroom_apple_tv
+          - remote.tv_room_apple_tv
+        title: Remote
+        type: entities
+    icon: 'mdi:music'
+    title: Media
+
+
   - badges:
       - sensor.ha_db_size
       - binary_sensor.remote_ui
@@ -213,22 +234,5 @@ views:
         type: entities    
     icon: 'mdi:cogs'
     title: Settings
-    cards:
-      - entity: media_player.office
-        type: media-control
-      - entity: media_player.living_room
-        type: media-control
-      - entity: media_player.bedroom_tv
-        type: media-control
-      - entity: media_player.bedroom_apple_tv
-        type: media-control
-      - entity: media_player.tv_room_apple_tv
-        type: media-control
-      - entities:
-          - remote.bedroom_apple_tv
-          - remote.tv_room_apple_tv
-        title: Remote
-        type: entities
-    icon: 'mdi:music'
-    path: ''
-    title: Varios
+    
+
