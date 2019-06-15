@@ -1,8 +1,7 @@
 title: Cuauhtemoc97
 views:
   - badges:
-      - person.felipe
-      - person.teresa
+      - person.felipe_gonzalez
       - sensor.pv_today_kw
       - binary_sensor.192_168_100_51
       - binary_sensor.pressure_falling
@@ -160,6 +159,30 @@ views:
         type: picture-entity
     icon: 'mdi:shield-home-outline'
     title: Seguridad
+
+  - title: Clima
+    icon: 'mdi:air-conditioner'
+    cards:
+      - type: history-graph
+        title: Temperatura
+        entities:
+          - entity: sensor.tv_room_temperature
+            name: Cuarto TV
+          - entity: sensor.bedroom_temperature
+            name: Cuarto principal
+          - entity: sensor.living_room_temperature
+            name: Sala
+          - entity: sensor.kitchen_temperature  
+            name: Cocina
+      - type: history-graph
+        title: Humedad
+        entities:
+          - entity: sensor.cuauhtemoc_humidity_in
+            name: Hall
+          - entity: sensor.kitchen_humidity
+            name: Cocina
+          - entity: sensor.living_room_humidity
+            name: Sala
   - badges:
       - sensor.ha_db_size
       - binary_sensor.remote_ui
@@ -177,40 +200,24 @@ views:
           - sensor.gas_tank_raw
           - sensor.water_usage_rate_f
           - sensor.water_usage_rate
-          - sensor.water_tank_liters
-          - sensor.cuauhtemoc_abs_pressure
+          - sensor.water_tank_distance_raw
+          - sensor.water_tank_distance_filtered
         hours_to_show: 4
-        type: history-graph    
-    icon: 'mdi:cogs'
-    title: Settings
-  - badges:
-      - binary_sensor.high_water_usage
-      - binary_sensor.patio_doorbell
-      - binary_sensor.ring_front_door_motion
-      - binary_sensor.ring_front_door_ding
-      - binary_sensor.remote_ui
-      - person.felipe
-      - person.teresa
-      - device_tracker.iphonesef
-      - device_tracker.iphone_tere
-      - sun.sun
-
-    cards:
-      - entity: media_player.office
-        type: media-control
-      - entity: media_player.living_room
-        type: media-control
+        type: history-graph
       - entities:
           - input_boolean.dark_house
           - input_boolean.pump_auto
           - input_boolean.gate_door_working
           - input_boolean.gate_state
         title: Input boolean
-        type: entities
-      - entities:
-          - input_number.pool_run_time
-        title: Input number
-        type: entities
+        type: entities    
+    icon: 'mdi:cogs'
+    title: Settings
+    cards:
+      - entity: media_player.office
+        type: media-control
+      - entity: media_player.living_room
+        type: media-control
       - entity: media_player.bedroom_tv
         type: media-control
       - entity: media_player.bedroom_apple_tv
@@ -222,11 +229,6 @@ views:
           - remote.tv_room_apple_tv
         title: Remote
         type: entities
-      - entities:
-          - switch.raised_beds_water
-          - switch.pool_pump
-        title: Switch
-        type: entities
-    icon: 'mdi:trash-can'
+    icon: 'mdi:music'
     path: ''
     title: Varios

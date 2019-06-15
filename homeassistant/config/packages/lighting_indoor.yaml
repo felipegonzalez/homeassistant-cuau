@@ -116,3 +116,13 @@ automation:
       data:
         entity_id: light.kitchen_lights_day
     id: ac42b2d053f547b5bb139eeba43491d9
+
+  - alias: Turn off sleep mode
+    trigger:
+      platform: state
+      entity_id: sun.sun
+      to: above_horizon
+    action:
+      service: homeassistant.turn_off
+      entity_id: input_boolean.sleep_mode
+    id: 5e456c595e4245e08f154e8f67b47ab2

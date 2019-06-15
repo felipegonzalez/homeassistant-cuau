@@ -1,47 +1,3 @@
-
-
-  # Temperature
-  - platform: mqtt
-    name: TV room temperature 
-    state_topic: "caja_tv/temperature"
-    unit_of_measurement: "°C"
-    value_template: '{{ value | round(1) }}'
-  - platform: mqtt
-    name: Living room temperature
-    state_topic: "xbeebox/sala/temperature/1/cajasala"
-    unit_of_measurement: "°C"
-    value_template: '{{ value | round(1) }}'
-  - platform: mqtt
-    name: Bedroom temperature 
-    state_topic: "xbeebox/recamara_principal/temperature/1/cajarecamara"
-    unit_of_measurement: "°C"
-    value_template: '{{ value | round(1) }}'
-  - platform: mqtt
-    name: Kitchen temperature 
-    state_topic: "xbeebox/cocina/temperature/1/cajacocina"
-    unit_of_measurement: "°C"
-    value_template: '{{ value | round(1) }}'
-  - platform: mqtt
-    name: Kitchen humidity 
-    state_topic: "xbeebox/cocina/humidity/1/cajacocina"
-    unit_of_measurement: "%"
-    value_template: '{{ value | round(1) }}'
-  - platform: mqtt
-    name: Living Room humidity 
-    state_topic: "xbeebox/sala/humidity/1/cajasala"
-    unit_of_measurement: "%"
-    value_template: '{{ value | round(1) }}'
-
-
-# Gas lp
-  - platform: mqtt
-    name: Kitchen LP gas 
-    state_topic: "xbeebox/cocina/gaslpg/1/cajacocina"
-    unit_of_measurement: "V"
-  - platform: mqtt
-    name: Bedroom LP gas 
-    state_topic: "xbeebox/recamara_principal/gaslpg/1/cajarecamara"
-    unit_of_measurement: "V"
 ## Bridge
   - platform: mqtt
     name: rf_bridge_result
@@ -50,11 +6,6 @@
     payload_available: "Online"
     payload_not_available: "Offline"
     value_template: '{{ value_json.RfReceived.Data }}'
-## Pressure
-  - platform: mqtt
-    name: pressure 
-    state_topic: "xbeebox/pasillo_comedor/pressure/1/caja_pasillo_comedor"
-    unit_of_measurement: "hPa"
 
   - platform: time_date
     display_options:
@@ -62,28 +13,3 @@
       - 'date'
       - 'date_time'
       - 'time_date'
-
-
-
-## Washing machine sensors
-  - platform: mqtt
-    name: washing_machine
-    state_topic: tele/washer/SENSOR
-    availability_topic: tele/washer/LWT
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    value_template: '{{ value_json.ENERGY.Power }}'    
-    json_attributes_topic: '{{ value_json.ENERGY }}'
-    unit_of_measurement: 'W'
-  - platform: mqtt
-    name: voltage_house
-    state_topic: tele/washer/SENSOR
-    value_template: '{{ value_json.ENERGY.Voltage }}'
-    unit_of_measurement: 'V'
-  - platform: statistics
-    name: washing_machine_stats
-    entity_id: sensor.washing_machine
-    sampling_size: 5
-
-
-      

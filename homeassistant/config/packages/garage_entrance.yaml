@@ -136,7 +136,20 @@ script:
       - service: homeassistant.turn_off
         data:
           entity_id: input_boolean.gate_state
-
+  patio_lights_scene:
+    sequence:
+      - service: light.turn_on
+        data:
+          entity_id: light.entrance  
+          brightness: 120
+          kelvin: 2000
+      - service: light.turn_on
+        entity_id: light.patio_strip
+      - service: homeassistant.turn_on
+        data:
+          entity_id: light.front_door
+          brightness: 255
+          kelvin: 1500
 ######### Automations ###################
 
 automation:

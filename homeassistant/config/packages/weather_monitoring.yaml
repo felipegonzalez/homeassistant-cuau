@@ -67,4 +67,11 @@ binary_sensor:
         sample_duration: 3600
         min_gradient: -0.000016
 
-
+homeassistant:
+  customize:
+    sensor.cuauhtemoc_humidity:
+      friendly_name: Humedad Exterior
+    sensor.cuauhtemoc_temp:
+      friendly_name: Temperatura Exterior
+    binary_sensor.pressure_falling:
+      friendly_name: Mal clima

@@ -1,18 +1,4 @@
-binary_sensor.192_168_100_51:
-  friendly_name: Zoneminder
-sensor.zoneminder_host_cpu_used:
-  friendly_name: Zoneminder CPU
-person.felipe:
+person.felipe_gonzalez:
   entity_picture: "/local/felipe.png"
 person.teresa:
   entity_picture: "/local/tere.jpg"
-timer.pump_run:
-  friendly_name: Tiempo
-switch.pool_pump:
-  friendly_name: Bomba
-sensor.cuauhtemoc_humidity:
-  friendly_name: Humedad Exterior
-sensor.cuauhtemoc_temp:
-  friendly_name: Temperatura Exterior
-binary_sensor.pressure_falling:
-  friendly_name: Mal clima

@@ -1,6 +1,11 @@
+# Text to speech
+tts:
+  - platform: amazon_polly
+    aws_access_key_id: !secret aws_access_key_id
+    aws_secret_access_key: !secret aws_secret_access_key
+    voice: Penelope
 
-## Sonos TTS and sound
-
+script:
   sonos_say:
     alias: "Sonos TTS script"
     sequence:
@@ -45,27 +50,3 @@
      - service: sonos.restore
        data_template:
          entity_id: "{{ sonos_entity }}"
-
-  test_script:
-    alias: "test TTS"
-    sequence:
-     - service: tts.amazon_polly_say
-       data_template:
-         entity_id: "media_player.office"
-         message: "Hola, aquí estoy."    
-
-### Scenes
-  patio_lights_scene:
-    sequence:
-      - service: light.turn_on
-        data:
-          entity_id: light.entrance  
-          brightness: 120
-          kelvin: 2000
-      - service: light.turn_on
-        entity_id: light.patio_strip
-      - service: homeassistant.turn_on
-        data:
-          entity_id: light.front_door
-          brightness: 255
-          kelvin: 1500

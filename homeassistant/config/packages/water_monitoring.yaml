@@ -11,8 +11,8 @@ sensor:
     entity_id: sensor.water_tank_distance_raw
     filters:
       - filter: outlier
-        window_size: 30
-        radius: 10.0
+        window_size: 20
+        radius: 3.0
       - filter: lowpass
         time_constant: 5
 
@@ -37,7 +37,10 @@ sensor:
         radius: 10.0
       - filter: lowpass
         time_constant: 3
-        precision: 4
+        precision: 2
+      - filter: time_simple_moving_average
+        window_size: 00:10
+        precision: 2
 
 binary_sensor:
   - platform: trend
@@ -57,9 +60,9 @@ automation:
     trigger:
       platform: state
       entity_id: binary_sensor.high_water_usage
-      from: 'off'
       to: 'on'
-      for: 00:20:00
+      for: 
+        minutes: 20
     condition:
       condition: time
       after: 07:00:00

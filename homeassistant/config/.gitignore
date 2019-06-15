@@ -7,3 +7,4 @@ known_devices.yaml
 .ring_cache.pickle
 .DS_Store
 .ios.conf
+.uuid

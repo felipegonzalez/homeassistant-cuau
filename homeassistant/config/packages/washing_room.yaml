@@ -1,0 +1,75 @@
+sensor:
+## Washing machine sensors
+  - platform: mqtt
+    name: washing_machine
+    state_topic: tele/washer/SENSOR
+    availability_topic: tele/washer/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    value_template: '{{ value_json.ENERGY.Power }}'    
+    json_attributes_topic: '{{ value_json.ENERGY }}'
+    unit_of_measurement: 'W'
+  - platform: mqtt
+    name: voltage_house
+    state_topic: tele/washer/SENSOR
+    value_template: '{{ value_json.ENERGY.Voltage }}'
+    unit_of_measurement: 'V'
+  - platform: statistics
+    name: washing_machine_stats
+    entity_id: sensor.washing_machine
+    sampling_size: 5
+
+input_boolean:
+  washing_machine_high:
+    name: "washing machine high"
+    initial: off
+  washing_machine_cycle:
+    name: "washing machine cycle"
+    initial: off
+
+automation:
+  - id: 08887389592
+    alias: busy washing machine
+    trigger:
+      platform: template
+      value_template: '{{ states.sensor.washing_machine_stats_mean.attributes.median | float > 50 }}'
+    action:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.washing_machine_high
+    - service: homeassistant.turn_on
+      data:
+        entity_id: input_boolean.washing_machine_cycle
+
+  - id: 0888738959222156
+    alias: idle washing machine
+    trigger:
+      platform: template
+      value_template: '{{ states.sensor.washing_machine_stats_mean.attributes.median | float < 2 }}'
+    action:
+    - service: homeassistant.turn_off
+      data:
+        entity_id: input_boolean.washing_machine_high
+
+  - id: 0888738959211
+    alias: notify washing machine
+    trigger:
+      platform: state
+      entity_id: input_boolean.washing_machine_high
+      to: 'off'
+      for:
+        minutes: 3
+    action:
+    - service: homeassistant.turn_off
+      data:
+        entity_id: input_boolean.washing_machine_cycle
+    - service: notify.iphone_tyf
+      data:
+        message: Terminó el ciclo de la lavadora.
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.9
+        delay: 00:00:10
+        message: La lavadora terminó su ciclo.
+      

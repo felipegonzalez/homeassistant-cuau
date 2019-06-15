@@ -1,0 +1,38 @@
+
+sensor:  
+  - platform: mqtt
+    name: TV room temperature 
+    state_topic: "caja_tv/temperature"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Living room temperature
+    state_topic: "xbeebox/sala/temperature/1/cajasala"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Bedroom temperature 
+    state_topic: "xbeebox/recamara_principal/temperature/1/cajarecamara"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Kitchen temperature 
+    state_topic: "xbeebox/cocina/temperature/1/cajacocina"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Kitchen humidity 
+    state_topic: "xbeebox/cocina/humidity/1/cajacocina"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(1) }}'
+  - platform: mqtt
+    name: Living Room humidity 
+    state_topic: "xbeebox/sala/humidity/1/cajasala"
+    unit_of_measurement: "%"
+    value_template: '{{ value | round(1) }}'
+
+## Pressure
+  - platform: mqtt
+    name: pressure 
+    state_topic: "xbeebox/pasillo_comedor/pressure/1/caja_pasillo_comedor"
+    unit_of_measurement: "hPa"    

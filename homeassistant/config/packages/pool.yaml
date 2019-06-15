@@ -1,3 +1,9 @@
+homeassistant:
+  customize:
+    timer.pump_run:
+      friendly_name: Tiempo
+    switch.pool_pump:
+      friendly_name: Bomba
 
 sensor:
   - platform: mqtt

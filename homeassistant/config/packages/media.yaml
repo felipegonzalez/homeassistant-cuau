@@ -1,0 +1,16 @@
+
+apple_tv:
+  - name: bedroom_apple_tv
+    host: 192.168.100.206
+    login_id: !secret apple_tv_login
+  - name: tv_room_apple_tv
+    host: 192.168.100.15
+    login_id: !secret apple_tv_login
+
+media_player:
+  - platform: samsungtv
+    host: 192.168.100.207
+    port: 8001
+    name: "Bedroom TV"
+    mac: f8:3f:51:d1:14:45
+    timeout: 10
