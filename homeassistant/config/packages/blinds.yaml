@@ -1,0 +1,143 @@
+cover:
+  - platform: mqtt
+    name: Bedroom blinds 1
+    command_topic: "esp8266/cuarto/persianas_1/set"
+    position_topic: "esp8266/cuarto/persianas_1/position"
+    availability_topic: "esp8266/cuarto/persianas_1/availability"
+    set_position_topic: "esp8266/cuarto/persianas_1/set_position"
+    payload_open: "open"
+    payload_close: "close"
+    payload_stop: "stop"
+    position_open: 100
+    position_closed: 0
+    payload_available: "online"
+  - platform: mqtt
+    name: Bedroom blinds 2
+    command_topic: "esp8266/cuarto/persianas_2/set"
+    position_topic: "esp8266/cuarto/persianas_2/position"
+    availability_topic: "esp8266/cuarto/persianas_2/availability"
+    set_position_topic: "esp8266/cuarto/persianas_2/set_position"
+    payload_open: "open"
+    payload_close: "close"
+    payload_stop: "stop"
+    position_open: 100
+    position_closed: 0
+    payload_available: "online"
+
+# for alexa 
+script:
+  open_blinds:
+    alias: Open blinds
+    sequence:
+      - service: cover.open_cover
+        entity_id: cover.bedroom_blinds_1
+      - delay: '00:00:05'
+      - service: cover.open_cover
+        entity_id: cover.bedroom_blinds_2   
+  close_blinds:
+    alias: Close blinds
+    sequence:
+      - service: cover.close_cover
+        entity_id: cover.bedroom_blinds_1
+      - delay: '00:00:05'
+      - service: cover.close_cover
+        entity_id: cover.bedroom_blinds_2   
+
+automation:
+  - alias: Open blinds in the morning weekday
+    trigger:
+      platform: time
+      at: 06:45:00
+    condition:
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+    action:
+      - service: cover.open_cover
+        entity_id: cover.bedroom_blinds_1
+      - delay: '00:00:05'
+      - service: cover.open_cover
+        entity_id: cover.bedroom_blinds_2
+
+  - alias: Open blinds in the morning weekend
+    trigger:
+      platform: time
+      at: 07:30:00
+    condition:
+      - condition: time
+        weekday:
+        - sat
+        - sun
+    action:
+      - service: cover.open_cover
+        entity_id: cover.bedroom_blinds_1
+      - delay: '00:00:05'
+      - service: cover.open_cover
+        entity_id: cover.bedroom_blinds_2
+
+  - alias: Close blinds midmorning
+    trigger:
+      platform: time
+      at: 09:00:00
+    action:
+      - service: cover.close_cover
+        entity_id: cover.bedroom_blinds_1
+      - delay: '00:00:05'
+      - service: cover.close_cover
+        entity_id: cover.bedroom_blinds_2    
+
+  - alias: Open partially when movement during day
+    trigger: 
+      platform: state
+      entity_id: binary_sensor.motion_recamara
+      to: 'on'
+    condition:
+      - condition: time
+        after: '9:03:00'
+        before: '21:00:00'
+      - condition: state
+        entity_id: cover.bedroom_blinds_1
+        state: 'closed'
+      - condition: state
+        entity_id: cover.bedroom_blinds_2
+        state: 'closed'
+    action:
+      - service: cover.set_cover_position
+        entity_id: cover.bedroom_blinds_2
+        data:
+          position: 60
+
+  - alias: Close blinds if no movement for a while
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_recamara
+      to: 'on'
+      for:
+        minutes: 30
+    condition: 
+      - condition: time
+        after: '9:10:00'
+        before: '21:00:00'
+    action:
+      - service: cover.close_cover
+        entity_id: cover.bedroom_blinds_2
+      - delay: '00:00:05'
+      - service: cover.close_cover
+        entity_id: cover.bedroom_blinds_1
+
+  - alias: when go to sleep mode close blinds
+    trigger:
+      platform: state
+      entity_id: input_boolean.sleep_mode
+      to: 'on'
+    action:
+      - service: cover.close_cover
+        entity_id: cover.bedroom_blinds_2
+      - delay: '00:00:05'
+      - service: cover.close_cover
+        entity_id: cover.bedroom_blinds_1
+
