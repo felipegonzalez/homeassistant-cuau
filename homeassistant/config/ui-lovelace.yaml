@@ -2,6 +2,7 @@ title: Cuauhtemoc97
 views:
   - badges:
       - person.felipe_gonzalez
+      - person.teresa
       - sensor.pv_today_kw
       - binary_sensor.192_168_100_51
       - binary_sensor.pressure_falling
@@ -22,10 +23,10 @@ views:
             name: Portón
         type: entities
       - entities:
-          - entity: input_boolean.gate_door_working
+          - entity: script.toggle_gate
             name: Click
             icon: 'mdi:car'
-            hold_action: 
+            tap_action: 
               action: call-service
               service: script.turn_on
               service_data:
@@ -40,6 +41,10 @@ views:
             icon: 'mdi:car-parking-lights'
             tap_action:
               action: toggle
+          - entity: cover.bedroom_blinds_1
+            name: Persianas
+            tap_action:
+              action: toggle
         columns: 4
         type: glance
       - entities:
@@ -52,6 +57,10 @@ views:
             name: Apple TV cuarto Tele
           - entity: media_player.bedroom_tv
             name: Samsung TV
+        type: entities
+      - entities:
+          - entity: cover.bedroom_blinds_1
+          - entity: cover.bedroom_blinds_2 
         type: entities
     icon: 'mdi:home'
     path: default_view
@@ -159,6 +168,10 @@ views:
         type: picture-entity
       - type: picture-entity
         entity: camera.entrada_personas
+      - type: picture-entity
+        entity: camera.patio_personas
+      - type: picture-entity
+        entity: camera.huerto_personas
     icon: 'mdi:shield-home-outline'
     title: Seguridad
 
