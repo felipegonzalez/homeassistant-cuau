@@ -29,5 +29,5 @@
 - Custom made RF garage door opener
 - Custom made water level sensor (Ultrasonic)
 - Custom made weather station
-- Estación metereológica Ambient Weather WS-2902
+- Weather station Ambient Weather WS-2902
 - Custom hacked roller blinds remote control
