@@ -19,6 +19,13 @@ sensor:
     name: pool_panel_timer_minutes
     state_topic: "esp8266/caja_bomba_alberca/tele/timer_minutes"
     value_template: "{{ value | int }}"
+  - platform: history_stats
+    name: Pump on today
+    entity_id: switch.pool_pump
+    state: 'on'
+    type: time
+    start: '{{ now().replace(hour=0).replace(minute=0).replace(second=0) }}'
+    end: '{{ now() }}'
 
 input_boolean:
   pump_auto:
@@ -90,7 +97,6 @@ automation:
         data_template:
           topic: esp8266/caja_bomba_alberca/cmd/timer_set
           payload: '{{ (trigger.to_state.state | int)*60 }}'
-    id: 921fcac630d84726a09a768bc11a085d
     
   - alias: Auto pump run schedule
     trigger:
@@ -100,18 +106,11 @@ automation:
       - condition: state
         entity_id: input_boolean.pump_auto
         state: 'on'
-      - condition: time
-        weekday:
-        - mon
-        - tue
-        - wed
-        - thu
-        - fri
-        - sat
-        - sun
+      - condition: state
+        entity_id: switch.pool_pump
+        state: 'off'
     action:
       - service: switch.turn_on
         entity_id: switch.pool_pump
-    id: c4d42cf1f5274331b58638955b2ecb4d
 
 
