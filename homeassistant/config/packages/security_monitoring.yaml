@@ -143,6 +143,18 @@ binary_sensor:
     device_class: motion
     off_delay: 8
   - platform: mqtt
+    name: motion_camera_huerto
+    state_topic: "zoneminder/3"
+    value_template: '{{ "ON" }}'
+    device_class: motion
+    off_delay: 8 
+  - platform: mqtt
+    name: motion_camera_patio
+    state_topic: "zoneminder/5"
+    value_template: '{{ "ON" }}'
+    device_class: motion
+    off_delay: 8 
+  - platform: mqtt
     name: motion_camera_escaleras
     state_topic: "zoneminder/6"
     value_template: '{{ "ON" }}'
