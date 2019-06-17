@@ -2,7 +2,7 @@ image_processing:
   - platform: tensorflow
     source:
       - entity_id: camera.hall_entrada
-      # - entity_id: camera.huerto
+      - entity_id: camera.huerto
       - entity_id: camera.patio
       # - entity_id: camera.escaleras
     file_out:
@@ -20,6 +20,12 @@ camera:
   - platform: local_file
     name: Entrada personas
     file_path: /Volumes/SSD2/tmp_image_recog/hall_entrada_latest.jpg
+  - platform: local_file
+    name: Patio personas
+    file_path: /Volumes/SSD2/tmp_image_recog/patio_latest.jpg
+  - platform: local_file
+    name: Huerto personas
+    file_path: /Volumes/SSD2/tmp_image_recog/huerto_latest.jpg
 
 automation:
 #image processing scans
@@ -43,3 +49,13 @@ automation:
     - service: image_processing.scan
       data:
         entity_id: image_processing.tensorflow_patio
+  - id: cam1222345
+    alias: scan cam huerto
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_camera_huerto
+      to: 'on'
+    action:
+    - service: image_processing.scan
+      data:
+        entity_id: image_processing.tensorflow_huerto
