@@ -54,6 +54,8 @@ automation:
       entity_id: input_boolean.dark_house
     id: 1809c2e3c3054036a7a63507375f733f
 
+#### Lights during day #########
+
   - alias: set bright house
     trigger:
     - platform: numeric_state
@@ -76,7 +78,7 @@ automation:
     trigger:
     - platform: numeric_state
       entity_id: sensor.living_photo_level
-      above: 2.0
+      above: 1.9
     - platform: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.elevation }}'
@@ -85,7 +87,6 @@ automation:
     - service: light.turn_off
       entity_id: group.all_lights
 
-  #### Kitchen lights during day
 
   - alias: Dark kitchen lights
     trigger:
@@ -131,3 +132,24 @@ automation:
       service: homeassistant.turn_off
       entity_id: input_boolean.sleep_mode
     id: 5e456c595e4245e08f154e8f67b47ab2
+
+#### office light 
+  - alias: Desk lamp person occupancy
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.felipe_office_occupancy
+      above: 0
+    condition:
+      condition: or
+      conditions:
+      - condition: sun
+        after: sunset
+        after_offset: -01:00:00
+      - condition: numeric_state
+        entity_id: sensor.felipe_study_photo_level
+        below: 2.0
+    action:
+      service: light.turn_on
+      entity_id: light.felipe_desk
+      data:
+        brightness: 254
