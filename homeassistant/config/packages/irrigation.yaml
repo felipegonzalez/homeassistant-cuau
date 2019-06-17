@@ -7,7 +7,7 @@ switch:
   - platform: command_line
     switches:
       section_2_water:
-        command_on: "/usr/bin/curl -X GET http://192.168.100.159/pasto?command=turn_on&tiempo=30"
+        command_on: "/usr/bin/curl -X GET http://192.168.100.159/pasto?command=turn_on&tiempo=40"
         command_off: "/usr/bin/curl -X GET http://192.168.100.159/pasto?command=turn_off"
         command_state: "/usr/bin/curl -X GET http://192.168.100.159/status"
         value_template: '{{ value_json["values"].pasto.state == 1}}'
@@ -38,7 +38,7 @@ automation:
       to: 'on'
     action:
     - delay: 00:45:00
-    - service: homeassistant.turn_off
+    - service: switch.turn_off
       data:
         entity_id: switch.raised_beds_water
     id: c2949b9be5694f27b737eacd3f49b6de
@@ -61,7 +61,46 @@ automation:
         entity_id: binary_sensor.wet_soil
         state: 'off'
     action:
-      - service: homeassistant.turn_on
+      - service: switch.turn_on
         entity_id: switch.raised_beds_water
     id: autovegetable01342001
 
+  - alias: Section 1 watering schedule
+    trigger:
+      platform: time
+      at: '03:00:00'
+    condition:
+      - condition: time
+        weekday:
+        - mon
+        - wed
+        - fri
+      - condition: numeric_state
+        entity_id: sensor.water_tank_liters
+        above: 3000
+      - condition: state
+        entity_id: binary_sensor.wet_soil
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.section_1_water
+
+  - alias: Section 2 watering schedule
+    trigger:
+      platform: time
+      at: '04:00:00'
+    condition:
+      - condition: time
+        weekday:
+        - mon
+        - wed
+        - fri
+      - condition: numeric_state
+        entity_id: sensor.water_tank_liters
+        above: 3000
+      - condition: state
+        entity_id: binary_sensor.wet_soil
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.section_1_water
