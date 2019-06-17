@@ -59,4 +59,21 @@ automation:
     - service: notify.iphone_tyf
       data:
         message: La casa está sufriendo de voltaje bajo.
-
+  - alias: Low gas warning
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.gas_tank_filtered
+      below: 10
+    action:
+    - service: notify.iphone_tyf
+      data:
+        message: "El tanque de gas está al 15%"
+  - alias: Very Low gas warning
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.gas_tank_filtered
+      below: 5
+    action:
+    - service: notify.iphone_tyf
+      data:
+        message: "El tanque de gas está al 5%. Pidan el gas ahora"
