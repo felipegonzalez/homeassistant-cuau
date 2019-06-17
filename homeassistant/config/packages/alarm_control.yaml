@@ -1,0 +1,184 @@
+
+alarm_control_panel:
+  - platform: manual
+    name: Home Alarm
+    code: !secret alarm_code
+    pending_time: 30
+    delay_time: 20
+    trigger_time: 600
+    disarmed:
+      trigger_time: 0
+    armed_home:
+      pending_time: 0
+      delay_time: 20
+    armed_away:
+      pending_time: 60 
+      delay_time: 10
+    triggered:
+      pending_time: 0
+
+automation:
+  - alias: Alarm triggered
+    trigger:
+    - platform: state
+      entity_id: alarm_control_panel.home_alarm
+      to: triggered
+    action:
+    - service: notify.iphone_tyf
+      data:
+        message: Alarma disparada
+    - service: homeassistant.turn_on
+      entity_id: group.all_lights
+      data:
+        brightness: 255
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room, media_player.office
+        volume: 0.9
+        delay: 00:00:10
+        message: "Alarma activada. Enviando notificaciones"
+    - delay:
+        seconds: 5
+    - service: script.sonos_play
+      data:
+        sonos_entity: media_player.living_room, media_player.office
+        volume: 0.97
+        delay: 00:00:45
+        media_content_id: http://192.168.100.50:8123/local/sounds/bs_alarm.mp3
+    - delay:
+        seconds: 40
+    - service: script.sonos_play
+      data:
+        sonos_entity: media_player.living_room, media_player.office
+        volume: 0.97
+        delay: 00:01:00
+        media_content_id: http://192.168.100.50:8123/local/sounds/bs_alarm.mp3
+
+  - alias: Disarm alarm when opening gate
+    trigger:
+      - platform: state
+        entity_id: script.toggle_gate
+        to: 'on'
+      - platform: state
+        entity_id: script.open_gate_timed
+        to: 'on'    
+    action:
+      - service: alarm_control_panel.alarm_disarm
+        entity_id: alarm_control_panel.house_alarm
+
+  - alias: 'Send notification when alarm is in pending status'
+    initial_state: 'on'
+    trigger:
+      - platform: state
+        entity_id: alarm_control_panel.home_alarm
+        to: 'pending'
+    action:
+      - service: notify.iphone_tyf
+        data:
+          message: "ALARMA! La alarma está en estado pendiente {{ states('sensor.time') }}"
+      - delay: '00:00:05'
+      - service: script.sonos_say
+        data:
+          sonos_entity: media_player.living_room, media_player.office
+          volume: 0.9
+          delay: 00:00:10
+          message: Alarma activada. Ingrese código de desactivación en 20 segundos.
+
+  - alias: Notify when alarm is disarmed
+    trigger:
+      - platform: state
+        entity_id: alarm_control_panel.home_alarm
+        to: 'disarmed'
+    action:
+      - service: notify.iphone_tyf
+        data:
+          message: "La alarma se desactivó a las {{ states('sensor.time') }}"
+
+  - alias: Notify when alarm is armed away
+    trigger:
+      - platform: state
+        entity_id: alarm_control_panel.home_alarm
+        to: 'armed_away'
+    action:
+      - service: notify.iphone_tyf
+        data:
+          message: "La alarma está configurada en modo Fuera de casa a las {{ states('sensor.time') }}"   
+  - alias: Notify when alarm is armed home
+    trigger:
+      - platform: state
+        entity_id: alarm_control_panel.home_alarm
+        to: 'armed_home'
+    action:
+      - service: notify.iphone_tyf
+        data:
+          message: "La alarma está configurada en modo Dentro de casa a las  {{ states('sensor.time') }}"       
+
+  - alias: Disarm triggered alarm
+    trigger:
+    - platform: state
+      entity_id: alarm_control_panel.home_alarm
+      from: triggered
+      to: disarmed
+    action:
+    - service: media_player.media_stop
+      entity_id: media_player.office
+    - service: media_player.media_stop
+      entity_id: media_player.living_room
+
+## Alarm triggers
+  - alias: Trigger armed alarm away or home
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.patio_gate
+    - platform: state
+      entity_id: binary_sensor.felipe_window
+    - platform: state
+      entity_id: binary_sensor.kitchen_door
+    - platform: state
+      entity_id: binary_sensor.hall_door
+    - platform: state
+      entity_id: binary_sensor.main_garden_door
+    - platform: numeric_state
+      entity_id: image_processing.tensorflow_hall_entrada
+      above: 0
+    - platform: numeric_state
+      entity_id: image_processing.tensorflow_huerto
+      above: 0
+    - platform: numeric_state
+      entity_id: image_processing.tensorflow_patio
+      above: 0
+    condition:
+      condition: or
+      conditions:
+      - condition: state
+        entity_id: alarm_control_panel.home_alarm
+        state: armed_away
+      - condition: state
+        entity_id: alarm_control_panel.home_alarm
+        state: armed_home
+    action:
+      service: alarm_control_panel.alarm_trigger
+      entity_id: alarm_control_panel.home_alarm
+
+  - alias: Trigger armed alarm only away
+    trigger:
+    - platform: state
+      entity_id: binary_sensor.tita_door
+    - platform: state
+      entity_id: binary_sensor.main_bathroom
+    - platform: numeric_state
+      entity_id: image_processing.tensorflow_hall_entrada
+      above: 0
+    - platform: numeric_state
+      entity_id: image_processing.tensorflow_huerto
+      above: 0
+    - platform: numeric_state
+      entity_id: image_processing.tensorflow_patio
+      above: 0
+    condition:
+      condition: state
+      entity_id: alarm_control_panel.home_alarm
+      state: armed_away
+    action:
+      service: alarm_control_panel.alarm_trigger
+      entity_id: alarm_control_panel.home_alarm

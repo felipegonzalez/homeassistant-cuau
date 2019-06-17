@@ -8,13 +8,11 @@ image_processing:
     file_out:
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_latest.jpg"
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
-    scan_interval: 20000
+    scan_interval: 30
     model:
       graph: /Volumes/SSD2/hass-cuauhtemoc97/homeassistant/config/tensorflow/frozen_inference_graph.pb
       categories:
         - person
-        - cat
-        - dog
 
 camera:
   - platform: local_file
