@@ -21,7 +21,7 @@
 - [Zigbee Adafruit adapter](https://www.adafruit.com/product/247) with Zigbee acting as hub
 - Custom made Arduino + Zigbee multisensor/controller (x12)
 - Raspberry Pi 2 with Camera (x2) running [motion](https://motion-project.github.io/)
-- Foscam IP cameras (x2)`
+- Foscam IP cameras (x2)
 - [Amcrest PoE dome camera IP4M-1028E](https://www.amazon.com/gp/product/B073V5T4SY)
 - [Wyze cam V2](https://www.wyze.com/product/wyze-cam-v2/) (x2)
 - Custom made garden beds irrigation system (Zigbee)
