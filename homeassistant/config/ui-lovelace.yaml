@@ -62,6 +62,8 @@ views:
           - entity: cover.bedroom_blinds_1
           - entity: cover.bedroom_blinds_2 
         type: entities
+      - type: alarm-panel
+        entity: alarm_control_panel.home_alarm
     icon: 'mdi:home'
     path: default_view
     title: Casa
