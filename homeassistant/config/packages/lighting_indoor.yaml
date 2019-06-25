@@ -153,3 +153,18 @@ automation:
       entity_id: light.felipe_desk
       data:
         brightness: 254
+
+  - alias: Desk lamp off if no occupancy
+    trigger:
+    - platform: numeric_state
+      entity_id: sensor.felipe_office_occupancy
+      below: 1
+      for:
+        minutes: 5
+    condition:
+      condition: state
+      entity_id: light.felipe_desk
+      state: 'on'
+    action:
+      service: light.turn_off
+      entity_id: light.felipe_desk
