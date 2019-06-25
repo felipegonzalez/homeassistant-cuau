@@ -115,12 +115,12 @@ automation:
     trigger:
       platform: state
       entity_id: binary_sensor.motion_recamara
-      to: 'on'
+      to: 'off'
       for:
-        minutes: 30
+        minutes: 10
     condition: 
       - condition: time
-        after: '9:10:00'
+        after: '09:10:00'
         before: '21:00:00'
     action:
       - service: cover.close_cover
