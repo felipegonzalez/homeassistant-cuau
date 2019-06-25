@@ -103,4 +103,4 @@ automation:
         state: 'off'
     action:
       - service: switch.turn_on
-        entity_id: switch.section_1_water
+        entity_id: switch.section_2_water
