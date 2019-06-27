@@ -16,18 +16,6 @@ sensor:
       - filter: lowpass
         time_constant: 5
 
-  - platform: template
-    sensors:
-      water_tank_liters:
-        entity_id: sensor.water_tank_distance_filtered
-        #value_template: '{{ (5.6*(2120-10*(states.sensor.distancia_cisterna_filtrada.state | float))) | int - 500 }}'
-        value_template: '{{ (66*(200 - states.sensor.water_tank_distance_filtered.state | float)) | int }}'
-        unit_of_measurement: 'liters'
-      water_usage_rate:
-        entity_id: binary_sensor.high_water_usage
-        value_template: '{{ (60*state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}'
-        unit_of_measurement: 'L/m'
-
   - platform: filter
     name: water_usage_rate_f
     entity_id: sensor.water_usage_rate
@@ -41,6 +29,18 @@ sensor:
       - filter: time_simple_moving_average
         window_size: 00:10
         precision: 2
+        
+  - platform: template
+    sensors:
+      water_tank_liters:
+        entity_id: sensor.water_tank_distance_filtered
+        #value_template: '{{ (5.6*(2120-10*(states.sensor.distancia_cisterna_filtrada.state | float))) | int - 500 }}'
+        value_template: '{{ (66*(200 - states.sensor.water_tank_distance_filtered.state | float)) | int }}'
+        unit_of_measurement: 'liters'
+      water_usage_rate:
+        entity_id: binary_sensor.high_water_usage
+        value_template: '{{ (60*state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}'
+        unit_of_measurement: 'L/m'
 
 binary_sensor:
   - platform: trend
@@ -51,16 +51,18 @@ binary_sensor:
         friendly_name: High water usage
         max_samples: 1000
         sample_duration: 360
-        min_gradient: -0.1
+        min_gradient: -0.05
+
+
 
 automation:
   - id: voicehighwaterusage2223441
     alias: high water usage speak
     initial_state: true
     trigger:
-      platform: state
-      entity_id: binary_sensor.high_water_usage
-      to: 'on'
+      platform: numeric_state
+      entity_id: sensor.water_usage_rate_f
+      below: -4.0
       for: 
         minutes: 20
     condition:
