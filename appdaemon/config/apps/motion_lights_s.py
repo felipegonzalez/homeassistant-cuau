@@ -44,7 +44,7 @@ class MotionLights(hass.Hass):
         if(self.grouping[sensor]["use_sleep"] == "dim"):
           self.grouping[sensor]["brightness"] = 40
         if(self.grouping[sensor]["use_sleep"] == "dark"):
-          self.turn_off(group = self.grouping[sensor]["lights"], transition = 20)
+          self.turn_off(self.grouping[sensor]["lights"], transition = 20)
           self.grouping[sensor]["brightness"] = 0
     if(entity == "input_boolean.sleep_mode" and new == "off"):
       # restore brightness values
@@ -52,15 +52,18 @@ class MotionLights(hass.Hass):
         self.grouping[sensor]["brightness"] = self.original_grouping[sensor]["brightness"]
     
     #### # adapt brightness for tv watching
-    if(entity == "media_player.bedroom_apple_tv" and sleep_mode == "off"):
+    if(entity == "media_player.bedroom_apple_tv" and self.sleep_mode == "off"):
       if(old == "playing"):
         self.grouping["binary_sensor.motion_recamara"]["brightness"] = 255
+        self.grouping["binary_sensor.motion_bano_principal"]["brightness"] = 255
       if(new == "playing"):
-        self.grouping["binary_sensor.motion_recamara"]["brightness"] = 25
+        self.grouping["binary_sensor.motion_recamara"]["brightness"] = 30
+        self.grouping["binary_sensor.motion_bano_principal"]["brightness"] = 40
       group = self.grouping["binary_sensor.motion_recamara"]["lights"]
       self.log("Adapting lights for TV watching in bedroom.")
       self.turn_on(group, brightness = self.grouping["binary_sensor.motion_recamara"]["brightness"], 
-          transition = 0, kelvin = 2500)
+          transition = 20, kelvin = 2500)
+
 
   def motion(self, entity, attribute, old, new, kwargs):
     group = kwargs.get('group', None)
