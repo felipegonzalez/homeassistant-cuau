@@ -7,6 +7,19 @@ ambient_station:
   app_key: !secret aw_app_key
 
 sensor:
+  - platform: darksky
+    api_key: !secret darksky_api_key
+    hourly_forecast:
+      - 0
+      - 1
+    monitored_conditions:
+      - summary
+      - icon
+      - precip_probability
+      - nearest_storm_distance
+      - nearest_storm_bearing
+
+    scan_interval: '00:20' 
   - platform: rest
     resource: "http://192.168.100.50:8090/get_weather"
     name: "Weather station"
@@ -75,3 +88,15 @@ homeassistant:
       friendly_name: Temperatura Exterior
     binary_sensor.pressure_falling:
       friendly_name: Mal clima
+
+# Rain notification
+automation:
+  trigger:
+    platform: numeric_state
+    entity_id: sensor.dark_sky_precip_probability_1h
+    above: 75
+  action:
+    service: notify.iphone_tyf
+    data:
+      message: "Es probable que llueva en la próxima hora!"
+
