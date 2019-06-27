@@ -4,7 +4,7 @@ image_processing:
       - entity_id: camera.hall_entrada
       - entity_id: camera.huerto
       - entity_id: camera.oficina7
-      # - entity_id: camera.escaleras
+      - entity_id: camera.patio
     file_out:
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_latest.jpg"
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
