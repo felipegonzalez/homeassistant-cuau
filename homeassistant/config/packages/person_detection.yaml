@@ -1,4 +1,7 @@
 image_processing:
+  - platform: opencv
+    source:
+      - entity_id: camera.hall_entrada
   - platform: tensorflow
     source:
       - entity_id: camera.hall_entrada
@@ -8,7 +11,7 @@ image_processing:
     file_out:
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_latest.jpg"
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
-    scan_interval: 20
+    scan_interval: 40
     model:
       graph: /Volumes/SSD2/hass-cuauhtemoc97/homeassistant/config/tensorflow/better_frozen_inference_graph.pb
       categories:
@@ -62,7 +65,7 @@ automation:
     alias: scan cam hall
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_camera_hall
+      entity_id: binary_sensor.motion_hall_entrada
       to: 'on'
     action:
     - service: image_processing.scan

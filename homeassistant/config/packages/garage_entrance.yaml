@@ -8,7 +8,6 @@ camera:
 
 binary_sensor:
   - platform: ring
-  - platform: ring
   # camera motion detection
   - platform: mqtt
     name: motion_camera_puerta_patio
