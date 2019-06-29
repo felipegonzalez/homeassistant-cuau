@@ -21,15 +21,15 @@ sensor:
     entity_id: sensor.water_usage_rate
     filters:
       - filter: outlier
-        window_size: 60
-        radius: 10.0
+        window_size: 30
+        radius: 30.0
       - filter: lowpass
         time_constant: 3
         precision: 2
       - filter: time_simple_moving_average
         window_size: 00:10
         precision: 2
-        
+
   - platform: template
     sensors:
       water_tank_liters:
@@ -39,7 +39,12 @@ sensor:
         unit_of_measurement: 'liters'
       water_usage_rate:
         entity_id: binary_sensor.high_water_usage
-        value_template: '{{ (60*state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}'
+        value_template: >
+          {% if state_attr("binary_sensor.high_water_usage", "gradient") != "unknown" %}
+           {{ (60 * state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}
+          {% else %}
+            0
+          {% endif %}
         unit_of_measurement: 'L/m'
 
 binary_sensor:
@@ -62,7 +67,7 @@ automation:
     trigger:
       platform: numeric_state
       entity_id: sensor.water_usage_rate_f
-      below: -4.0
+      below: -5.0
       for: 
         minutes: 20
     condition:
