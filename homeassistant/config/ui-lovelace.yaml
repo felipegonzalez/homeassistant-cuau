@@ -84,6 +84,13 @@ views:
           - entity: input_boolean.pump_auto
             name: Auto alberca
         type: entities
+      - type: history-graph
+        entities:
+          - entity: sensor.pool_temperature
+            name: Temperatura salida
+          - entity: switch.pool_pump
+            name: Bomba
+        hours_to_show: 6
     icon: 'mdi:pool'
     panel: false
     title: Alberca
@@ -128,7 +135,6 @@ views:
     icon: 'mdi:flower'
     title: Jardin
   - badges:
-      - sensor.voltage_house
       - sensor.ups_input_voltage
       - sensor.kitchen_lp_gas
       - sensor.bedroom_lp_gas
@@ -203,6 +209,8 @@ views:
             name: Sala
           - entity: sensor.kitchen_temperature  
             name: Cocina
+          - entity: sensor.pool_temperature  
+            name: Alberca
       - type: history-graph
         title: Humedad
         entities:
