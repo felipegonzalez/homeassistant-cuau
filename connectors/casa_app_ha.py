@@ -27,6 +27,9 @@ device_settings = {
         'ip_address':'192.168.100.153',
         'place':'patio',
         'polling':0
+        },
+        'xeoma_server':{
+        'ip_address':'192.168.100.51'
         }
 }
 
@@ -68,6 +71,7 @@ class control(object):
             value = 'True'
         ev = {'device_name':device_name, 'event_type':event_type, 
             'value':value}
+        print(ev)
         #r.publish('events', json.dumps(ev))
         # publish with mqttt 
         try:
@@ -75,7 +79,14 @@ class control(object):
             #print(device_name + "/" + event_type)
             #print("payload:")
             #print(value)
+            if(event_type == "motion" and device_name == "xeoma_server"):
+                event_type = value
+                value = "ON"
+            if(event_type == "no_motion" and device_name == "xeoma_server"):
+                event_type = value
+                value = "OFF"
             client.publish(device_name + "/" + event_type, value)
+            print(device_name + "/" + event_type)
         except:
             print("not connected mqtt")
         return json.dumps(ev)

@@ -4,7 +4,7 @@ views:
       - person.felipe_gonzalez
       - person.teresa
       - sensor.pv_today_kw
-      - binary_sensor.192_168_100_51
+      - binary_sensor.xeoma_server
       - binary_sensor.pressure_falling
     cards:
       - entities:
@@ -140,12 +140,12 @@ views:
       - sensor.bedroom_lp_gas
     cards:
       - entities:
-          - entity: binary_sensor.192_168_100_51
-            name: Zoneminder
+          - entity: binary_sensor.ups_online_status
+            name: Xeoma server
           - entity: sensor.zoneminder_host_cpu_used
-            name: ZM cpu
+            name: Xeoma cpu
           - entity: sensor.zoneminder_host_ram_free
-            name: ZM mem
+            name: Xeoma mem
           - entity: sensor.ups_status
           - entity: sensor.ups_battery
         type: entities

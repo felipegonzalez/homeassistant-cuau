@@ -1,18 +1,18 @@
-###### cctv zoneminder
-zoneminder:
-  - host: 192.168.100.51
-    username: !secret zm_user
-    password: !secret zm_pass
 
 camera:
-  - platform: zoneminder
+  - platform: xeoma
+    host: http://192.168.100.51:10090
+  - platform: local_file
+    name: oficina
+    file_path: /Volumes/SSD2/hass-cuauhtemoc97/homeassistant/config/www/snap_oficina.jpg
+
 
 homeassistant:
   customize:
     binary_sensor.192_168_100_51:
-      friendly_name: Zoneminder
+      friendly_name: Xeoma Server
     sensor.zoneminder_host_cpu_used:
-      friendly_name: Zoneminder CPU
+      friendly_name: Xeoma CPU
 
 sensor:
 # Gas lp
@@ -24,6 +24,10 @@ sensor:
     name: Bedroom LP gas 
     state_topic: "xbeebox/recamara_principal/gaslpg/1/cajarecamara"
     unit_of_measurement: "V"
+  - platform: command_line
+    name: snap_oficina
+    command: !secret wyzecam1
+    scan_interval: 30
 
 binary_sensor:
   - platform: mqtt
@@ -138,28 +142,34 @@ binary_sensor:
 ## Camera motion
   - platform: mqtt
     name: motion_camera_hall
-    state_topic: "zoneminder/1"
-    value_template: '{{ "ON" }}'
+    state_topic: "xeoma_server/camera_hall"
+    # value_template: '{{ "ON" }}'
+    # value_template: '{{ "OFF" }}'
     device_class: motion
-    off_delay: 8
   - platform: mqtt
     name: motion_camera_huerto
-    state_topic: "zoneminder/3"
-    value_template: '{{ "ON" }}'
+    state_topic: "xeoma_server/camera_patio_door"
+    # value_template: '{{ "ON" }}'
+    # value_template: '{{ "OFF" }}'
     device_class: motion
-    off_delay: 8 
   - platform: mqtt
-    name: motion_camera_subpatio
-    state_topic: "zoneminder/5"
-    value_template: '{{ "ON" }}'
+    name: motion_camera_patio
+    state_topic: "xeoma_server/camera_patio_dome"
+    # value_template: '{{ "ON" }}'
+    # value_template: '{{ "OFF" }}'
     device_class: motion
     off_delay: 8 
   - platform: mqtt
     name: motion_camera_escaleras
-    state_topic: "zoneminder/6"
-    value_template: '{{ "ON" }}'
+    state_topic: "xeoma_server/camera_escalera"
+    # value_template: '{{ "ON" }}'
+    # value_template: '{{ "OFF" }}'
     device_class: motion
-    off_delay: 8
+  - platform: mqtt
+    name: motion_camera_huerto_camas
+    state_topic: "xeoma_server/camera_huerto_camas"
+    off_delay: 30
+
   ## Doors and windows
   - platform: mqtt
     name: Felipe window
@@ -281,6 +291,21 @@ automation:
           delay: 00:00:10
           message: Temperaturas demasiado
 
+  - alias: Raised beds notification
+    trigger:
+      platform: state
+      entity_id: binary_sensor.motion_camera_huerto_camas
+      to: 'on'
+    action:
+    - service: script.sonos_play
+      data:
+        sonos_entity: media_player.office
+        volume: 0.9
+        delay: 00:00:05
+        media_content_id: http://192.168.100.50:8123/local/sounds/guinea_pig.mp3
+    - service: notify.iphone_tyf
+      data:
+        message: Alguien está en las camas del huerto!  
 alert:
   high_temperature_alert:
     name: Algunas temperaturas son demasiado altas

@@ -262,11 +262,11 @@ automation:
     alias: turn on floodlight with Movement
     trigger:
       - platform: state
-        entity_id:  binary_sensor.motion_camera_puerta_patio
+        entity_id:  binary_sensor.motion_camera_patio
         from: 'off'
         to: 'on'
       - platform: state
-        entity_id:  binary_sensor.motion_camera_patio
+        entity_id:  binary_sensor.motion_camera_huerto
         from: 'off'
         to: 'on'
     condition:
@@ -281,7 +281,13 @@ automation:
     alias: Turn off floodlight after motion
     trigger:
       - platform: state
-        entity_id: binary_sensor.motion_camera_puerta_patio
+        entity_id: binary_sensor.motion_camera_patio
+        from: 'on'
+        to: 'off'
+        for:
+          minutes: 5
+      - platform: state
+        entity_id: binary_sensor.motion_camera_huerto
         from: 'on'
         to: 'off'
         for:

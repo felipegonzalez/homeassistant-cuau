@@ -1,13 +1,13 @@
 image_processing:
   - platform: opencv
     source:
-      - entity_id: camera.hall_entrada
+      - entity_id: camera.hall
   - platform: tensorflow
     source:
-      - entity_id: camera.hall_entrada
+      - entity_id: camera.hall
       - entity_id: camera.huerto
-      - entity_id: camera.oficina7
-      - entity_id: camera.patio
+      - entity_id: camera.oficina
+      - entity_id: camera.patio_door
     file_out:
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_latest.jpg"
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
@@ -20,32 +20,32 @@ image_processing:
 camera:
   - platform: local_file
     name: Entrada personas
-    file_path: /Volumes/SSD2/tmp_image_recog/hall_entrada_latest.jpg
+    file_path: /Volumes/SSD2/tmp_image_recog/hall_latest.jpg
   - platform: local_file
     name: Patio personas
-    file_path: /Volumes/SSD2/tmp_image_recog/patio_latest.jpg
+    file_path: /Volumes/SSD2/tmp_image_recog/patio_door_latest.jpg
   - platform: local_file
     name: Huerto personas
     file_path: /Volumes/SSD2/tmp_image_recog/huerto_latest.jpg
   - platform: local_file
     name: Oficina personas
-    file_path: /Volumes/SSD2/tmp_image_recog/oficina7_latest.jpg
+    file_path: /Volumes/SSD2/tmp_image_recog/oficina_latest.jpg
 
 sensor:
   - platform: template
     sensors:
       hall_occupancy:
         value_template: >
-          {% if states.image_processing.tensorflow_hall_entrada.attributes.summary.person is defined %}
-            {{ states.image_processing.tensorflow_hall_entrada.attributes.summary.person | int }}
+          {% if states.image_processing.tensorflow_hall.attributes.summary.person is defined %}
+            {{ states.image_processing.tensorflow_hall.attributes.summary.person | int }}
           {% else %}
               0
           {% endif %}
         unit_of_measurement: "Persons"
       felipe_office_occupancy:
         value_template: >
-          {% if states.image_processing.tensorflow_oficina7.attributes.summary.person is defined %}
-            {{ states.image_processing.tensorflow_oficina7.attributes.summary.person | int }}
+          {% if states.image_processing.tensorflow_oficina.attributes.summary.person is defined %}
+            {{ states.image_processing.tensorflow_oficina.attributes.summary.person | int }}
           {% else %}
               0
           {% endif %}
@@ -70,17 +70,17 @@ automation:
     action:
     - service: image_processing.scan
       data:
-        entity_id: image_processing.tensorflow_hall_entrada
+        entity_id: image_processing.tensorflow_hall
   - id: cam1222345
     alias: scan cam patio
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_camera_subpatio
+      entity_id: binary_sensor.motion_camera_patio
       to: 'on'
     action:
     - service: image_processing.scan
       data:
-        entity_id: image_processing.tensorflow_patio
+        entity_id: image_processing.tensorflow_patio_door
   - id: cam1222345
     alias: scan cam huerto
     trigger:

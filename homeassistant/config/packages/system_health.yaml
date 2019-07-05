@@ -4,6 +4,12 @@ apcupsd:
 shell_command:
   watchdog: 'curl --retry 3 https://hc-ping.com/8ff32001-f721-46be-982f-4b6d2659039b'
 
+binary_sensor:
+  - platform: apcupsd
+  - platform: ping
+    host: 192.168.100.51
+    name: xeoma_server
+
 sensor:
 ### sql sensors
   - platform: sql
