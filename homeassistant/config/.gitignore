@@ -8,3 +8,4 @@ known_devices.yaml
 .DS_Store
 .ios.conf
 .uuid
+*.xml
