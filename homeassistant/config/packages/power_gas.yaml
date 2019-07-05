@@ -24,8 +24,9 @@ sensor:
     resource: "http://192.168.100.27/get_reading"
     value_template: '{{ (value_json.value | int) - (states.input_number.gas_correction.state | int) }}'
     unit_of_measurement: '%'
-    timeout: 5
+    timeout: 60
     force_update: true
+    scan_interval: 400
 
   - platform: filter
     name: gas_tank_filtered
