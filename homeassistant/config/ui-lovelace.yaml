@@ -116,8 +116,6 @@ views:
           - entity: switch.pots_water
             name: Macetas
             secondary_info: last-changed
-          - entity: sensor.cuauhtemoc_daily_rain
-            name: Lluvia hoy 2
           - entity: sensor.cumulative_rain_today
             name: Lluvia hoy
             icon: mdi:weather-rainy
@@ -209,7 +207,7 @@ views:
             name: Sala
           - entity: sensor.kitchen_temperature  
             name: Cocina
-          - entity: sensor.pool_temperature  
+          - entity:  sensor.cuauhtemoc_inside_temp
             name: Alberca
       - type: history-graph
         title: Humedad
