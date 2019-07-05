@@ -38,7 +38,7 @@ automation:
       below: 1.0
     - platform: numeric_state
       entity_id: sensor.felipe_study_photo_level
-      below: 1.2
+      below: 1.0
     - platform: numeric_state
       entity_id: sensor.kitchen_photo_level
       below: 0.3
@@ -60,7 +60,7 @@ automation:
     trigger:
     - platform: numeric_state
       entity_id: sensor.living_photo_level
-      above: 1.7
+      above: 1.6
     - platform: numeric_state
       entity_id: sensor.cuauhtemoc_solar_rad
       above: 16
