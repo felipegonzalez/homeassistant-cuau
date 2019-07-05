@@ -47,7 +47,6 @@ recorder:
       - camera.front_door
       - sensor.memory_free
       - sensor.load_1m
-      - sensor.ups_input_voltage
       - sensor.ups_battery
       - sensor.ups_time_left
       - sensor.ups_loadpct
