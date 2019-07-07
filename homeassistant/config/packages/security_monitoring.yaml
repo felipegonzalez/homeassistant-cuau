@@ -253,24 +253,6 @@ automation:
         message: La puerta de Tita se abrió!
 
 
-  - alias: Notify about open workshop door
-    trigger:
-      platform: state
-      entity_id: binary_sensor.workshop
-      to: 'on'
-      for:
-        minutes: 10
-    action:
-    - service: script.sonos_say
-      data:
-        sonos_entity: media_player.living_room
-        volume: 0.9
-        delay: 00:00:10
-        message: Se quedó abierta la puerta del taller.
-    - service: notify.iphone_tyf
-      data:
-        message: La puerta del taller se quedó abierta.
-
   - alias: Hign temperatures
     trigger:
       platform: numeric_state

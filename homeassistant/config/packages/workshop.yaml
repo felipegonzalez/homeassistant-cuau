@@ -1,0 +1,48 @@
+light:
+  - platform: mqtt 
+    name: workshop lamp
+    state_topic: "taller_lampara/stat/POWER"
+    command_topic: "taller_lampara/cmnd/POWER"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: taller_lampara/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+automation:
+  - alias: Workshop light with door
+    trigger:
+      platform: state
+      entity_id: binary_sensor.workshop
+      to: 'on'
+    action:
+      service: light.turn_on
+      entity_id: light.workshop_lamp
+  - alias: Workshop light with door
+    trigger:
+      platform: state
+      entity_id: binary_sensor.workshop
+      to: 'off'
+      for:
+        seconds: 30
+    action:
+      service: light.turn_off
+      entity_id: light.workshop_lamp
+
+  - alias: Notify about open workshop door
+    trigger:
+      platform: state
+      entity_id: binary_sensor.workshop
+      to: 'on'
+      for:
+        minutes: 10
+    action:
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.9
+        delay: 00:00:10
+        message: Se quedó abierta la puerta del taller.
+    - service: notify.iphone_tyf
+      data:
+        message: La puerta del taller se quedó abierta.
