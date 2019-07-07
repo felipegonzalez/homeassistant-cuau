@@ -71,8 +71,11 @@ automation:
   - id: 0888738959222156
     alias: idle washing machine
     trigger:
-      platform: template
-      value_template: '{{ states.sensor.washing_machine_stats_mean.attributes.mean | float < 2 }}'
+      # platform: template
+      # value_template: '{{ states.sensor.washing_machine_stats_mean.attributes.mean | float < 2 }}'
+      platform: numeric_state
+      entity_id: sensor.washing_machine
+      below: 4
     action:
     - service: homeassistant.turn_off
       data:
@@ -118,8 +121,11 @@ automation:
   - id: 08887389592221561
     alias: idle dryer
     trigger:
-      platform: template
-      value_template: '{{ states.sensor.dryer_stats_mean.attributes.median | float < 2 }}'
+      # platform: template
+      # value_template: '{{ states.sensor.dryer_stats_mean.attributes.median | float < 2 }}'
+      platform: numeric_state
+      entity_id: sensor.dryer
+      below: 4
     action:
     - service: homeassistant.turn_off
       data:
