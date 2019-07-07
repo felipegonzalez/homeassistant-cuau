@@ -44,6 +44,12 @@ sensor:
       - loadpct
       - status
 
+homeassistant:
+  customize:
+    binary_sensor.xeoma_server:
+      friendly_name: CCTV 
+
+
 automation:
 # ping watchdog
   - alias: watchdog
