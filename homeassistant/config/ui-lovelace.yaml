@@ -243,6 +243,9 @@ views:
       - sensor.ha_db_size
       - binary_sensor.remote_ui
       - sensor.load_1m
+      - sensor.voltage_dryer
+      - sensor.voltage_washer
+
     cards:
       - entities:
           - entity: group.all_automations
@@ -261,10 +264,17 @@ views:
         hours_to_show: 4
         type: history-graph
       - entities:
+          - sensor.dryer
+          - sensor.washing_machine
+        hours_to_show: 4
+        type: history-graph
+      - entities:
           - input_boolean.dark_house
           - input_boolean.pump_auto
           - input_boolean.gate_door_working
           - input_boolean.gate_state
+          - input_boolean.washing_machine_cycle
+          - input_boolean.dryer_cycle
         title: Input boolean
         type: entities    
     icon: 'mdi:cogs'
