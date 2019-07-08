@@ -1,0 +1,27 @@
+light:
+  - platform: mqtt 
+    name: chicken coop lamp
+    state_topic: "gallinero/stat/POWER"
+    command_topic: "gallinero/cmnd/POWER"
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: gallinero/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
+automation:
+  - alias: turn on chicken coop light
+    trigger:
+      platform: time
+      at: '04:30:00'
+    action:
+      - service: light.turn_on
+        entity_id: light.chicken_coop_lamp
+  - alias: turn off chicken coop light
+    trigger:
+      platform: time
+      at: '08:00:00'
+    action:
+      - service: light.turn_off
+        entity_id: light.chicken_coop_lamp        
+
