@@ -13,4 +13,4 @@ media_player:
     port: 8001
     name: "Bedroom TV"
     mac: f8:3f:51:d1:14:45
-    timeout: 10
+    timeout: 20

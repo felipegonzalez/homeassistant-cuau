@@ -95,6 +95,8 @@ automation:
       platform: state
       entity_id: binary_sensor.motion_recamara
       to: 'on'
+      for:
+        seconds: 20
     condition:
       - condition: time
         after: '9:03:00'

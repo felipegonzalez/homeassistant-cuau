@@ -201,6 +201,9 @@ automation:
         volume: 0.95
         delay: 00:00:06
         media_content_id: http://192.168.100.50:8123/local/sounds/store_bell.mp3
+    - service: notify.iphone_tyf
+      data:
+        message: "Alguien está tocando la puerta del patio"
 
   - alias: Patio door notification
     trigger:
@@ -222,7 +225,7 @@ automation:
       to: 'on'
     condition:
       condition: time
-      after: '20:00:00'
+      after: '22:00:00'
       before: '05:00:00'
     action:
       - service: notify.iphone_tyf
@@ -301,11 +304,8 @@ automation:
         entity_id: light.patio_floodlight
 
   ### Entrance outside lights
-  - alias: Turn off outside lights after close or at sunrise
+  - alias: Turn off outside lights  at sunrise
     trigger:
-      - platform: state
-        entity_id: binary_sensor.hall_door
-        to: 'off'
       - platform: state
         entity_id: sun.sun
         to: above_horizon
