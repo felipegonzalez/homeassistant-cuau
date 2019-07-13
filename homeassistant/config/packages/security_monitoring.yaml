@@ -81,7 +81,13 @@ binary_sensor:
     device_class: motion
     value_template: '{{ value_json[0]["dio-4"] }}'
     off_delay: 10
-
+  - platform: mqtt
+    name: motion_vestidor
+    state_topic: "xbeebox/vestidor/samples/caja_vestidor"
+    payload_off: False
+    payload_on: True
+    device_class: motion
+    value_template: '{{ value_json[0]["dio-2"] }}'
   - platform: mqtt
     name: motion_bano_visitas
     state_topic: "xbeebox/bano_visitas/samples/caja_bano_visitas"
@@ -278,16 +284,33 @@ automation:
       platform: state
       entity_id: binary_sensor.motion_camera_huerto_camas
       to: 'on'
+    condition:
+      - condition: numeric_state
+        entity_id: sensor.cuauhtemoc_hourly_rain_rate
+        below: 0.20
+      - condition: numeric_state
+        entity_id: image_processing.tensorflow_patio_door
+        below: 1
     action:
+    - service: camera.snapshot
+      data:
+        entity_id: camera.patio_door
+        filename: "/Volumes/SSD2/hass-cuauhtemoc97/homeassistant/config/www/tmp_images/camas_mov.jpg"
+    - service: notify.iphone_tyf
+      data:
+        message: Alguien está en las camas del huerto!
+        data:
+          attachment:
+            url: "https://i22g9issoj09w2y8s84fi5swgcjrblsi.ui.nabu.casa/local/tmp_images/camas_mov.jpg"
+            content-type: jpeg
+            hide_thumbnail: false
     - service: script.sonos_play
       data:
         sonos_entity: media_player.office
         volume: 0.9
         delay: 00:00:05
         media_content_id: http://192.168.100.50:8123/local/sounds/guinea_pig.mp3
-    - service: notify.iphone_tyf
-      data:
-        message: Alguien está en las camas del huerto!  
+
 alert:
   high_temperature_alert:
     name: Algunas temperaturas son demasiado altas

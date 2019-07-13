@@ -28,7 +28,8 @@ Motion Lights:
   module: motion_lights_s
   constrain_input_boolean: input_boolean.dark_house
   grouping: >
-    {"binary_sensor.motion_bano_visitas":{"lights": "light.downstairs_bath", "delay":240, "use_sleep":"no"},
+    {"binary_sensor.motion_vestidor":{"lights": "light.dressing_room", "delay":120, "use_sleep":"dim"},
+    "binary_sensor.motion_bano_visitas":{"lights": "light.downstairs_bath", "delay":240, "use_sleep":"no"},
     "binary_sensor.motion_sala":{"lights":"light.living_room_lights", "delay":240, "use_sleep":"no"},
     "binary_sensor.motion_bano_principal":{"lights":"light.main_bathroom","delay":240, "use_sleep":"dim"},
     "binary_sensor.motion_cocina":{"lights":"light.kitchen_lights","delay":240, "use_sleep":"no"},

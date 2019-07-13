@@ -127,7 +127,6 @@
     entities:
       - light.main_bath_three
       - light.main_bath_two
-      - light.dressing_room
 
   - platform: group
     name: Entrance

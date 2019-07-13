@@ -21,6 +21,11 @@ device_settings = {
         'device_type':'xbeebox',
         'addr_long':'0013a20040bf0582'
         },
+        'caja_vestidor':{
+        'place':'vestidor',
+        'device_type':'xbeebox',
+        'addr_long':'0013a20040bef8ba'
+        },
         'cajacocina':{
         'place':'cocina',
         'device_type':'xbeebox',
@@ -197,8 +202,8 @@ def monitor():
             response['source_addr_long'] = response['source_addr_long'].hex()
             response['source_addr'] = response['source_addr'].hex()
             #print(response)
-            #if(xbee_dict[response['source_addr_long']]=='cajarecamara'):
-            #    pass        
+            if(xbee_dict[response['source_addr_long']]=='cajarecamara'):
+                print(response)       
             if('rf_data' in response.keys()):
                 try:
                     response['rf_data'] = response['rf_data'].decode('utf-8')
@@ -219,8 +224,8 @@ def monitor():
                                 place = device_settings[xbee_dict[response['source_addr_long']]]['place']
                                 topic = "xbeebox/" + place + "/" + event_type + "/" + internal_id + "/" + xbee_dict[response['source_addr_long']] 
                                 client.publish(topic, payload)
-                                print(topic)
-                                print(payload)
+                                #print(topic)
+                                #print(payload)
                         except:
                             print("xxError parsing element")
                             print(elem)

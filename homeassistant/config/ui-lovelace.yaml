@@ -24,6 +24,8 @@ views:
           - entity: binary_sensor.ring_front_door_ding
             name: Timbre Portón
             secondary_info: last-changed
+          - entity: binary_sensor.patio_doorbell
+            secondary_info: last-changed
         type: entities
       - entities:
           - entity: script.toggle_gate
@@ -168,6 +170,7 @@ views:
           - binary_sensor.motion_pasillo_comedor_1
           - binary_sensor.motion_pasillo_recamaras
           - binary_sensor.motion_recamara
+          - binary_sensor.motion_vestidor
           - binary_sensor.motion_sala
           - binary_sensor.motion_terraza
           - binary_sensor.motion_tvroom
