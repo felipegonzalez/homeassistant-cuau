@@ -3,7 +3,7 @@
 ## Devices
 
 - Macbook Pro 2011 running Home Assistant
-- MacMini 7,1 Late 2014 (Ubuntu) running zoneminder
+- MacMini 7,1 Late 2014 (Ubuntu) running [xeoma](https://felenasoft.com/xeoma/en/)
 - Orbi AC3000 wireless Access point with Satellite
 - Airport Extreme 
 - Ring Doorbell Pro
