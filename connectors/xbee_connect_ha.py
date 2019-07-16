@@ -106,11 +106,10 @@ device_settings = {
         'device_type':'xbeebox',
         'addr_long':'0013a20040bf962c'
         },
-        'caja_filtro_alberca':{
-        'place':'patio',
+        'caja_planta_oficina':{
+        'place':'oficina_felipe',
         'device_type':'xbeebox',
-        'addr_long':'0013a20040bef862',
-        'children':{'bomba':'D2'}
+        'addr_long':'0013a20040bef862'
         }
 }
 

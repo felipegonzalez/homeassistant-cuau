@@ -1,0 +1,22 @@
+sensor:
+  - platform: mqtt
+    name: Office plant soil humidity
+    state_topic: "xbeebox/oficina_felipe/samples/caja_planta_oficina"
+    value_template: '{{ value_json[0]["adc-1"] }}'
+    unit_of_measurement: "V"
+  - platform: mqtt
+    name: Office plant luminosity
+    state_topic: "xbeebox/oficina_felipe/samples/caja_planta_oficina"
+    value_template: '{{ value_json[0]["adc-2"] }}'
+    unit_of_measurement: "V"
+
+automation:
+  - alias: Water office plant
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.office_plant_soil_humidity
+        below: 150
+    action:
+      - service: notify.iphone_tyf
+        data:
+          message: "La planta de Felipe necesita agua."
