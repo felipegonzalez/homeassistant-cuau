@@ -15,9 +15,9 @@
 - [Kerui Avantgarde Door Windows Detector](https://www.amazon.com/gp/product/B011HOL9A2/) (x5)
 - [Sonoff Rf bridge](https://www.amazon.com/Sonoff-Bridge-433-Controllors-Controllor/dp/B076D7Q4J9) with [Tasmota](https://github.com/arendst/Sonoff-Tasmota) firmware
 - [Sonoff 4Ch switch](https://www.amazon.com/Sonoff-4CH-Appliances-independently-Compatible/dp/B071JB5LXR) with Tasmota
-- Sonoff basic with Tasmota (x5)
+- Sonoff basic with Tasmota (x7)
 - Sonoff Pow with Tasmota (x1)
-- Sonoff s31 with Tasmota
+- Sonoff s31 with Tasmota (x4)
 - [Zigbee Adafruit adapter](https://www.adafruit.com/product/247) with Zigbee acting as hub
 - Custom made Arduino + Zigbee multisensor/controller (x12)
 - Raspberry Pi 2 with Camera (x2) running [motion](https://motion-project.github.io/)
@@ -31,3 +31,4 @@
 - Custom made weather station
 - Weather station Ambient Weather WS-2902
 - Custom hacked roller blinds remote control
+- Google CloudSQL with dumps to BigQuery (via [Stitch](https://www.stitchdata.com/))
