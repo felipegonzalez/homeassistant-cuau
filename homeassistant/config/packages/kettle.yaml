@@ -1,0 +1,50 @@
+sensor:
+  - platform: mqtt
+    name: kettle_power
+    state_topic: tetera/tele/SENSOR
+    availability_topic: tetera/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    value_template: '{{ value_json.ENERGY.Power }}'    
+    json_attributes_topic: '{{ value_json.ENERGY }}'
+    unit_of_measurement: 'W'
+
+input_boolean:
+  kettle_boiling:
+    name: "Kettle boiling"
+    initial: off
+
+automation:
+  - alias: Detect kettle boiling
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.kettle_power
+      above: 800
+    action:
+      - service: homeassistant.turn_on
+        entity_id: input_boolean.kettle_boiling
+
+  - alias: Detect kettle when finished
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.kettle_power
+      below: 10
+      for:
+        seconds: 2
+    action:
+      - service: homeassistant.turn_off
+        entity_id: input_boolean.kettle_boiling
+
+  - alias: Notify when kettle done
+    trigger:
+      platform: state
+      entity_id: input_boolean.kettle_boiling
+      from: "on"
+      to: "off"
+    action:
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.9
+        delay: 00:00:10
+        message: "¡El agua de la tetera está lista!"       
