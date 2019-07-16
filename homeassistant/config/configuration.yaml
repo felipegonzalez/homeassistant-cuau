@@ -49,7 +49,17 @@ recorder:
       - sensor.load_1m
       - sensor.ups_time_left
       - sensor.ups_loadpct
-
+      - image_processing.opencv_hall
+      - sensor.water_tank_distance_raw
+      - sensor.water_tank_distance_filtered
+      - binary_sensor.high_water_usage
+      - sensor.water_usage_rate
+      - sensor.zoneminder_host_ram_free
+      - sensor.zoneminder_host_cpu_used
+      - sensor.ups_load
+      - sensor.washing_machine_stats_mean
+      - sensor.cuauhtemoc_dew_point
+      - binary_sensor.pressure_falling
 #script: !include scripts.yaml
 #binary_sensor: !include binary_sensor.yaml
 #switch: !include switch.yaml
