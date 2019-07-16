@@ -1,5 +1,10 @@
 # Homeassistant configuration for our house.
 
+Our home automation is based on [Home Assistant](https://www.home-assistant.io/), with 
+some [AppDaemon](https://appdaemon.readthedocs.io/en/latest/) apps and some other
+python apps to listen to [Xbee](https://www.digi.com/xbee) radios and other wifi sensors.
+For our CCTV server we use [xeoma](https://felenasoft.com/xeoma/en/).
+
 ## Devices
 
 - Macbook Pro 2011 running Home Assistant
@@ -27,8 +32,8 @@
 - Custom made garden beds irrigation system (Zigbee)
 - Custom made garden irrigation system (esp8266)
 - Custom made RF garage door opener
-- Custom made water level sensor (Ultrasonic)
+- Custom made water level sensor (ultrasonic)
 - Custom made weather station
-- Weather station Ambient Weather WS-2902
+- Weather station [Ambient Weather WS-2902](https://www.ambientweather.com/amws2902.html)
 - Custom hacked roller blinds remote control
 - Google CloudSQL with dumps to BigQuery (via [Stitch](https://www.stitchdata.com/))
