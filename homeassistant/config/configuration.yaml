@@ -77,6 +77,8 @@ mqtt:
 
 ios:
 
+python_script:
+
 notify:
   - name: iphone_tyf
     platform: group

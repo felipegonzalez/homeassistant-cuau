@@ -1,7 +1,7 @@
 image_processing:
-  - platform: opencv
-    source:
-      - entity_id: camera.hall
+  # - platform: opencv
+  #   source:
+  #     - entity_id: camera.hall
   - platform: tensorflow
     source:
       - entity_id: camera.hall

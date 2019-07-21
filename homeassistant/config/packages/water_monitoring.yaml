@@ -26,9 +26,9 @@ sensor:
       - filter: lowpass
         time_constant: 3
         precision: 2
-      - filter: time_simple_moving_average
-        window_size: 00:10
-        precision: 2
+      # - filter: time_simple_moving_average
+      #   window_size: 00:15
+      #   precision: 2
 
   - platform: template
     sensors:
@@ -54,8 +54,8 @@ binary_sensor:
         entity_id: sensor.water_tank_liters
         device_class: moisture
         friendly_name: High water usage
-        max_samples: 1000
-        sample_duration: 360
+        max_samples: 500
+        sample_duration: 480
         min_gradient: -0.05
 
 

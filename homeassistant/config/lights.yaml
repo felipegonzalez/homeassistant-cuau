@@ -91,9 +91,6 @@
     name: Living room lights
     entities:
       - light.living_room
-      #- light.living_room_foot_1
-      #- light.living_room_foot_2
-      #- light.living_room_wall
 
   - platform: group
     name: Dining room lights
@@ -115,6 +112,12 @@
       - light.kitchen_one
       - light.kitchen_two
       - light.kitchen_strip
+
+  - platform: group
+    name: Study Felipe
+    entities:
+      - light.study
+      - light.living_room_foot_2
       
   - platform: group
     name: Entrance hall lights
