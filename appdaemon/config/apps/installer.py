@@ -3,7 +3,7 @@ import subprocess
 
 
 PACKAGES = ['python-dateutil',
-            'pytz', 'requests']
+            'pytz', 'requests','opencv-python-headless']
 
 
 class DepeInstaller(appapi.AppDaemon): 

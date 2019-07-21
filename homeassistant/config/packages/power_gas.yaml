@@ -1,11 +1,17 @@
 # gas tank camera
 camera:
-  - platform: generic
-    name: Gas tank camera
-    still_image_url: http://192.168.100.27/img/gauge.jpg
-
+  - platform: local_file
+    name: Gas Tank camera
+    file_path: /Volumes/SSD2/hass-cuauhtemoc97/homeassistant/config/www/snap_gas.jpg
+  #- platform: generic
+  #  name: Gas tank camera
+  #  #still_image_url: http://192.168.100.27/img/gauge.jpg
 sensor:
   ## Solar output #############
+  - platform: command_line
+    name: snap_gas
+    command: !secret wyzecam2
+    scan_interval: 600
   - platform: template
     sensors:
       pv_output_w: 
@@ -19,14 +25,18 @@ sensor:
         friendly_name: 'kWh Solar hoy'
 
   ## Gas tank monitoring
-  - platform: rest
+  # - platform: rest
+  #   name: gas_tank_raw
+  #   resource: "http://192.168.100.27/get_reading"
+  #   value_template: '{{ (value_json.value | int) - (states.input_number.gas_correction.state | int) }}'
+  #   unit_of_measurement: '%'
+  #   timeout: 60
+  #   force_update: true
+  #   scan_interval: 400
+  - platform: mqtt
     name: gas_tank_raw
-    resource: "http://192.168.100.27/get_reading"
-    value_template: '{{ (value_json.value | int) - (states.input_number.gas_correction.state | int) }}'
-    unit_of_measurement: '%'
-    timeout: 60
-    force_update: true
-    scan_interval: 400
+    state_topic: "wyzecam/gas_tank"
+    unit_of_measurement: "%"
 
   - platform: filter
     name: gas_tank_filtered
@@ -64,7 +74,7 @@ automation:
     trigger:
     - platform: numeric_state
       entity_id: sensor.gas_tank_filtered
-      below: 10
+      below: 15
     action:
     - service: notify.iphone_tyf
       data:
