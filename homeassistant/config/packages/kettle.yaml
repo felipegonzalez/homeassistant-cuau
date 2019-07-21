@@ -8,11 +8,26 @@ sensor:
     value_template: '{{ value_json.ENERGY.Power }}'    
     json_attributes_topic: '{{ value_json.ENERGY }}'
     unit_of_measurement: 'W'
+switch:
+  - platform: mqtt
+    name: kettle
+    state_topic: tetera/tele/STATE
+    value_template: '{{ value_json.POWER }}'
+    command_topic: "tetera/cmnd/POWER"
+    availability_topic: tetera/tele/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    payload_on: "ON"
+    payload_off: "OFF"
 
 input_boolean:
   kettle_boiling:
     name: "Kettle boiling"
     initial: off
+
+timer:
+  kettle_timer:
+    duration: '00:04:00'
 
 automation:
   - alias: Detect kettle boiling
@@ -35,7 +50,7 @@ automation:
       - service: homeassistant.turn_off
         entity_id: input_boolean.kettle_boiling
 
-  - alias: Notify when kettle done
+  - alias: Notify when kettle done boiling
     trigger:
       platform: state
       entity_id: input_boolean.kettle_boiling
@@ -45,6 +60,33 @@ automation:
     - service: script.sonos_say
       data:
         sonos_entity: media_player.living_room
-        volume: 0.9
+        volume: 0.8
         delay: 00:00:10
-        message: "¡El agua de la tetera está lista!"       
+        message: "¡El agua de la tetera está lista!" 
+
+  - alias: Set tea to brewing
+    trigger:
+      platform: state
+      entity_id: switch.kettle
+      from: "on"
+      to: "off"
+    condition: 
+      condition: template
+      value_template: "{{ as_timestamp(states.switch.kettle.last_changed) + 600 > as_timestamp(now()) }}"
+    action:
+      service: timer.start
+      entity_id: timer.kettle_timer
+  - alias: Tea finished brewing
+    trigger:
+    - platform: event
+      event_type: timer.finished
+      event_data:
+        entity_id: timer.kettle_timer
+    action:
+    - service: script.sonos_say
+      data:
+        sonos_entity: media_player.living_room
+        volume: 0.8
+        delay: 00:00:10
+        message: "Ya está listo el té" 
+
