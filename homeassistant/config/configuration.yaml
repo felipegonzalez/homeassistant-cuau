@@ -30,7 +30,7 @@ lovelace:
 
 recorder:
   db_url: !secret hass_db
-  purge_keep_days: 20
+  purge_keep_days: 30
   purge_interval: 1
   exclude: 
     entities:

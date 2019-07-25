@@ -161,6 +161,7 @@ views:
       - entities:
           - entity: binary_sensor.felipe_window
           - entity: binary_sensor.hall_door
+          - entity: binary_sensor.downstairs_bathroom
           - entity: binary_sensor.kitchen_door
           - entity: binary_sensor.main_bathroom
           - entity: binary_sensor.tita_door
