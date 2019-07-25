@@ -56,13 +56,15 @@ class MotionLights(hass.Hass):
       if(old == "playing"):
         self.grouping["binary_sensor.motion_recamara"]["brightness"] = 255
         self.grouping["binary_sensor.motion_bano_principal"]["brightness"] = 255
+        self.grouping["binary_sensor.motion_vestidor"]["brightness"] = 255
       if(new == "playing"):
-        self.grouping["binary_sensor.motion_recamara"]["brightness"] = 30
-        self.grouping["binary_sensor.motion_bano_principal"]["brightness"] = 40
+        self.grouping["binary_sensor.motion_recamara"]["brightness"] = 50
+        self.grouping["binary_sensor.motion_bano_principal"]["brightness"] = 50
+        self.grouping["binary_sensor.motion_vestidor"]["brightness"] = 60
       group = self.grouping["binary_sensor.motion_recamara"]["lights"]
       self.log("Adapting lights for TV watching in bedroom.")
       self.turn_on(group, brightness = self.grouping["binary_sensor.motion_recamara"]["brightness"], 
-          transition = 20, kelvin = 2500)
+          transition = 30, kelvin = 2500)
 
 
   def motion(self, entity, attribute, old, new, kwargs):
