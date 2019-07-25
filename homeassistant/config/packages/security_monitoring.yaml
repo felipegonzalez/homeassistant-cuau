@@ -214,6 +214,12 @@ binary_sensor:
     payload_off: "closed"
     device_class: door
   - platform: mqtt
+    name: Downstairs Bathroom
+    state_topic: "door_window/downstairs_bath"
+    payload_on: "open"
+    payload_off: "closed"
+    device_class: door
+  - platform: mqtt
     name: Hall door
     state_topic: "xbeebox/hall_entrada/samples/caja_puerta"
     payload_off: True

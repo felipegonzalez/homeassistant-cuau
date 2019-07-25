@@ -34,7 +34,7 @@ Motion Lights:
     "binary_sensor.motion_bano_principal":{"lights":"light.main_bathroom","delay":240, "use_sleep":"dim"},
     "binary_sensor.motion_cocina":{"lights":"light.kitchen_lights","delay":240, "use_sleep":"no"},
     "binary_sensor.motion_comedor":{"lights":"light.dining_room_lights","delay":240, "use_sleep":"no"},
-    "binary_sensor.motion_estudiof":{"lights":"light.study_felipe","delay":240, "use_sleep":"no"},
+    "binary_sensor.motion_estudiof":{"lights":"light.study_felipe","delay":240, "use_sleep":"dim"},
     "binary_sensor.motion_estudiot":{"lights":"light.study_tere","delay":240, "use_sleep":"no"},
     "binary_sensor.motion_hall_entrada":{"lights":"light.entrance_hall_lights","delay":120, "use_sleep":"dim"},
     "binary_sensor.motion_pasillo_comedor_1":{"lights":"light.dining_room_hall","delay":60, "use_sleep":"dim", "brightness":250},
@@ -87,5 +87,5 @@ Door Sensors:
      "70186":"door_window/main_bath",
      "F5D86":"door_window/workshop_door",
      "B95BA":"door_window/main_garden_door",
-     "AA246":"door_window/kitchen_door"} 
-  
+     "AA246":"door_window/kitchen_door",
+     "AF006":"door_window/downstairs_bath"}
