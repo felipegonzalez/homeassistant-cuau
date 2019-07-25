@@ -148,7 +148,8 @@ script:
         data:
           entity_id: light.front_door
           brightness: 255
-          kelvin: 1500
+          #kelvin: 1500
+          color_name: 'lightsalmon'
 ######### Automations ###################
 
 automation:
@@ -225,7 +226,7 @@ automation:
       to: 'on'
     condition:
       condition: time
-      after: '22:00:00'
+      after: '20:00:00'
       before: '05:00:00'
     action:
       - service: notify.iphone_tyf

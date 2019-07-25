@@ -11,7 +11,7 @@ sensor:
   - platform: command_line
     name: snap_gas
     command: !secret wyzecam2
-    scan_interval: 600
+    scan_interval: 300
   - platform: template
     sensors:
       pv_output_w: 

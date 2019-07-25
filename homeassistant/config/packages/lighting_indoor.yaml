@@ -38,7 +38,7 @@ automation:
       below: 1.0
     - platform: numeric_state
       entity_id: sensor.felipe_study_photo_level
-      below: 1.0
+      below: 0.7
     - platform: numeric_state
       entity_id: sensor.kitchen_photo_level
       below: 0.3
@@ -76,13 +76,9 @@ automation:
   - alias: turn off all lights
     id: turnoffall112233
     trigger:
-    - platform: numeric_state
-      entity_id: sensor.living_photo_level
-      above: 1.9
-    - platform: numeric_state
-      entity_id: sun.sun
-      value_template: '{{ state.attributes.elevation }}'
-      above: 4.0
+    - platform: state
+      entity_id: input_boolean.dark_house
+      to: 'off'
     action:
     - service: light.turn_off
       entity_id: group.all_lights
