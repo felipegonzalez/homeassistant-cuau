@@ -11,6 +11,11 @@ services:
       volumes:
         -  ./appdaemon/config:/conf
 
+    casa_app:
+      container_name: casa_app
+      image: connectors/casa-app:latest
+      ports:
+        - 8090:8090
     # node-red:
     #   container_name: nodered
     #   image: nodered/node-red-docker:v8

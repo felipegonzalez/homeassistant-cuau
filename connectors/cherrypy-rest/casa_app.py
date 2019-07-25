@@ -1,18 +1,11 @@
 import os, os.path
-import random
 import string
 import json
-#import sqlite3 as lite
 import cherrypy
 from cherrypy import tools
-
 import os, sys
 sys.path.insert(0,os.path.pardir)
-#from settings import r 
-#from settings import ip_dict
 import paho.mqtt.client as mqttClient
-import requests
-#from casitas import app_timer
 
 
 # devices
@@ -63,10 +56,15 @@ class control(object):
     @cherrypy.expose
     def send_event(self, event_type, value):
         ip_origin = cherrypy.request.remote.ip
-        if(ip_origin in ip_dict.keys()):
-            device_name = ip_dict[ip_origin]
-        else:
-            device_name = 'unknown'
+        if(event_type == "distancia"):
+            device_name = "caja_cisterna"
+        if(event_type == "motion" or event_type == "no_motion"):
+            device_name = "xeoma_server"
+        #print(ip_origin)
+        #if(ip_origin in ip_dict.keys()):
+        #    device_name = ip_dict[ip_origin]
+        #else:
+        #    device_name = 'unknown'
         if(value == True):
             value = 'True'
         ev = {'device_name':device_name, 'event_type':event_type, 
@@ -92,17 +90,6 @@ class control(object):
         return json.dumps(ev)
 
 
-    @cherrypy.expose
-    @tools.json_out()
-    def get_weather(self, **kwargs):
-        response = requests.get("http://192.168.100.24/arduino/weather/0").text
-        weather_dict =  json.loads(response.rstrip().replace("'", '"'))
-        print(weather_dict)
-        return weather_dict
-
-
-
-
 
 
 if __name__ == '__main__':
@@ -117,4 +104,5 @@ if __name__ == '__main__':
     }
     webapp = control()
     cherrypy.quickstart(webapp, '/', conf)
+
 
