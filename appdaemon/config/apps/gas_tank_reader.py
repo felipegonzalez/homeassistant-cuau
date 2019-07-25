@@ -10,9 +10,9 @@ import urllib.request
 class GasTankReader(hass.Hass):
 
   def initialize(self):
-    time = datetime.time(0, 0, 0)
-    self.handle = self.run_minutely(self.get_reading, time)
-
+    time = datetime.datetime.now() + datetime.timedelta(seconds = 5)
+    ##self.handle = self.run_minutely(self.get_reading, time)
+    self.handle = self.run_every(self.get_reading, time, 5*60)
 
   def get_reading(self, kwargs):
     reading = self.process_image()
@@ -33,7 +33,9 @@ class GasTankReader(hass.Hass):
     #image = np.asarray(bytearray(resp.read()), dtype="uint8")
     #image = cv2.imdecode(image, cv2.IMREAD_COLOR)
     #image
-    dst2 = cv2.medianBlur(image, 3)
+    #dst2 = cv2.medianBlur(image, 3)
+    #dst2 = cv2.GaussianBlur(image, (3,3), 0)
+    dst2 = image
     img_hsv=cv2.cvtColor(dst2, cv2.COLOR_BGR2HSV)
 
         # lower mask (0-10)
@@ -53,22 +55,23 @@ class GasTankReader(hass.Hass):
     output_img = image.copy()
     output_img[np.where(mask==0)] = 0
     gray2 = cv2.cvtColor(output_img, cv2.COLOR_BGR2GRAY)
-    #cv2.imwrite("red.jpg",gray2)
+    cv2.imwrite("/conf/red.jpg",gray2)
     img2 = image.copy()
-    minLineLength = 50
-    maxLineGap = 0
+    minLineLength = 300
+    maxLineGap = 5
     lines = cv2.HoughLinesP(image=gray2, rho=1, 
-        theta=3.1416 / 180, threshold=50, minLineLength= minLineLength)
+        theta=3.1416 / 180, threshold=10, minLineLength= minLineLength, maxLineGap = maxLineGap)
     final_line_list = []
-    x_center = 1061
-    y_center = 670
+    x_center = 1045
+    y_center = 675
     cv2.circle(img2,(int(x_center),int(y_center)), 10, (0,0,255), -1)
     for line in lines:
         for x1, y1, x2, y2 in lines[0]:
             final_line_list.append([x1, y1, x2, y2])
 
-    dist_min = 0
+    dist_max = 0
     i = -1
+    self.log("Number of lines: {}".format(len(final_line_list)))
     for line in final_line_list:
         x1 = line[0]
         y1 = line[1]
@@ -77,11 +80,12 @@ class GasTankReader(hass.Hass):
         dist_pts = np.sqrt((y2-y1)**2 + (x2-x1)**2)
         cv2.line(img2, (x1, y1), (x2, y2), (0, 255, 0), 2)
         #dist_linea = abs(((y2-y1)*x_center - #x2-x1)*y_center+x2*y1-y2*x1))/dist_pts
-        if(dist_pts > dist_min):
+        if(dist_pts > dist_max):
             i_min = i + 1
-            dist_min = dist_pts
+            dist_max = dist_pts
 
 
+    self.log("Distance of longest line: {}".format(dist_max))
     i = i_min
     x1 = final_line_list[i][0] 
     y1 = final_line_list[i][1]
@@ -89,7 +93,7 @@ class GasTankReader(hass.Hass):
     y2 = final_line_list[i][3]
     dist1 = (x1 - x_center)**2 + (y1 - y_center)**2
     dist2 = (x2 - x_center)**2 + (y2 - y_center)**2
-    cv2.line(img2, (x1,y1),(x2,y2), (255,0,0), 3)
+    cv2.line(img2, (x1, y1), (x2, y2), (255,0,0), 3)
 
     if dist1 > dist2:
         angle = np.arctan2(-(y1-y_center), x1-x_center) * 180 / np.pi
@@ -97,14 +101,10 @@ class GasTankReader(hass.Hass):
     else:
         angle = np.arctan2(-(y2-y_center), x2-x_center) * 180 / np.pi
         cv2.circle(img2, (x2,y2), 5, (0,0,255), -1)
-
-    if angle<0:
-        reading = -((60-22)/90.0)*(angle+90.0) + 22.0
+    cv2.imwrite("/conf/img_gauge.jpg", img2)
+    self.log("Angle: {}".format(angle))
+    if angle < 0:
+        reading = -((60-22)/90.0)*(angle+90.0) - 15.0
     else:
-        #reading = ((50.0-90.0)/90.0)*(angle-90.0) + 50.0
-        reading = ((50-80)/(90-24))*(angle - 24) + 80
-
-    #cv2.imwrite("lines.jpg",img2)
-
-    #cv2.imwrite('./img/gauge.jpg', img2)
+        reading = ((50-80)/(90-24))*(angle - 24) + 80.0
     return reading  
