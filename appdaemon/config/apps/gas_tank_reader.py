@@ -62,8 +62,8 @@ class GasTankReader(hass.Hass):
     lines = cv2.HoughLinesP(image=gray2, rho=1, 
         theta=3.1416 / 180, threshold=10, minLineLength= minLineLength, maxLineGap = maxLineGap)
     final_line_list = []
-    x_center = 1045
-    y_center = 675
+    x_center = 1000
+    y_center = 730
     cv2.circle(img2,(int(x_center),int(y_center)), 10, (0,0,255), -1)
     for line in lines:
         for x1, y1, x2, y2 in lines[0]:
