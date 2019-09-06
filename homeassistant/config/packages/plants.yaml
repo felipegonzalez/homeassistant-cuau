@@ -15,7 +15,7 @@ automation:
     trigger:
       - platform: numeric_state
         entity_id: sensor.office_plant_soil_humidity
-        below: 150
+        above: 500
     action:
       - service: notify.iphone_tyf
         data:

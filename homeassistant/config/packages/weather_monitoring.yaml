@@ -60,11 +60,11 @@ sensor:
     db_url: !secret hass_db
     queries:
       - name: cumulative_rain_yesterday
-        query: "select coalesce(25.4*max(state+0),0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),1);"
+        query: "select coalesce(25.4*max(state+0),0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain_2' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),1);"
         column: 'maximum'
         unit_of_measurement: mm
       - name: cumulative_rain_today
-        query: "select coalesce(25.4*max(state+0), 0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),0);"
+        query: "select coalesce(25.4*max(state+0), 0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain_2' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),0);"
         column: 'maximum'
         unit_of_measurement: mm
 
@@ -73,7 +73,7 @@ binary_sensor:
   - platform: trend
     sensors:
       pressure_falling:
-        entity_id: sensor.cuauhtemoc_abs_pressure
+        entity_id: sensor.cuauhtemoc_abs_pressure_2
         device_class: safety
         max_samples: 1000
         sample_duration: 3600
@@ -81,11 +81,11 @@ binary_sensor:
 
 homeassistant:
   customize:
-    sensor.cuauhtemoc_humidity:
+    sensor.cuauhtemoc_humidity_2:
       friendly_name: Humedad Exterior
-    sensor.cuauhtemoc_temp:
+    sensor.cuauhtemoc_temp_2:
       friendly_name: Temperatura Exterior
-    binary_sensor.pressure_falling:
+    binary_sensor.pressure_falling_2:
       friendly_name: Mal clima
 
 # Rain notification

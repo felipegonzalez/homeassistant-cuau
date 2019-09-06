@@ -59,7 +59,7 @@ automation:
     alias: busy washing machine
     trigger:
       platform: template
-      value_template: '{{ states.sensor.washing_machine_stats_mean.attributes.mean | float > 50 }}'
+      value_template: '{{ states.sensor.washing_machine_stats.attributes.mean | float > 50 }}'
     action:
     - service: homeassistant.turn_on
       data:
@@ -109,7 +109,7 @@ automation:
     alias: busy dryer
     trigger:
       platform: template
-      value_template: '{{ states.sensor.dryer_stats_mean.attributes.median | float > 50 }}'
+      value_template: '{{ states.sensor.dryer_stats.attributes.median | float > 50 }}'
     action:
     - service: homeassistant.turn_on
       data:

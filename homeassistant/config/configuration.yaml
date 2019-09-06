@@ -58,8 +58,13 @@ recorder:
       - sensor.zoneminder_host_cpu_used
       - sensor.ups_load
       - sensor.washing_machine_stats_mean
+      - sensor.cuauhtemoc_dew_point_2
       - sensor.cuauhtemoc_dew_point
       - binary_sensor.pressure_falling
+      - sensor.water_usage_rate_f
+      - sensor.bedroom_photo_level
+      - sensor.pressure
+
 #script: !include scripts.yaml
 #binary_sensor: !include binary_sensor.yaml
 #switch: !include switch.yaml

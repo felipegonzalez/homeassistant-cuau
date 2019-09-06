@@ -28,7 +28,7 @@ binary_sensor:
       wet_soil:
         entity_id: sensor.rain_mm_twoday
         #value_template: '{{ (5.6*(2120-10*(states.sensor.distancia_cisterna_filtrada.state | float))) | int - 500 }}'
-        value_template: "{{ states('sensor.rain_mm_twoday') > 10.0 }}"
+        value_template: "{{ states('sensor.rain_mm_twoday') | int > 10.0 }}"
 
 automation:
   - alias: Raised beds timer

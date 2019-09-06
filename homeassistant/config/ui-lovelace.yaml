@@ -98,10 +98,10 @@ views:
     panel: false
     title: Alberca
   - badges:
-      - sensor.cuauhtemoc_temp
-      - sensor.cuauhtemoc_humidity
+      - sensor.cuauhtemoc_temp_2
+      - sensor.cuauhtemoc_humidity_2
       - sensor.rain_mm_twoday
-      - sensor.cuauhtemoc_hourly_rain_rate
+      - sensor.cuauhtemoc_hourly_rain_rate_2
       - weather.dark_sky
     cards:
       - entities:
@@ -137,7 +137,7 @@ views:
             icon: mdi:weather-sunny
         type: entities
       - entities: 
-          - entity: sensor.cuauhtemoc_hourly_rain_rate
+          - entity: sensor.cuauhtemoc_hourly_rain_rate_2
             name: In lluvia por hora
         hours_to_show: 72
         type: history-graph
@@ -220,12 +220,12 @@ views:
             name: Sala
           - entity: sensor.kitchen_temperature  
             name: Cocina
-          - entity:  sensor.cuauhtemoc_inside_temp
+          - entity:  sensor.cuauhtemoc_inside_temp_2
             name: Alberca
       - type: history-graph
         title: Humedad
         entities:
-          - entity: sensor.cuauhtemoc_humidity_in
+          - entity: sensor.cuauhtemoc_humidity_in_2
             name: Hall
           - entity: sensor.kitchen_humidity
             name: Cocina
@@ -261,6 +261,14 @@ views:
       - timer.kettle_timer
 
     cards:
+# Example entities card configuration
+      # - type: entities
+      #   entities:
+      #   - type: cast
+      #     name: Jardin
+      #     # The path of the view (or number)
+      #     view: 2
+      #     hide_if_unavailable: true
       - entities:
           - entity: group.all_automations
           - entity: group.all_scripts
@@ -279,7 +287,8 @@ views:
           - sensor.dryer
           - sensor.washing_machine
           - sensor.washing_machine_stats_mean
-        hours_to_show: 4
+          - sensor.living_photo_level
+        hours_to_show: 6
         type: history-graph
       - entities:
           - input_boolean.dark_house

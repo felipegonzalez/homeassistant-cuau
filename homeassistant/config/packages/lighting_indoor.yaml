@@ -36,12 +36,12 @@ automation:
     - platform: numeric_state
       entity_id: sensor.living_photo_level
       below: 1.0
-    - platform: numeric_state
-      entity_id: sensor.felipe_study_photo_level
-      below: 0.7
-    - platform: numeric_state
-      entity_id: sensor.kitchen_photo_level
-      below: 0.3
+    # - platform: numeric_state
+    #   entity_id: sensor.felipe_study_photo_level
+    #   below: 0.7
+    # - platform: numeric_state
+    #   entity_id: sensor.kitchen_photo_level
+    #   below: 0.3
     - platform: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.elevation }}'
@@ -49,6 +49,9 @@ automation:
     - platform: numeric_state
       entity_id: sensor.cuauhtemoc_solar_rad
       below: 10
+    #condition:
+    #  condition: template
+    #  value_template: '{{ as_timestamp(states.input_boolean.dark_house.last_changed) + 1200 < as_timestamp(now()) }}'
     action:
     - service: input_boolean.turn_on
       entity_id: input_boolean.dark_house
