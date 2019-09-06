@@ -1,20 +1,15 @@
 #!/usr/bin/env python
 # -*- coding: utf-8 -*-
-#import logging
-#import logging.handlers
 from xbee import ZigBee
 import os, sys
 sys.path.insert(0,os.path.pardir)
-#from settings import r 
-#from settings import xbee_dict
-#from settings import device_settings
 import json
 import serial
 from binascii import unhexlify
 from binascii import hexlify
 import paho.mqtt.client as mqtt
 import time
-#from casitas import app_timer
+
 device_settings = {
         'cajasala':{
         'place':'sala',

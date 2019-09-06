@@ -69,7 +69,7 @@ class control(object):
             value = 'True'
         ev = {'device_name':device_name, 'event_type':event_type, 
             'value':value}
-        print(ev)
+        #print(ev)
         #r.publish('events', json.dumps(ev))
         # publish with mqttt 
         try:
@@ -84,7 +84,7 @@ class control(object):
                 event_type = value
                 value = "OFF"
             client.publish(device_name + "/" + event_type, value)
-            print(device_name + "/" + event_type)
+            #print(device_name + "/" + event_type)
         except:
             print("not connected mqtt")
         return json.dumps(ev)
