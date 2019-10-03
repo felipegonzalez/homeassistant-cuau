@@ -51,6 +51,6 @@ class Grandfather(hass.Hass):
       hour = hour - 12
     media = "{0}/cuckoo-clock-{1:0=2d}.wav".format(self.args["media"], hour)
     sound = self.get_app("Sound")
-    sound.play(media, "audio/wav", self.args["volume"], 65)
+    sound.play(path = media, content = "music", volume = self.args["volume"], length = 65)
     
     
