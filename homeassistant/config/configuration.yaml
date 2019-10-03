@@ -61,7 +61,6 @@ recorder:
       - sensor.cuauhtemoc_dew_point_2
       - sensor.cuauhtemoc_dew_point
       - binary_sensor.pressure_falling
-      - sensor.water_usage_rate_f
       - sensor.bedroom_photo_level
       - sensor.pressure
 

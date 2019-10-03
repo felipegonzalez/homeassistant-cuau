@@ -47,7 +47,7 @@ automation:
   - alias: Open blinds in the morning weekday
     trigger:
       platform: time
-      at: 06:45:00
+      at: 07:00:00
     condition:
       - condition: time
         weekday:
@@ -59,7 +59,7 @@ automation:
     action:
       - service: cover.open_cover
         entity_id: cover.bedroom_blinds_1
-      - delay: '00:00:05'
+      - delay: '00:00:04'
       - service: cover.open_cover
         entity_id: cover.bedroom_blinds_2
 
@@ -75,7 +75,7 @@ automation:
     action:
       - service: cover.open_cover
         entity_id: cover.bedroom_blinds_1
-      - delay: '00:00:05'
+      - delay: '00:00:04'
       - service: cover.open_cover
         entity_id: cover.bedroom_blinds_2
 
@@ -100,7 +100,7 @@ automation:
     condition:
       - condition: time
         after: '9:03:00'
-        before: '21:00:00'
+        before: '19:30:00'
       - condition: state
         entity_id: cover.bedroom_blinds_1
         state: 'closed'
@@ -109,7 +109,7 @@ automation:
         state: 'closed'
     action:
       - service: cover.set_cover_position
-        entity_id: cover.bedroom_blinds_2
+        entity_id: cover.bedroom_blinds_1
         data:
           position: 60
 
