@@ -157,8 +157,13 @@ automation:
         entity_id: alarm_control_panel.home_alarm
         state: armed_home
     action:
-      service: alarm_control_panel.alarm_trigger
-      entity_id: alarm_control_panel.home_alarm
+      - service: alarm_control_panel.alarm_trigger
+        entity_id: alarm_control_panel.home_alarm
+      - service: notify.iphone_tyf
+        data_template:
+          title: "Sensores de alarma"
+          message: >-
+            'La alarma fue disparada por {{ trigger.from_state.attributes.friendly_name }}'
 
   - alias: Trigger armed alarm only away
     trigger:
