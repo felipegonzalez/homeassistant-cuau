@@ -88,7 +88,14 @@ notify:
     platform: group
     services:
       - service: ios_iphone_tere
-      - service: ios_iphonesef
+      - service: slackbot
+
+  - name: slackbot
+    platform: slack
+    api_key: !secret slackbot_key
+    default_channel: '#home'
+    username: cuau97hass
+
 
 input_boolean:
   sleep_mode:
