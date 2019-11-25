@@ -159,7 +159,7 @@ automation:
       entity_id: sensor.felipe_office_occupancy
       below: 1
       for:
-        minutes: 5
+        minutes: 10
     condition:
       condition: state
       entity_id: light.felipe_desk

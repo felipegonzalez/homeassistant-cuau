@@ -1,6 +1,13 @@
 apcupsd:
   host: 192.168.100.51
 
+glances:
+  - host: 192.168.100.51
+    version: 2
+    verify_ssl: false
+    name: xeoma_host
+
+
 shell_command:
   watchdog: 'curl --retry 3 https://hc-ping.com/8ff32001-f721-46be-982f-4b6d2659039b'
 
@@ -26,12 +33,8 @@ sensor:
     resources: 
       - type: memory_free
       - type: load_1m
-  - platform: glances
-    host: 192.168.100.51
-    name: zoneminder_host
-    resources:
-      - cpu_use_percent
-      - memory_free
+
+
 
 ### ups 
   - platform: apcupsd

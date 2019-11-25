@@ -10,6 +10,8 @@ sun:
 system_health:
 updater:
 
+
+
 homeassistant:
   name: Cuauhtemoc97
   latitude: !secret latitude
@@ -54,8 +56,6 @@ recorder:
       - sensor.water_tank_distance_filtered
       - binary_sensor.high_water_usage
       - sensor.water_usage_rate
-      - sensor.zoneminder_host_ram_free
-      - sensor.zoneminder_host_cpu_used
       - sensor.ups_load
       - sensor.washing_machine_stats_mean
       - sensor.cuauhtemoc_dew_point_2
@@ -63,7 +63,25 @@ recorder:
       - binary_sensor.pressure_falling
       - sensor.bedroom_photo_level
       - sensor.pressure
-
+      - sensor.xeoma_host_containers_active
+      - sensor.xeoma_host_containers_cpu_used
+      - sensor.xeoma_host_containers_ram_used
+      - sensor.xeoma_host_cpu_load
+      - sensor.xeoma_host_cpu_temp
+      - sensor.xeoma_host_cpu_used
+      - sensor.xeoma_host_disk_free
+      - sensor.xeoma_host_disk_used
+      - sensor.xeoma_host_disk_used_percent
+      - sensor.xeoma_host_ram_free
+      - sensor.xeoma_host_ram_used
+      - sensor.xeoma_host_ram_used_percent
+      - sensor.xeoma_host_running
+      - sensor.xeoma_host_sleeping
+      - sensor.xeoma_host_swap_free
+      - sensor.xeoma_host_swap_used
+      - sensor.xeoma_host_swap_used_percent
+      - sensor.xeoma_host_thread
+      - sensor.xeoma_host_total
 #script: !include scripts.yaml
 #binary_sensor: !include binary_sensor.yaml
 #switch: !include switch.yaml
@@ -104,7 +122,28 @@ input_boolean:
     icon: mdi:sleep
 
 cloud:
-  # alexa:
+  alexa:
+    entity_config:
+      light.bedroom_lights:
+        name: "Luces de la recámara"
+        description: Luces de recamara principal
+        display_categories: LIGHT
+      light.dressing_room:
+        name: Vestidor
+        description: Luces del vestidor
+      group.all_lights:
+        name: Todas las luces
+        description: Grupo de luces de toda la casa
+        display_categories: LIGHT
+      switch.pool_pump:
+        name: Bomba de la alberca
+        description: Bomba de la alberca
+      sensor.pool_temperature:
+        name: alberca
+        description: temperatura de la alberca
+        display_categories: TEMPERATURE_SENSOR
+
+
   #   filter:
   #     exclude_entities:
   #       - light.backyard

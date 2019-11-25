@@ -107,6 +107,13 @@ automation:
       - condition: state
         entity_id: cover.bedroom_blinds_2
         state: 'closed'
+      - condition: numeric_state
+        entity_id: sensor.cuauhtemoc_solar_rad_lx
+        above: 200 
+      - condition: state
+        entity_id: light.bedroom
+        state: 'off'
+
     action:
       - service: cover.set_cover_position
         entity_id: cover.bedroom_blinds_1

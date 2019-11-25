@@ -72,7 +72,7 @@ binary_sensor:
     payload_on: True
     payload_off: False
     device_class: motion
-    off_delay: 60
+    off_delay: 45
   - platform: mqtt
     name: motion_pasillo_recamaras
     state_topic: "xbeebox/pasillo_recamaras/samples/caja_pasillo_recamaras"
@@ -88,6 +88,7 @@ binary_sensor:
     payload_on: True
     device_class: motion
     value_template: '{{ value_json[0]["dio-2"] }}'
+    off_delay: 10
   - platform: mqtt
     name: motion_bano_visitas
     state_topic: "xbeebox/bano_visitas/samples/caja_bano_visitas"

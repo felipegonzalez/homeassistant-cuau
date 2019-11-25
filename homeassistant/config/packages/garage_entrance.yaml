@@ -204,7 +204,7 @@ automation:
         media_content_id: http://192.168.100.50:8123/local/sounds/store_bell.mp3
     - service: notify.iphone_tyf
       data:
-        message: "Alguien está tocando la puerta del patio"
+        message: "Alguien está tocando la puerta de la calle."
 
   - alias: Patio door notification
     trigger:
