@@ -82,7 +82,7 @@ automation:
   - alias: Close blinds midmorning
     trigger:
       platform: time
-      at: 09:00:00
+      at: '10:00:00'
     action:
       - service: cover.close_cover
         entity_id: cover.bedroom_blinds_1
@@ -116,7 +116,7 @@ automation:
 
     action:
       - service: cover.set_cover_position
-        entity_id: cover.bedroom_blinds_1
+        entity_id: cover.bedroom_blinds_2
         data:
           position: 60
 
