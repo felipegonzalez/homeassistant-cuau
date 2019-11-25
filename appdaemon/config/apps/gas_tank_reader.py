@@ -6,7 +6,6 @@ import requests
 import urllib.request
 
 
-
 class GasTankReader(hass.Hass):
 
   def initialize(self):
@@ -40,7 +39,7 @@ class GasTankReader(hass.Hass):
 
         # lower mask (0-10)
     lower_red = np.array([0,50,50])
-    upper_red = np.array([15,255,255])
+    upper_red = np.array([20,255,255])
     mask0 = cv2.inRange(img_hsv, lower_red, upper_red)
 
         # upper mask (170-180)
@@ -62,8 +61,10 @@ class GasTankReader(hass.Hass):
     lines = cv2.HoughLinesP(image=gray2, rho=1, 
         theta=3.1416 / 180, threshold=10, minLineLength= minLineLength, maxLineGap = maxLineGap)
     final_line_list = []
-    x_center = 1000
-    y_center = 730
+
+    x_center = 780
+    y_center = 700
+    
     cv2.circle(img2,(int(x_center),int(y_center)), 10, (0,0,255), -1)
     for line in lines:
         for x1, y1, x2, y2 in lines[0]:
