@@ -59,7 +59,7 @@ views:
             icon: 'mdi:flash-outline'
           - entity: media_player.bedroom_apple_tv
             name: Apple TV Recámara
-          - entity: media_player.tv_room_apple_tv
+          - entity: media_player.family_room_apple_tv
             name: Apple TV cuarto Tele
           - entity: media_player.bedroom_tv
             name: Samsung TV

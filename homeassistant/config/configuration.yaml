@@ -106,7 +106,7 @@ notify:
     platform: group
     services:
       - service: ios_iphone_tere
-      - service: slackbot
+      - service: mobile_app_moto_g_7_power
 
   - name: slackbot
     platform: slack
