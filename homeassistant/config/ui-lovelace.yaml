@@ -21,9 +21,9 @@ views:
             icon: 'mdi:gas-cylinder'
           - entity: cover.street_gate
             name: Portón
-          - entity: binary_sensor.ring_front_door_ding
-            name: Timbre Portón
-            secondary_info: last-changed
+          #- entity: binary_sensor.ring_front_door_ding
+          #  name: Timbre Portón
+          #  secondary_info: last-changed
           - entity: binary_sensor.patio_doorbell
             name: Timbre Patio
             secondary_info: last-changed
@@ -93,7 +93,7 @@ views:
             name: Temperatura salida
           - entity: switch.pool_pump
             name: Bomba
-        hours_to_show: 6
+        hours_to_show: 3
     icon: 'mdi:pool'
     panel: false
     title: Alberca
@@ -241,11 +241,11 @@ views:
         type: media-control
       - entity: media_player.bedroom_apple_tv
         type: media-control
-      - entity: media_player.tv_room_apple_tv
+      - entity: media_player.family_room_apple_tv
         type: media-control
       - entities:
-          - remote.bedroom_apple_tv
-          - remote.tv_room_apple_tv
+          - remote.bedroom
+          - remote.family_room_apple_tv
         title: Remote
         type: entities
     icon: 'mdi:music'
