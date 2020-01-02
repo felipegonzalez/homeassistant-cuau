@@ -96,10 +96,10 @@ script:
       - service: input_boolean.turn_on
         data:
           entity_id: input_boolean.gate_door_working
-      - delay: '00:00:02'
-      - service: input_boolean.turn_off
-        data:
-          entity_id: input_boolean.gate_door_working
+      #- delay: '00:00:02'
+      #- service: input_boolean.turn_off
+      #  data:
+      #    entity_id: input_boolean.gate_door_working
 
   open_gate_timed:
     alias: Open gate timed
@@ -109,10 +109,10 @@ script:
           topic: "xbeebox/caja_garage/send_tx"
           payload: "g"
       - delay: '00:00:02'
-      - service: mqtt.publish
-        data:
-          topic: "xbeebox/caja_garage/send_tx"
-          payload: "g"
+      #- service: mqtt.publish
+      #  data:
+      #    topic: "xbeebox/caja_garage/send_tx"
+      #    payload: "g"
       - service: homeassistant.turn_on
         data:
           entity_id: input_boolean.gate_state
