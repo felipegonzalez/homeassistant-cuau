@@ -235,8 +235,8 @@ def monitor():
                 topic = "xbeebox/" + place + "/samples" + "/" + xbee_dict[response['source_addr_long']] 
                 payload = json.dumps(response['samples'])
                 #print(response["samples"])
-                print(topic)
-                print(payload)
+                #print(topic)
+                #print(payload)
                 client.publish(topic, payload)
 
 
