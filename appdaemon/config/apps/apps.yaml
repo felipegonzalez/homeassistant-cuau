@@ -1,7 +1,8 @@
 
-Installer:
-  class: DepeInstaller
-  module: installer
+#Installer:
+#  class: DepeInstaller
+#  module: installer
+#  priority: 1
 
 # Motion Lights:
 #   class: MotionLights
@@ -42,7 +43,7 @@ Motion Lights:
     "binary_sensor.motion_pasillo_recamaras":{"lights":"light.bedroom_hall_lights","delay":30, "use_sleep":"dim", "brightness":250},
     "binary_sensor.motion_recamara":{"lights":"light.bedroom_lights","delay":480, "use_sleep":"dark", "media":"media_player.bedroom_apple_tv"},
     "binary_sensor.motion_terraza":{"lights":"light.backyard_terrace","delay":240, "use_sleep":"no"},
-    "binary_sensor.motion_tvroom":{"lights":"light.tv_room","delay":180, "use_sleep":"dark", "media": "media_player.tv_room_apple_tv"}}
+    "binary_sensor.motion_tvroom":{"lights":"light.tv_room","delay":180, "use_sleep":"dark", "media": "media_player.family_room_apple_tv"}}
 
 
 

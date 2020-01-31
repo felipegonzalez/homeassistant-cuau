@@ -14,7 +14,7 @@ class APSystems(hass.Hass):
     self.date_today = datetime.datetime.now().strftime("%Y%m%d")
     self.data = {"ecuId":self.ecu_id, "filter":"power", "date":self.date_today}
     # Subscribe to rf changes
-    time = datetime.datetime.now()
+    time = datetime.datetime.now() + datetime.timedelta(seconds=5)
     self.handle = self.run_every(self.update, time, 60*6)
     self.last_time = 0
     self.last_power =  0
