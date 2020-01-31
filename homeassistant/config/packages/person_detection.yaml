@@ -11,7 +11,7 @@ image_processing:
     file_out:
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_latest.jpg"
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
-    scan_interval: 40
+    scan_interval: 25
     model:
       graph: /Volumes/SSD2/hass-cuauhtemoc97/homeassistant/config/tensorflow/better_frozen_inference_graph.pb
       categories:
@@ -61,7 +61,7 @@ sensor:
 
 automation:
 #image processing scans
-  - id: cam1222345
+  - id: cam12223456
     alias: scan cam hall
     trigger:
       platform: state
@@ -81,7 +81,7 @@ automation:
     - service: image_processing.scan
       data:
         entity_id: image_processing.tensorflow_patio_door
-  - id: cam1222345
+  - id: cam12223458
     alias: scan cam huerto
     trigger:
       platform: state

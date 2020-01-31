@@ -1,13 +1,13 @@
-ring:
-  username: !secret ring_user
-  password: !secret ring_pass
+#ring:
+#  username: !secret ring_user
+#  password: !secret ring_pass
 ## Monitoring sensors
 
-camera:
-  - platform: ring
+#camera:
+#  - platform: ring
 
 binary_sensor:
-  - platform: ring
+  #- platform: ring
   # camera motion detection
   - platform: mqtt
     name: motion_camera_puerta_patio
@@ -192,7 +192,7 @@ automation:
     id: 99938832notifygatedoor
     trigger:
       platform: state
-      entity_id: binary_sensor.ring_front_door_ding
+      entity_id: binary_sensor.front_door_ding
       from: 'off'
       to: 'on'
     action:

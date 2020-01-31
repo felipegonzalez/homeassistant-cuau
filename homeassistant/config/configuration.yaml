@@ -11,7 +11,6 @@ system_health:
 updater:
 
 
-
 homeassistant:
   name: Cuauhtemoc97
   latitude: !secret latitude
@@ -90,7 +89,7 @@ recorder:
 #automation: !include_dir_merge_list automation/
 light: !include lights.yaml
 sensor: !include sensors.yaml
-group: !include groups.yaml
+#group: !include groups.yaml
 
 mqtt:
   broker: 192.168.100.50
@@ -105,8 +104,8 @@ notify:
   - name: iphone_tyf
     platform: group
     services:
-      - service: ios_iphone_tere
-      - service: mobile_app_moto_g_7_power
+      - service: mobile_app_iphone_tere
+      - service: mobile_app_felipeg7
 
   - name: slackbot
     platform: slack
@@ -131,10 +130,6 @@ cloud:
       light.dressing_room:
         name: Vestidor
         description: Luces del vestidor
-      group.all_lights:
-        name: Todas las luces
-        description: Grupo de luces de toda la casa
-        display_categories: LIGHT
       switch.pool_pump:
         name: Bomba de la alberca
         description: Bomba de la alberca
@@ -143,7 +138,21 @@ cloud:
         description: temperatura de la alberca
         display_categories: TEMPERATURE_SENSOR
 
+automation:
+  - alias: notificar reinicio
+    trigger:
+      platform: homeassistant
+      event: start
+    action:
+    - service: script.sonos_say
+      data_template:
+        sonos_entity: media_player.living_room
+        volume: 0.5
+        delay: 00:00:10
+        message: El asistente de la casas está iniciado.
 
+mqtt_eventstream:
+  subscribe_topic: slaves/#
   #   filter:
   #     exclude_entities:
   #       - light.backyard

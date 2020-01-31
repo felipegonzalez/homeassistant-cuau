@@ -1,5 +1,13 @@
+script:
+  apagar_luces:
+    alias: Apaga todas las luces
+    sequence:
+      - service: light.turn_off
+        data_template:
+          entity_id: "{{ states.light | map(attribute='entity_id') | list | join(', ') }}"
+
 sensor:
-  # Light sensors, apart from weather station sensor
+  # Light sensors
   - platform: mqtt
     name: Kitchen photo level
     state_topic: "xbeebox/cocina/photo/1/cajacocina"
@@ -159,7 +167,7 @@ automation:
       entity_id: sensor.felipe_office_occupancy
       below: 1
       for:
-        minutes: 10
+        minutes: 12
     condition:
       condition: state
       entity_id: light.felipe_desk

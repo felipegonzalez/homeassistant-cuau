@@ -19,8 +19,8 @@ views:
           - entity: sensor.gas_tank_filtered
             name: Gas LP
             icon: 'mdi:gas-cylinder'
-          - entity: cover.street_gate
-            name: Portón
+          #- entity: cover.street_gate
+          #  name: Portón
           #- entity: binary_sensor.ring_front_door_ding
           #  name: Timbre Portón
           #  secondary_info: last-changed
@@ -30,7 +30,7 @@ views:
         type: entities
       - entities:
           - entity: script.toggle_gate
-            name: Click
+            name: Portón
             icon: 'mdi:car'
             tap_action: 
               action: call-service
@@ -56,6 +56,8 @@ views:
       - entities:
           - entity: input_boolean.auto_light
             name: Auto luces
+          - entity: input_boolean.auto_persianas
+            name: Auto persianas
             icon: 'mdi:flash-outline'
           - entity: media_player.bedroom_apple_tv
             name: Apple TV Recámara
@@ -63,6 +65,14 @@ views:
             name: Apple TV cuarto Tele
           - entity: media_player.bedroom_tv
             name: Samsung TV
+          - entity: script.apagar_luces
+            name: Apagar luces
+            icon: 'mdi:lightbulb'
+            tap_action: 
+              action: call-service
+              service: script.turn_on
+              service_data:
+                entity_id: script.apagar_luces
         type: entities
       - entities:
           - entity: cover.bedroom_blinds_1
@@ -184,7 +194,7 @@ views:
           - binary_sensor.motion_sala
           - binary_sensor.motion_terraza
           - binary_sensor.motion_tvroom
-          - entity: binary_sensor.ring_front_door_motion
+          - entity: binary_sensor.front_door_motion
             name: Front gate
           - binary_sensor.motion_camera_escaleras
           - binary_sensor.motion_camera_hall
@@ -269,11 +279,6 @@ views:
       #     # The path of the view (or number)
       #     view: 2
       #     hide_if_unavailable: true
-      - entities:
-          - entity: group.all_automations
-          - entity: group.all_scripts
-          - entity: group.all_lights
-        type: entities
       - type: picture-entity
         entity: camera.gas_tank_camera
       - entities:
@@ -283,6 +288,7 @@ views:
           - sensor.water_usage_rate
         hours_to_show: 4
         type: history-graph
+
       - entities:
           - sensor.dryer
           - sensor.washing_machine

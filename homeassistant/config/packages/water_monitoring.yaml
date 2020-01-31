@@ -41,7 +41,7 @@ sensor:
         entity_id: binary_sensor.high_water_usage
         value_template: >
           {% if state_attr("binary_sensor.high_water_usage", "gradient") != "unknown" %}
-           {{ (60 * state_attr("binary_sensor.high_water_usage", "gradient")) | round(2) }}
+           {{ (60 * (state_attr("binary_sensor.high_water_usage", "gradient") | float)) | round(2) }}
           {% else %}
             0
           {% endif %}
