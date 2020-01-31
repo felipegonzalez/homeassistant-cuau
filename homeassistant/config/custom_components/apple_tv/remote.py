@@ -4,7 +4,10 @@ from homeassistant.core import callback
 from homeassistant.const import CONF_NAME
 from homeassistant.components import remote
 
-from .const import DOMAIN, KEY_MANAGER, CONF_IDENTIFIER
+from .const import DOMAIN, CONF_IDENTIFIER
+
+
+PARALLEL_UPDATES = 0
 
 
 async def async_setup_platform(hass, config, async_add_entities, discovery_info=None):
@@ -14,7 +17,7 @@ async def async_setup_platform(hass, config, async_add_entities, discovery_info=
 
     identifier = discovery_info[CONF_IDENTIFIER]
     name = discovery_info[CONF_NAME]
-    manager = hass.data[KEY_MANAGER][identifier]
+    manager = hass.data[DOMAIN][identifier]
     async_add_entities([AppleTVRemote(name, identifier, manager)])
 
 
