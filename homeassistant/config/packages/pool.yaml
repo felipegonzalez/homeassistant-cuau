@@ -15,6 +15,13 @@ sensor:
     state_topic: "esp8266/caja_bomba_alberca/tele/temperature_in"
     value_template: "{{ value | float }}"
     unit_of_measurement: "°C"    
+  - platform: filter
+    name: filtered pool temperature
+    entity_id: sensor.pool_temperature
+    filters: 
+      - filter: outlier
+        window_size: 4
+        radius: 10.0
   - platform: mqtt
     name: pool_panel_timer_minutes
     state_topic: "esp8266/caja_bomba_alberca/tele/timer_minutes"
@@ -51,7 +58,7 @@ switch:
 
 timer: 
   pump_run:
-    duration: '03:00:00'
+    duration: '05:00:00'
 
 
 automation:
@@ -101,7 +108,7 @@ automation:
   - alias: Auto pump run schedule
     trigger:
       - platform: time
-        at: '11:30:00'
+        at: '11:00:00'
     condition:
       - condition: state
         entity_id: input_boolean.pump_auto

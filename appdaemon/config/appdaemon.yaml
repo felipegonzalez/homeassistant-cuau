@@ -7,7 +7,7 @@ appdaemon:
     HASS:
       type: hass
       ha_url: http://192.168.100.50:8123
-      token: !secret token
+      token: eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiI1ZDExMjhjMmRmNTE0MmQ4OGYwNGYzOTkyYmRjMTE5ZiIsImlhdCI6MTU4MzAzMDY1MSwiZXhwIjoxODk4MzkwNjUxfQ.Hf76x1oDpYI3ggVLeTtExdU4ywQbLWhi9s7UGLXTVZI
 http:
   url: http://192.168.100.50:5050
 

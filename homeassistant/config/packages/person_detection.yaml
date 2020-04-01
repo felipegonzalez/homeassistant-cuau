@@ -65,7 +65,7 @@ automation:
     alias: scan cam hall
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_hall_entrada
+      entity_id: binary_sensor.movimiento_hall
       to: 'on'
     action:
     - service: image_processing.scan

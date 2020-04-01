@@ -322,7 +322,7 @@ automation:
   - alias: Turn on outside lights when dark
     trigger:
       - platform: state
-        entity_id: binary_sensor.hall_door
+        entity_id: binary_sensor.puerta_hall
         to: 'on'
       - platform: state
         entity_id: sun.sun

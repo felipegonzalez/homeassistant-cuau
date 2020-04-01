@@ -103,3 +103,27 @@ automation:
     action:
       - service: switch.turn_on
         entity_id: switch.section_2_water
+
+  - alias: Pots watering schedule
+    trigger:
+      platform: time
+      at: '08:00:00'
+    condition:
+      - condition: time
+        weekday:
+        - mon
+        - tue
+        - wed
+        - thu
+        - fri
+        - sat
+        - sun
+      - condition: numeric_state
+        entity_id: sensor.water_tank_liters
+        above: 3000
+      - condition: state
+        entity_id: binary_sensor.wet_soil
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.pots_water

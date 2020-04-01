@@ -197,6 +197,7 @@ def monitor():
             response['source_addr'] = response['source_addr'].hex()
             #print(response)
             if(xbee_dict[response['source_addr_long']]=='cajarecamara'):
+                print("Recamara: ")
                 print(response)       
             if('rf_data' in response.keys()):
                 try:

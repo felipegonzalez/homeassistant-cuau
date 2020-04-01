@@ -27,7 +27,8 @@ class MotionLights(hass.Hass):
 
       if("media" in self.grouping[sensor].keys()):
         self.listen_state(self.adapt_brightness, self.grouping[sensor]["media"])
-
+      if("occupancy" in self.grouping[sensor].keys()):
+        self.listen_state(self.occupancy, self.grouping[sensor]["occupancy"])
       # listen to motion sensors
       self.listen_state(self.motion, sensor, 
                         group = self.grouping[sensor]["lights"], 
@@ -52,7 +53,7 @@ class MotionLights(hass.Hass):
         self.grouping[sensor]["brightness"] = self.original_grouping[sensor]["brightness"]
     
     #### # adapt brightness for tv watching
-    if(entity == "media_player.bedroom_apple_tv" and self.sleep_mode == "off"):
+    if(entity == "media_player.bedroom" and self.sleep_mode == "off"):
       if(old == "playing"):
         self.grouping["binary_sensor.motion_recamara"]["brightness"] = 255
         self.grouping["binary_sensor.motion_bano_principal"]["brightness"] = 255
@@ -66,6 +67,9 @@ class MotionLights(hass.Hass):
       self.turn_on(group, brightness = self.grouping["binary_sensor.motion_recamara"]["brightness"], 
           transition = 30, kelvin = 2500)
 
+  def occupancy(self, entity, attribute, old, new, kwargs):
+    if(new > 0):
+      self.grouping
 
   def motion(self, entity, attribute, old, new, kwargs):
     group = kwargs.get('group', None)
@@ -100,5 +104,5 @@ class MotionLights(hass.Hass):
 
   def cancel(self, kwargs):
     group = kwargs.get('group', None)
-    self.cancel_timer(self.timer_handle[group])
+   
       

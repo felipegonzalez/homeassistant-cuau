@@ -133,14 +133,16 @@ automation:
     - platform: state
       entity_id: binary_sensor.felipe_window
     - platform: state
+      entity_id: binary_sensor.oficina_tere
+    - platform: state
       entity_id: binary_sensor.kitchen_door
     - platform: state
-      entity_id: binary_sensor.hall_door
+      entity_id: binary_sensor.puerta_hall
     - platform: state
       entity_id: binary_sensor.main_garden_door
     - platform: numeric_state
       entity_id: image_processing.tensorflow_hall_entrada
-      above: 0
+      above: 0 
     - platform: numeric_state
       entity_id: image_processing.tensorflow_huerto
       above: 0

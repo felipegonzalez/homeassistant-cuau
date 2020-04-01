@@ -84,7 +84,7 @@ class control(object):
                 event_type = value
                 value = "OFF"
             client.publish(device_name + "/" + event_type, value)
-            #print(device_name + "/" + event_type)
+            print(device_name + "/" + event_type)
         except:
             print("not connected mqtt")
         return json.dumps(ev)

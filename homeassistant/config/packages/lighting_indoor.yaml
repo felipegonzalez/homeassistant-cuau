@@ -32,7 +32,6 @@ sensor:
 input_boolean:
   dark_house:
     name: "Dark house"
-    initial: off
   auto_light:
     name: "Auto light"
     initial: on
@@ -41,9 +40,6 @@ automation:
   ### auto lights and illumination in house ######################
   - alias: set dark house
     trigger:
-    - platform: numeric_state
-      entity_id: sensor.living_photo_level
-      below: 1.0
     # - platform: numeric_state
     #   entity_id: sensor.felipe_study_photo_level
     #   below: 0.7
@@ -53,10 +49,10 @@ automation:
     - platform: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.elevation }}'
-      below: -6.0
+      below: -1.0
     - platform: numeric_state
-      entity_id: sensor.cuauhtemoc_solar_rad
-      below: 10
+      entity_id: sensor.cuauhtemoc_solar_rad_lx
+      below: 1500
     #condition:
     #  condition: template
     #  value_template: '{{ as_timestamp(states.input_boolean.dark_house.last_changed) + 1200 < as_timestamp(now()) }}'
@@ -70,15 +66,12 @@ automation:
   - alias: set bright house
     trigger:
     - platform: numeric_state
-      entity_id: sensor.living_photo_level
-      above: 1.6
-    - platform: numeric_state
-      entity_id: sensor.cuauhtemoc_solar_rad
-      above: 16
+      entity_id: sensor.cuauhtemoc_solar_rad_lx
+      above: 1500
     - platform: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.elevation }}'
-      above: 4.0
+      above: 2.0
     action:
     - service: input_boolean.turn_off
       entity_id: input_boolean.dark_house
@@ -154,7 +147,7 @@ automation:
         after_offset: -01:00:00
       - condition: numeric_state
         entity_id: sensor.felipe_study_photo_level
-        below: 2.0
+        below: 1.0
     action:
       service: light.turn_on
       entity_id: light.felipe_desk

@@ -105,7 +105,7 @@ notify:
     platform: group
     services:
       - service: mobile_app_iphone_tere
-      - service: mobile_app_felipeg7
+      - service: mobile_app_moto_g_7_power
 
   - name: slackbot
     platform: slack
@@ -113,6 +113,15 @@ notify:
     default_channel: '#home'
     username: cuau97hass
 
+switch:
+  - platform: broadlink
+    host: 192.168.100.59
+    mac: 'C8:F7:42:21:A7:46'
+  - platform: broadlink
+    host: 192.168.100.74
+    mac: 'C8:F7:42:21:B2:F8'
+
+smartir:
 
 input_boolean:
   sleep_mode:
@@ -124,7 +133,7 @@ cloud:
   alexa:
     entity_config:
       light.bedroom_lights:
-        name: "Luces de la recámara"
+        name: "Luces de la recamara"
         description: Luces de recamara principal
         display_categories: LIGHT
       light.dressing_room:
@@ -137,6 +146,10 @@ cloud:
         name: alberca
         description: temperatura de la alberca
         display_categories: TEMPERATURE_SENSOR
+      light.living_room_lights:
+        name: Luces de la sala
+        description: Todas las luces de la sala
+        display_categories: LIGHT
 
 automation:
   - alias: notificar reinicio

@@ -91,6 +91,7 @@
     name: Living room lights
     entities:
       - light.living_room
+      - light.reflectores_sala
 
   - platform: group
     name: Dining room lights
@@ -123,6 +124,7 @@
     name: Entrance hall lights
     entities:
       - light.entrance_hall
+      - light.hue_ambiance_pendant_1
       - light.entrance_table
 
   - platform: group
@@ -145,6 +147,7 @@
     entities:
       - light.backyard
       - light.garden_strip
+      - light.terraza_puerta_2
 
   - platform: group
     name: Bedroom lights

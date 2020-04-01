@@ -59,11 +59,11 @@ views:
           - entity: input_boolean.auto_persianas
             name: Auto persianas
             icon: 'mdi:flash-outline'
-          - entity: media_player.bedroom_apple_tv
+          - entity: media_player.bedroom
             name: Apple TV Recámara
-          - entity: media_player.family_room_apple_tv
+          - entity: media_player.family_room_apple_tv_2
             name: Apple TV cuarto Tele
-          - entity: media_player.bedroom_tv
+          - entity: media_player.samsung_un55ku6000
             name: Samsung TV
           - entity: script.apagar_luces
             name: Apagar luces
@@ -74,6 +74,7 @@ views:
               service_data:
                 entity_id: script.apagar_luces
         type: entities
+        show_header_toggle: false
       - entities:
           - entity: cover.bedroom_blinds_1
           - entity: cover.bedroom_blinds_2 
@@ -97,9 +98,10 @@ views:
           - entity: input_boolean.pump_auto
             name: Auto alberca
         type: entities
+        show_header_toggle: false
       - type: history-graph
         entities:
-          - entity: sensor.pool_temperature
+          - entity: sensor.filtered_pool_temperature
             name: Temperatura salida
           - entity: switch.pool_pump
             name: Bomba
@@ -108,10 +110,10 @@ views:
     panel: false
     title: Alberca
   - badges:
-      - sensor.cuauhtemoc_temp_2
-      - sensor.cuauhtemoc_humidity_2
+      - sensor.cuauhtemoc_temp
+      - sensor.cuauhtemoc_humidity
       - sensor.rain_mm_twoday
-      - sensor.cuauhtemoc_hourly_rain_rate_2
+      - sensor.cuauhtemoc_hourly_rain_rate
       - weather.dark_sky
     cards:
       - entities:
@@ -138,16 +140,8 @@ views:
         type: entities
       - entity: weather.dark_sky
         type: weather-forecast
-      - entities:
-          - entity: sensor.office_plant_soil_humidity
-            name: "Planta de Oficina"
-            icon: mdi:water
-          - entity: sensor.office_plant_luminosity
-            name: "Planta de Oficina"
-            icon: mdi:weather-sunny
-        type: entities
       - entities: 
-          - entity: sensor.cuauhtemoc_hourly_rain_rate_2
+          - entity: sensor.cuauhtemoc_hourly_rain_rate
             name: In lluvia por hora
         hours_to_show: 72
         type: history-graph
@@ -161,19 +155,24 @@ views:
       - entities:
           - entity: binary_sensor.ups_online_status
             name: Xeoma server
-          - entity: sensor.xeoma_host_cpu_used
+          - entity: sensor.xeoma_host_cpu_used_2
             name: Xeoma cpu
-          - entity: sensor.xeoma_host_ram_free
-            name: Xeoma mem
+          - entity: sensor.xeoma_host_ram_free_2
+            name: Xeoma free mem
           - entity: sensor.ups_status
           - entity: sensor.ups_battery
         type: entities
       - entities:
           - entity: binary_sensor.felipe_window
-          - entity: binary_sensor.hall_door
+          #- entity: binary_sensor.wyzesense_7780f668
+          - entity: binary_sensor.puerta_hall
+            name: puerta de sala
+          - entity: binary_sensor.oficina_tere
           - entity: binary_sensor.downstairs_bathroom
+            name: baño oficinas
           - entity: binary_sensor.kitchen_door
           - entity: binary_sensor.main_bathroom
+            name: baño principal
           - entity: binary_sensor.tita_door
           - entity: binary_sensor.patio_gate
           - entity: binary_sensor.workshop
@@ -186,7 +185,7 @@ views:
           - binary_sensor.motion_comedor
           - binary_sensor.motion_estudiof
           - binary_sensor.motion_estudiot
-          - binary_sensor.motion_hall_entrada
+          - binary_sensor.movimiento_hall
           - binary_sensor.motion_pasillo_comedor_1
           - binary_sensor.motion_pasillo_recamaras
           - binary_sensor.motion_recamara
@@ -219,8 +218,13 @@ views:
   - title: Clima
     icon: 'mdi:air-conditioner'
     cards:
+      - type: thermostat
+        entity: climate.ac_recamara
+      - type: thermostat
+        entity: climate.ac_tita
       - type: history-graph
         title: Temperatura
+        hours_to_show: 4
         entities:
           - entity: sensor.tv_room_temperature
             name: Cuarto TV
@@ -230,12 +234,13 @@ views:
             name: Sala
           - entity: sensor.kitchen_temperature  
             name: Cocina
-          - entity:  sensor.cuauhtemoc_inside_temp_2
+          - entity:  sensor.cuauhtemoc_inside_temp
             name: Alberca
       - type: history-graph
         title: Humedad
+        hours_to_show: 4
         entities:
-          - entity: sensor.cuauhtemoc_humidity_in_2
+          - entity: sensor.cuauhtemoc_humidity_in
             name: Hall
           - entity: sensor.kitchen_humidity
             name: Cocina
@@ -247,9 +252,9 @@ views:
         type: media-control
       - entity: media_player.living_room
         type: media-control
-      - entity: media_player.bedroom_tv
+      - entity: media_player.samsung_un55ku6000
         type: media-control
-      - entity: media_player.bedroom_apple_tv
+      - entity: media_player.bedroom
         type: media-control
       - entity: media_player.family_room_apple_tv
         type: media-control
@@ -286,6 +291,7 @@ views:
           - sensor.gas_tank_raw
           - sensor.water_usage_rate_f
           - sensor.water_usage_rate
+          - sensor.felipe_study_photo_level
         hours_to_show: 4
         type: history-graph
 
@@ -294,6 +300,8 @@ views:
           - sensor.washing_machine
           - sensor.washing_machine_stats_mean
           - sensor.living_photo_level
+          - sensor.cuauhtemoc_solar_rad
+          - sensor.cuauhtemoc_solar_rad_lx
         hours_to_show: 6
         type: history-graph
       - entities:

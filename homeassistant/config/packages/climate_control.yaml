@@ -1,3 +1,15 @@
+climate:
+  - platform: smartir
+    name: AC recamara
+    unique_id: ac_recamara
+    device_code: 1062
+    controller_data: 192.168.100.59
+    temperature_sensor: sensor.bedroom_temperature
+  - platform: smartir
+    name: AC Tita
+    unique_id: ac_tita
+    device_code: 1062
+    controller_data: 192.168.100.74
 
 sensor:  
   - platform: mqtt
@@ -35,4 +47,21 @@ sensor:
   - platform: mqtt
     name: pressure 
     state_topic: "xbeebox/pasillo_comedor/pressure/1/caja_pasillo_comedor"
-    unit_of_measurement: "hPa"    
+    unit_of_measurement: "hPa"
+
+automation:
+  - alias: "Empezar a enfriar cuarto"
+    id: climate11rec
+    trigger:
+      - platform: time
+        at: "19:30:00"
+    condition:
+      condition: numeric_state
+      entity_id: "sensor.bedroom_temperature"
+      above: 24
+    action:
+      - service: climate.set_temperature
+        data:
+          entity_id: climate.ac_recamara
+          hvac_mode: cool
+          temperature: 20
