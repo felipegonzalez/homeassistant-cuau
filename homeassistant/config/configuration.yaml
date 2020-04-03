@@ -166,7 +166,7 @@ automation:
         sonos_entity: media_player.living_room
         volume: 0.5
         delay: 00:00:10
-        message: El asistente de la casas está iniciado.
+        message: El asistente de la casa está iniciado.
 
 mqtt_eventstream:
   subscribe_topic: slaves/#
