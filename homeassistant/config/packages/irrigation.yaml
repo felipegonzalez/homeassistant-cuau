@@ -17,7 +17,7 @@ switch:
         command_state: "/usr/bin/curl -X GET http://192.168.100.159/status"
         value_template: '{{ value_json["values"].jardinera.state == 1}}'
       pots_water:
-        command_on: "/usr/bin/curl -X GET http://192.168.100.159/macetas?command=turn_on&tiempo=30"
+        command_on: "/usr/bin/curl -X GET http://192.168.100.159/macetas?command=turn_on&tiempo=20"
         command_off: "/usr/bin/curl -X GET http://192.168.100.159/macetas?command=turn_off"
         command_state: "/usr/bin/curl -X GET http://192.168.100.159/status"
         value_template: '{{ value_json["values"].macetas.state == 1}}'
@@ -37,19 +37,23 @@ automation:
       entity_id: switch.raised_beds_water
       to: 'on'
     action:
-    - delay: '00:45:00'
+    - delay: '00:55:00'
     - service: switch.turn_off
       data:
         entity_id: switch.raised_beds_water
 
   - alias: Auto water raised beds
     trigger:
-      platform: time
-      at: 06:00:00
+      - platform: time
+        at: '06:00:00'
+      - platform: time
+        at: '13:00:00'
     condition:
       - condition: time
         weekday:
+        - mon
         - tue
+        - wed
         - thu
         - sat
         - sun
