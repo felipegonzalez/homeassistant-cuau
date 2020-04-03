@@ -67,7 +67,7 @@ automation:
     trigger:
     - platform: numeric_state
       entity_id: sensor.cuauhtemoc_solar_rad_lx
-      above: 1500
+      above: 2000
     - platform: numeric_state
       entity_id: sun.sun
       value_template: '{{ state.attributes.elevation }}'
@@ -85,7 +85,7 @@ automation:
       to: 'off'
     action:
     - service: light.turn_off
-      entity_id: group.all_lights
+      entity_id: all
 
 
   - alias: Dark kitchen lights
