@@ -81,3 +81,37 @@ automation:
       - service: climate.turn_off
         data:
           entity_id: climate.ac_tita
+
+# avisar si  hay puertas abiertas
+  - alias: "Avisar de puerta abierta"
+    trigger:
+      - platform: state
+        entity_id: climate.ac_recamara
+        to: 'cool'
+    condition:
+      condition: state
+      entity_id: binary_sensor.main_bathroom
+      state: 'on'
+    action:
+    - service: script.sonos_say
+      data_template:
+        sonos_entity: media_player.living_room
+        volume: 0.9
+        delay: 00:00:10
+        message: "El aire está encendido y está abierta una puerta"  
+  - alias: "Avisar de puerta abierta Tita"
+    trigger:
+      - platform: state
+        entity_id: climate.ac_tita
+        to: 'cool'
+    condition:
+      condition: state
+      entity_id: binary_sensor.tita_door
+      state: 'on'
+    action:
+    - service: script.sonos_say
+      data_template:
+        sonos_entity: media_player.living_room
+        volume: 0.9
+        delay: 00:00:10
+        message: "El aire de Teresita está encendido y está abierta una puerta"  
