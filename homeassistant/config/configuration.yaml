@@ -150,6 +150,10 @@ cloud:
         name: Luces de la sala
         description: Todas las luces de la sala
         display_categories: LIGHT
+      light.garden_lights:
+        name: "Luces del jardín"
+        description: "Todas las luces del jardín" 
+        display_categories: LIGHT
 
 automation:
   - alias: notificar reinicio
