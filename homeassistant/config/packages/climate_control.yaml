@@ -65,3 +65,19 @@ automation:
           entity_id: climate.ac_recamara
           hvac_mode: cool
           temperature: 20
+  - alias: "Apagar aire cuartos"
+    id: climate11recapagar
+    trigger:
+      - platform: time
+        at: "03:30:00"
+    condition:
+      condition: numeric_state
+      entity_id: "sensor.bedroom_temperature"
+      below: 25
+    action:
+      - service: climate.turn_off
+        data:
+          entity_id: climate.ac_recamara
+      - service: climate.turn_off
+        data:
+          entity_id: climate.ac_tita
