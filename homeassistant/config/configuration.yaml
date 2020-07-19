@@ -32,7 +32,6 @@ lovelace:
 recorder:
   db_url: !secret hass_db
   purge_keep_days: 30
-  purge_interval: 1
   exclude: 
     entities:
       - weather.dark_sky 
@@ -106,6 +105,7 @@ notify:
     services:
       - service: mobile_app_iphone_tere
       - service: mobile_app_moto_g_7_power
+      - service: mobile_app_fgiphone8
 
   - name: slackbot
     platform: slack
@@ -118,10 +118,16 @@ switch:
     host: 192.168.100.59
     mac: 'C8:F7:42:21:A7:46'
   - platform: broadlink
-    host: 192.168.100.74
+    host: 192.168.100.13
     mac: 'C8:F7:42:21:B2:F8'
 
 smartir:
+
+ecovacs:
+  username: !secret ecovacs_user
+  password: !secret ecovacs_pass
+  country: mx
+  continent: eu
 
 input_boolean:
   sleep_mode:
@@ -167,6 +173,15 @@ automation:
         volume: 0.5
         delay: 00:00:10
         message: El asistente de la casa está iniciado.
+automation:
+  - trigger:
+      platform: template
+      value_template: >
+        {{ (as_timestamp(strptime(states('sensor.date_time'),'%Y-%m-%d, %H:%M')) - as_timestamp(states.sensor.bedroom_temperature.last_changed) )  > 1800 }}
+    action:
+      service: notify.iphone_tyf
+      data_template:
+        message: "La temperatura del cuarto no se ha actualizado."
 
 mqtt_eventstream:
   subscribe_topic: slaves/#

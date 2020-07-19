@@ -17,7 +17,10 @@ automation:
       to: 'on'
     action:
       service: light.turn_on
-      entity_id: light.workshop_lamp
+      data:
+        entity_id: 
+          - light.workshop_lamp
+          - light.taller
   - alias: Workshop light with door
     trigger:
       platform: state
@@ -27,7 +30,10 @@ automation:
         seconds: 30
     action:
       service: light.turn_off
-      entity_id: light.workshop_lamp
+      data:
+        entity_id: 
+          - light.workshop_lamp
+          - light.taller
 
   - alias: Notify about open workshop door
     trigger:

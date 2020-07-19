@@ -30,6 +30,13 @@ sensor:
     scan_interval: 30
 
 binary_sensor:
+  - platform: template
+    sensors:
+      gas_alto:
+        friendly_name: "Nivel de gas alto"
+        device_class: gas
+        value_template: "{{states('sensor.kitchen_lp_gas')|float > 300 }}"
+
   - platform: mqtt
     state_topic: "caja_tv/motion"
     name: motion_tvroom
@@ -66,7 +73,6 @@ binary_sensor:
     payload_on: "on"
     payload_off: "off"
     device_class: motion
-    off_delay: 60
   - platform: mqtt
     state_topic: "xbeebox/recamara_principal/motion/1/cajarecamara"
     name: motion_recamara
@@ -303,7 +309,19 @@ automation:
           sonos_entity: media_player.living_room
           volume: 0.9
           delay: 00:00:10
-          message: Temperaturas demasiado
+          message: Temperaturas demasiado altas
+  - alias: Gas Alto automation
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.kitchen_lp_gas
+      above: 380
+    action:
+      - service: script.sonos_say
+        data:
+          sonos_entity: media_player.living_room
+          volume: 0.9
+          delay: 00:00:10
+          message: Alarma de gas en cocina
 
   - alias: Raised beds notification
     trigger:
@@ -337,6 +355,9 @@ automation:
         delay: 00:00:05
         media_content_id: http://192.168.100.50:8123/local/sounds/guinea_pig.mp3
 
+
+
+
 alert:
   high_temperature_alert:
     name: Algunas temperaturas son demasiado altas
@@ -346,4 +367,15 @@ alert:
     repeat: 1
     can_acknowledge: true
     notifiers:
-      notify.iphone_tyf
+      - notify.iphone_tyf
+  high_gas_lp:
+    name: Alarma de gas en cocina
+    done_message: Niveles de gas normales
+    entity_id: binary_sensor.gas_alto
+    state: 'on'
+    repeat: 1
+    can_acknowledge: true
+    notifiers:
+      - notify.iphone_tyf
+
+

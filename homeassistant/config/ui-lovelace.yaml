@@ -24,9 +24,8 @@ views:
           #- entity: binary_sensor.ring_front_door_ding
           #  name: Timbre Portón
           #  secondary_info: last-changed
-          - entity: binary_sensor.patio_doorbell
-            name: Timbre Patio
-            secondary_info: last-changed
+          - entity: camera.gas_tank_camera
+            name: Camara gas
         type: entities
       - entities:
           - entity: script.toggle_gate
@@ -54,6 +53,8 @@ views:
         columns: 4
         type: glance
       - entities:
+          - entity: vacuum.angel
+            name: Aspiradora Angel
           - entity: input_boolean.auto_light
             name: Auto luces
           - entity: input_boolean.auto_persianas
@@ -63,7 +64,7 @@ views:
             name: Apple TV Recámara
           - entity: media_player.family_room_apple_tv_2
             name: Apple TV cuarto Tele
-          - entity: media_player.samsung_un55ku6000
+          - entity: media_player.samsung_un55ku6000_2
             name: Samsung TV
           - entity: script.apagar_luces
             name: Apagar luces
@@ -137,12 +138,17 @@ views:
           - entity: sensor.cumulative_rain_yesterday
             name: Lluvia ayer
             icon: mdi:weather-rainy
+        show_header_toggle: false
         type: entities
       - entity: weather.dark_sky
         type: weather-forecast
       - entities: 
           - entity: sensor.cuauhtemoc_hourly_rain_rate
             name: In lluvia por hora
+          - entity: sensor.cumulative_rain_yesterday
+            name: Lluvia ayer
+          - entity: sensor.cumulative_rain_today
+            name: Lluvia hoy
         hours_to_show: 72
         type: history-graph
     icon: 'mdi:flower'
@@ -177,6 +183,7 @@ views:
           - entity: binary_sensor.patio_gate
           - entity: binary_sensor.workshop
           - entity: binary_sensor.main_garden_door
+        show_header_toggle: false
         type: entities
       - entities:
           - binary_sensor.motion_bano_principal
@@ -252,7 +259,7 @@ views:
         type: media-control
       - entity: media_player.living_room
         type: media-control
-      - entity: media_player.samsung_un55ku6000
+      - entity: media_player.samsung_un55ku6000_2
         type: media-control
       - entity: media_player.bedroom
         type: media-control

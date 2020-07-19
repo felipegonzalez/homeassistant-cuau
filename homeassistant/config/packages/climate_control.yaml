@@ -9,7 +9,7 @@ climate:
     name: AC Tita
     unique_id: ac_tita
     device_code: 1062
-    controller_data: 192.168.100.74
+    controller_data: 192.168.100.13
 
 sensor:  
   - platform: mqtt
@@ -54,7 +54,7 @@ automation:
     id: climate11rec
     trigger:
       - platform: time
-        at: "19:30:00"
+        at: "22:00:00"
     condition:
       condition: numeric_state
       entity_id: "sensor.bedroom_temperature"
@@ -69,7 +69,7 @@ automation:
     id: climate11recapagar
     trigger:
       - platform: time
-        at: "03:30:00"
+        at: "04:00:00"
     condition:
       condition: numeric_state
       entity_id: "sensor.bedroom_temperature"

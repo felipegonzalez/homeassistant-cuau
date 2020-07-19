@@ -19,34 +19,7 @@ sensor:
       - nearest_storm_distance
       - nearest_storm_bearing
     scan_interval: '00:20' 
-  # - platform: rest
-  #   resource: "http://192.168.100.50:8090/get_weather"
-  #   name: "Weather station"
-  #   scan_interval: 120
-  #   force_update: true
-  #   json_attributes:
-  #       - humidity
-  #       - temperature
-  #       - date
-  #       - wind_direction
-  #       - wind_speed
-  #       - rain_mm_day
-  # - platform: template
-  #   sensors:
-  #     temperature_outside:
-  #       entity_id: sensor.weather_station
-  #       friendly_name: 'Temperatura Exterior'
-  #       value_template: '{{ states.sensor.weather_station.attributes.temperature | float }}'
-  #       unit_of_measurement: "°C"
-  #     wind_speed_outside:
-  #       entity_id: sensor.weather_station
-  #       value_template: '{{ states.sensor.weather_station.attributes.wind_speed }}'
-  #       unit_of_measurement: "km/h"
-  #     cumulative_rain_day:
-  #       entity_id: sensor.weather_station
-  #       value_template:  "{{ state_attr('sensor.weather_station', 'rain_mm_day') | float }}"
-  #       unit_of_measurement: "mm"
-
+ 
   - platform: template
     sensors:
       rain_mm_twoday:
@@ -60,11 +33,11 @@ sensor:
     db_url: !secret hass_db
     queries:
       - name: cumulative_rain_yesterday
-        query: "select coalesce(25.4*max(state+0),0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain_2' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),1);"
+        query: "select coalesce(25.4*max(state+0),0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),1);"
         column: 'maximum'
         unit_of_measurement: mm
       - name: cumulative_rain_today
-        query: "select coalesce(25.4*max(state+0), 0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain_2' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),0);"
+        query: "select coalesce(25.4*max(state+0), 0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),0);"
         column: 'maximum'
         unit_of_measurement: mm
 
@@ -73,7 +46,7 @@ binary_sensor:
   - platform: trend
     sensors:
       pressure_falling:
-        entity_id: sensor.cuauhtemoc_abs_pressure_2
+        entity_id: sensor.cuauhtemoc_abs_pressure
         device_class: safety
         max_samples: 1000
         sample_duration: 3600
@@ -81,11 +54,11 @@ binary_sensor:
 
 homeassistant:
   customize:
-    sensor.cuauhtemoc_humidity_2:
+    sensor.cuauhtemoc_humidity:
       friendly_name: Humedad Exterior
-    sensor.cuauhtemoc_temp_2:
+    sensor.cuauhtemoc_temp:
       friendly_name: Temperatura Exterior
-    binary_sensor.pressure_falling_2:
+    binary_sensor.pressure_falling:
       friendly_name: Mal clima
 
 # Rain notification

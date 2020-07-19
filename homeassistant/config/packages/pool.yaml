@@ -120,4 +120,17 @@ automation:
       - service: switch.turn_on
         entity_id: switch.pool_pump
 
-
+  - alias: Auto pump run schedule night
+    trigger:
+      - platform: time
+        at: '00:00:00'
+    condition:
+      - condition: state
+        entity_id: input_boolean.pump_auto
+        state: 'on'
+      - condition: state
+        entity_id: switch.pool_pump
+        state: 'off'
+    action:
+      - service: switch.turn_on
+        entity_id: switch.pool_pump
