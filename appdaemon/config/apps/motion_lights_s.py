@@ -56,12 +56,14 @@ class MotionLights(hass.Hass):
     if(entity == "media_player.bedroom" and self.sleep_mode == "off"):
       if(old == "playing"):
         self.grouping["binary_sensor.motion_recamara"]["brightness"] = 255
+        self.grouping["binary_sensor.cabecera_recamara"]["brightness"] = 255
         self.grouping["binary_sensor.motion_bano_principal"]["brightness"] = 255
         self.grouping["binary_sensor.motion_vestidor"]["brightness"] = 255
       if(new == "playing"):
-        self.grouping["binary_sensor.motion_recamara"]["brightness"] = 50
-        self.grouping["binary_sensor.motion_bano_principal"]["brightness"] = 50
-        self.grouping["binary_sensor.motion_vestidor"]["brightness"] = 60
+        self.grouping["binary_sensor.motion_recamara"]["brightness"] = 70
+        self.grouping["binary_sensor.cabecera_recamara"]["brightness"] = 70
+        self.grouping["binary_sensor.motion_bano_principal"]["brightness"] = 70
+        self.grouping["binary_sensor.motion_vestidor"]["brightness"] = 70
       group = self.grouping["binary_sensor.motion_recamara"]["lights"]
       self.log("Adapting lights for TV watching in bedroom.")
       self.turn_on(group, brightness = self.grouping["binary_sensor.motion_recamara"]["brightness"], 

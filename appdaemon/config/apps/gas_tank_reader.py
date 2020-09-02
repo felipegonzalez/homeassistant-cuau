@@ -38,7 +38,7 @@ class GasTankReader(hass.Hass):
     img_hsv=cv2.cvtColor(dst2, cv2.COLOR_BGR2HSV)
 
         # lower mask (0-10)
-    lower_red = np.array([0,50,50])
+    lower_red = np.array([0,20,20])
     upper_red = np.array([20,255,255])
     mask0 = cv2.inRange(img_hsv, lower_red, upper_red)
 
@@ -54,12 +54,13 @@ class GasTankReader(hass.Hass):
     output_img = image.copy()
     output_img[np.where(mask==0)] = 0
     gray2 = cv2.cvtColor(output_img, cv2.COLOR_BGR2GRAY)
-    cv2.imwrite("/conf/red.jpg",gray2)
+    res_write = cv2.imwrite("red.jpg",gray2)
+    self.log("Sucess writing image: {}".format(res_write))
     img2 = image.copy()
     minLineLength = 300
     maxLineGap = 5
     lines = cv2.HoughLinesP(image=gray2, rho=1, 
-        theta=3.1416 / 180, threshold=10, minLineLength= minLineLength, maxLineGap = maxLineGap)
+        theta=3.1416 / 180, threshold=8, minLineLength= minLineLength, maxLineGap = maxLineGap)
     final_line_list = []
 
     x_center = 780
@@ -102,10 +103,10 @@ class GasTankReader(hass.Hass):
     else:
         angle = np.arctan2(-(y2-y_center), x2-x_center) * 180 / np.pi
         cv2.circle(img2, (x2,y2), 5, (0,0,255), -1)
-    cv2.imwrite("/conf/img_gauge.jpg", img2)
+    cv2.imwrite("img_gauge.jpg", img2)
     self.log("Angle: {}".format(angle))
     if angle < 0:
         reading = -((60-22)/90.0)*(angle+90.0) - 15.0
     else:
-        reading = ((50-80)/(90-24))*(angle - 24) + 80.0
+        reading = ((50-80)/(90-24))*(angle - 24) + 75.0
     return reading  
