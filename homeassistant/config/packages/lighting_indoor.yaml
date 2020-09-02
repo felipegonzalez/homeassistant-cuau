@@ -6,6 +6,17 @@ script:
         data_template:
           entity_id: "{{ states.light | map(attribute='entity_id') | list | join(', ') }}"
 
+switch:
+  - platform: mqtt
+    name: "bano_visitas_switch"
+    state_topic: sonoff/switch_bano_visitas/POWER
+    command_topic: sonoff/switch_bano_visitas/cmnd/POWER
+    payload_on: "ON"
+    payload_off: "OFF"
+    availability_topic: sonoff/switch_bano_visitas/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+
 sensor:
   # Light sensors
   - platform: mqtt
@@ -160,7 +171,7 @@ automation:
       entity_id: sensor.felipe_office_occupancy
       below: 1
       for:
-        minutes: 12
+        minutes: 5
     condition:
       condition: state
       entity_id: light.felipe_desk
@@ -168,3 +179,11 @@ automation:
     action:
       service: light.turn_off
       entity_id: light.felipe_desk
+
+  - alias: Manual control bano visitas
+    trigger:
+      platform: state
+      entity_id: switch.bano_visitas_switch
+    action:
+      service: light.toggle
+      entity_id: light.bathroom_downstairs
