@@ -1,7 +1,7 @@
 input_boolean:
   auto_persianas:
     name: Auto persianas
-    initial: on
+    initial: off
 
 cover:
   - platform: mqtt

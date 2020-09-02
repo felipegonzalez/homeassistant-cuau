@@ -118,7 +118,7 @@
     name: Study Felipe
     entities:
       - light.study
-      - light.living_room_foot_2
+      - light.sillon_oficina
       
   - platform: group
     name: Entrance hall lights
