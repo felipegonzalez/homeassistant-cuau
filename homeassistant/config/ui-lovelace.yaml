@@ -41,15 +41,19 @@ views:
             tap_action:
               action: toggle
             icon: 'mdi:sleep'
+          - entity: input_boolean.dormir_tita
+            name: Dormir Tita
+            action: toggle
+            icon: 'mdi:sleep'
           - entity: light.patio_floodlight
             name: Reflector
             icon: 'mdi:car-parking-lights'
             tap_action:
               action: toggle
-          - entity: cover.bedroom_blinds_1
-            name: Persianas
-            tap_action:
-              action: toggle
+          #- entity: cover.bedroom_blinds_1
+          #  name: Persianas
+          #  tap_action:
+          #    action: toggle
         columns: 4
         type: glance
       - entities:
@@ -57,14 +61,14 @@ views:
             name: Aspiradora Angel
           - entity: input_boolean.auto_light
             name: Auto luces
-          - entity: input_boolean.auto_persianas
-            name: Auto persianas
-            icon: 'mdi:flash-outline'
+          #- entity: input_boolean.auto_persianas
+          #  name: Auto persianas
+          #  icon: 'mdi:flash-outline'
           - entity: media_player.bedroom
             name: Apple TV Recámara
           - entity: media_player.family_room_apple_tv_2
             name: Apple TV cuarto Tele
-          - entity: media_player.samsung_un55ku6000_2
+          - entity: media_player.samsung_un55ku6000
             name: Samsung TV
           - entity: script.apagar_luces
             name: Apagar luces
@@ -76,10 +80,10 @@ views:
                 entity_id: script.apagar_luces
         type: entities
         show_header_toggle: false
-      - entities:
-          - entity: cover.bedroom_blinds_1
-          - entity: cover.bedroom_blinds_2 
-        type: entities
+      #- entities:
+      #    - entity: cover.bedroom_blinds_1
+      #    - entity: cover.bedroom_blinds_2 
+      #  type: entities
       - type: alarm-panel
         entity: alarm_control_panel.home_alarm
     icon: 'mdi:home'
@@ -157,17 +161,9 @@ views:
       - sensor.ups_input_voltage
       - sensor.kitchen_lp_gas
       - sensor.bedroom_lp_gas
+      - binary_sensor.ups_online_status
+      - sensor.ups_battery
     cards:
-      - entities:
-          - entity: binary_sensor.ups_online_status
-            name: Xeoma server
-          - entity: sensor.xeoma_host_cpu_used_2
-            name: Xeoma cpu
-          - entity: sensor.xeoma_host_ram_free_2
-            name: Xeoma free mem
-          - entity: sensor.ups_status
-          - entity: sensor.ups_battery
-        type: entities
       - entities:
           - entity: binary_sensor.felipe_window
           #- entity: binary_sensor.wyzesense_7780f668
@@ -184,30 +180,40 @@ views:
           - entity: binary_sensor.workshop
           - entity: binary_sensor.main_garden_door
         show_header_toggle: false
+        state_color: true
         type: entities
       - entities:
+          - binary_sensor.motion_tita
           - binary_sensor.motion_bano_principal
+          - binary_sensor.movimiento_hall
+          - binary_sensor.motion_pasillo_recamaras
+          - binary_sensor.motion_recamara
+          - binary_sensor.motion_vestidor
+          - binary_sensor.motion_tvroom
+          - binary_sensor.motion_camera_escaleras
           - binary_sensor.motion_bano_visitas
           - binary_sensor.motion_cocina
           - binary_sensor.motion_comedor
           - binary_sensor.motion_estudiof
           - binary_sensor.motion_estudiot
-          - binary_sensor.movimiento_hall
           - binary_sensor.motion_pasillo_comedor_1
-          - binary_sensor.motion_pasillo_recamaras
-          - binary_sensor.motion_recamara
-          - binary_sensor.motion_vestidor
+          - binary_sensor.motion_camera_hall
           - binary_sensor.motion_sala
           - binary_sensor.motion_terraza
-          - binary_sensor.motion_tvroom
+          - binary_sensor.motion_camera_patio_door
+          - binary_sensor.motion_camera_patio_dome
           - entity: binary_sensor.front_door_motion
             name: Front gate
-          - binary_sensor.motion_camera_escaleras
-          - binary_sensor.motion_camera_hall
-          - binary_sensor.motion_camera_patio
-          - binary_sensor.motion_camera_puerta_patio
         #state_filter:
         #  - 'on'
+        state_color: true
+        type: entities
+      - entities:
+          - entity: sensor.xeoma_host_cpu_used
+            name: Xeoma cpu
+          - entity: sensor.xeoma_host_ram_free
+            name: Xeoma free mem
+          - entity: sensor.ups_status
         type: entities
       - entity: camera.front_door
         type: picture-entity
@@ -254,19 +260,7 @@ views:
           - entity: sensor.living_room_humidity
             name: Sala
 
-  - cards:
-      - entity: media_player.office
-        type: media-control
-      - entity: media_player.living_room
-        type: media-control
-      - entity: media_player.samsung_un55ku6000_2
-        type: media-control
-      - entity: media_player.bedroom
-        type: media-control
-      - entity: media_player.family_room_apple_tv_2
-        type: media-control
-    icon: 'mdi:music'
-    title: Media
+
 
 
   - badges:
@@ -278,34 +272,6 @@ views:
       - timer.kettle_timer
 
     cards:
-# Example entities card configuration
-      # - type: entities
-      #   entities:
-      #   - type: cast
-      #     name: Jardin
-      #     # The path of the view (or number)
-      #     view: 2
-      #     hide_if_unavailable: true
-      - type: picture-entity
-        entity: camera.gas_tank_camera
-      - entities:
-          - sensor.gas_tank_filtered
-          - sensor.gas_tank_raw
-          - sensor.water_usage_rate_f
-          - sensor.water_usage_rate
-          - sensor.felipe_study_photo_level
-        hours_to_show: 4
-        type: history-graph
-
-      - entities:
-          - sensor.dryer
-          - sensor.washing_machine
-          - sensor.washing_machine_stats_mean
-          - sensor.living_photo_level
-          - sensor.cuauhtemoc_solar_rad
-          - sensor.cuauhtemoc_solar_rad_lx
-        hours_to_show: 6
-        type: history-graph
       - entities:
           - input_boolean.dark_house
           - input_boolean.pump_auto
@@ -317,7 +283,52 @@ views:
           - input_boolean.dryer_high
         title: Input boolean
         type: entities    
+      - type: picture-entity
+        entity: camera.gas_tank_camera
+      - entities:
+          - sensor.gas_tank_filtered
+          - sensor.gas_tank_raw
+          - sensor.water_usage_rate_f
+          - sensor.water_usage_rate
+        hours_to_show: 6
+        type: history-graph
+
+      - entities:
+          - sensor.dryer
+          - sensor.washing_machine
+          - sensor.washing_machine_stats_mean
+          - sensor.living_photo_level
+          - sensor.cuauhtemoc_solar_rad_lx
+        hours_to_show: 6
+        type: history-graph
     icon: 'mdi:cogs'
     title: Settings
-    
 
+  - cards:
+    - entities:
+      - light.tita
+      - light.backyard
+      - light.backyard_terrace
+      - light.bedroom
+      - light.entrance
+      - light.tv_room
+      - light.reflectores_sala
+      show_header_toggle: false
+      type: entities
+      title: Luces
+    icon: 'mdi:lightbulb'
+    title: Luces
+
+  - cards:
+      - entity: media_player.office
+        type: media-control
+      - entity: media_player.living_room
+        type: media-control
+      - entity: media_player.samsung_un55ku6000
+        type: media-control
+      - entity: media_player.bedroom
+        type: media-control
+      - entity: media_player.family_room_apple_tv_2
+        type: media-control
+    icon: 'mdi:music'
+    title: Media
