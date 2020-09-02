@@ -21,7 +21,7 @@ async def async_setup_entry(hass, config_entry, async_add_entities):
     async_add_entities([AppleTVRemote(name, identifier, manager)])
 
 
-class AppleTVRemote(remote.RemoteDevice):
+class AppleTVRemote(remote.RemoteEntity):
     """Device that sends commands to an Apple TV."""
 
     def __init__(self, name, identifier, manager):
@@ -49,11 +49,8 @@ class AppleTVRemote(remote.RemoteDevice):
     def device_info(self):
         """Return the device info."""
         return {
+            "name": self._name,
             "identifiers": {(DOMAIN, self._identifier)},
-            "manufacturer": "Apple",
-            "model": "Remote",
-            "name": self.name,
-            "sw_version": "0.0",
             "via_device": (DOMAIN, self._identifier),
         }
 
