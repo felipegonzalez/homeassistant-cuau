@@ -33,11 +33,11 @@ sensor:
     db_url: !secret hass_db
     queries:
       - name: cumulative_rain_yesterday
-        query: "select coalesce(25.4*max(state+0),0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),1);"
+        query: "select round(coalesce(25.4*max(state+0),0),0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),1);"
         column: 'maximum'
         unit_of_measurement: mm
       - name: cumulative_rain_today
-        query: "select coalesce(25.4*max(state+0), 0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),0);"
+        query: "select round(coalesce(25.4*max(state+0), 0),0) as maximum from states where entity_id = 'sensor.cuauhtemoc_daily_rain' and date(convert_tz(last_updated,'UTC','US/Central'))  = subdate(date(convert_tz(now(), 'UTC','US/Central')),0);"
         column: 'maximum'
         unit_of_measurement: mm
 
