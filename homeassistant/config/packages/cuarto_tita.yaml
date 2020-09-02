@@ -1,0 +1,75 @@
+input_boolean:
+  dormir_tita:
+    name: "Dormir Teresita"
+    initial: off
+    icon: mdi:sleep
+
+sensor:
+  - platform: mqtt
+    name: Luz Tita
+    state_topic: "xbeebox/cuarto_teresita/photo/1/caja_teresita"
+    unit_of_measurement: "V"
+    value_template: '{{ value | round(1) }}'
+
+
+automation:
+  - alias: Encender luz tita
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_tita
+        from: 'off'
+        to: 'on'
+    condition:
+      condition: and
+      conditions:
+      - condition: numeric_state
+        entity_id: 'sensor.luz_tita'
+        below: 200
+      - condition: state
+        entity_id: input_boolean.dormir_tita
+        state: 'off'
+    action:
+      service: light.turn_on
+      entity_id: light.tita
+  - alias: endcender luz tita oscuro
+    trigger:
+      platform: numeric_state
+      entity_id: sensor.luz_tita
+      below: 200
+    condition:
+      - condition: state
+        entity_id: binary_sensor.motion_tita
+        state: 'on'
+      - condition: state
+        entity_id: input_boolean.dormir_tita
+        state: 'off'
+    action:
+      service: light.turn_on
+      entity_id: light.tita
+
+  - alias: Apagar luz tita
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.motion_tita
+        to: 'off'
+        for:
+          minutes: 3
+    action:
+      service: light.turn_off
+      entity_id: light.tita
+  - alias: apagar luz tita luz
+    trigger:
+      - platform: numeric_state
+        entity_id: sensor.luz_tita
+        above: 350
+    action:
+      service: light.turn_off
+      entity_id: light.tita
+
+  - alias: reset dormir tita
+    trigger:
+      - platform: time
+        at: '09:00:00'
+    action:
+      service: input_boolean.turn_off
+      entity_id: input_boolean.dormir_tita
