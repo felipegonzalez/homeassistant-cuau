@@ -173,7 +173,6 @@ automation:
         volume: 0.5
         delay: 00:00:10
         message: El asistente de la casa está iniciado.
-automation:
   - trigger:
       platform: template
       value_template: >

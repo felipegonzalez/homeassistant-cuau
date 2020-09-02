@@ -10,6 +10,7 @@ climate:
     unique_id: ac_tita
     device_code: 1062
     controller_data: 192.168.100.13
+    temperature_sensor: sensor.temperatura_tita
 
 sensor:  
   - platform: mqtt
@@ -42,7 +43,11 @@ sensor:
     state_topic: "xbeebox/sala/humidity/1/cajasala"
     unit_of_measurement: "%"
     value_template: '{{ value | round(1) }}'
-
+  - platform: mqtt
+    name: Temperatura Tita
+    state_topic: "xbeebox/cuarto_teresita/temperature/1/caja_teresita"
+    unit_of_measurement: "°C"
+    value_template: '{{ value | round(1) }}'
 ## Pressure
   - platform: mqtt
     name: pressure 
