@@ -68,8 +68,8 @@ device_settings = {
         'device_type':'xbeebox',
         'addr_long':'0013a20040c4605b'
         },
-        'caja_estudiot':{
-        'place':'estudiot',
+        'caja_teresita':{
+        'place':'cuarto_teresita',
         'device_type':'xbeebox',
         'addr_long':'0013a20040be4592'
         },
@@ -196,9 +196,13 @@ def monitor():
             response['source_addr_long'] = response['source_addr_long'].hex()
             response['source_addr'] = response['source_addr'].hex()
             #print(response)
+            if(xbee_dict[response['source_addr_long']]=='caja_teresita'):
+                print("Cuarto teresita: ")
+                print(response)
             if(xbee_dict[response['source_addr_long']]=='cajarecamara'):
                 print("Recamara: ")
-                print(response)       
+                print(response)
+                       
             if('rf_data' in response.keys()):
                 try:
                     response['rf_data'] = response['rf_data'].decode('utf-8')
