@@ -41,7 +41,7 @@ input_boolean:
 input_number:
   pool_run_time:
     name: Pool run time
-    initial: 3
+    initial: 5
     min: 1
     max: 6
     step: 1
@@ -108,7 +108,7 @@ automation:
   - alias: Auto pump run schedule
     trigger:
       - platform: time
-        at: '11:00:00'
+        at: '10:00:00'
     condition:
       - condition: state
         entity_id: input_boolean.pump_auto
@@ -123,7 +123,7 @@ automation:
   - alias: Auto pump run schedule night
     trigger:
       - platform: time
-        at: '00:00:00'
+        at: '17:00:00'
     condition:
       - condition: state
         entity_id: input_boolean.pump_auto
