@@ -1,21 +1,36 @@
 image_processing:
-  # - platform: opencv
-  #   source:
-  #     - entity_id: camera.hall
-  - platform: tensorflow
+  - platform: doods
+    detector: tensorflow
+    url: "http://192.168.100.231:8080"
+    confidence: 75
     source:
       - entity_id: camera.hall
-      - entity_id: camera.huerto
-      - entity_id: camera.oficina
+      - entity_id: camera.patio_dome
+      - entity_id: camera.oficina_2
       - entity_id: camera.patio_door
     file_out:
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_latest.jpg"
       - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
-    scan_interval: 25
-    model:
-      graph: /Volumes/SSD2/hass-cuauhtemoc97/homeassistant/config/tensorflow/better_frozen_inference_graph.pb
-      categories:
-        - person
+    scan_interval: 15
+    labels:
+      - person
+      - car
+      - truck
+
+#  - platform: tensorflow
+#    source:
+#      - entity_id: camera.hall
+#      - entity_id: camera.huerto
+#      - entity_id: camera.oficina_2
+#      - ent-{{ity_id: camera.patio_door
+#    file_out:
+#      - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_latest.jpg"
+#      - "/Volumes/SSD2/tmp_image_recog/{{ camera_entity.split('.')[1] }}_{{ now().strftime('%Y%m%d_%H%M%S') }}.jpg"
+#    scan_interval: 20
+#    model:
+#      graph: /Volumes/SSD2/hass-cuauhtemoc97/homeassistant/config/tensorflow/models/efficientdet_d0_coco17_tpu-32/
+#      categories:
+#        - person
 
 camera:
   - platform: local_file
@@ -26,34 +41,34 @@ camera:
     file_path: /Volumes/SSD2/tmp_image_recog/patio_door_latest.jpg
   - platform: local_file
     name: Huerto personas
-    file_path: /Volumes/SSD2/tmp_image_recog/huerto_latest.jpg
+    file_path: /Volumes/SSD2/tmp_image_recog/patio_dome_latest.jpg
   - platform: local_file
     name: Oficina personas
-    file_path: /Volumes/SSD2/tmp_image_recog/oficina_latest.jpg
+    file_path: /Volumes/SSD2/tmp_image_recog/oficina_2_latest.jpg
 
 sensor:
   - platform: template
     sensors:
       hall_occupancy:
         value_template: >
-          {% if states.image_processing.tensorflow_hall.attributes.summary.person is defined %}
-            {{ states.image_processing.tensorflow_hall.attributes.summary.person | int }}
+          {% if states.image_processing.doods_hall.attributes.summary.person is defined %}
+            {{ states.image_processing.doods_hall.attributes.summary.person | int }}
           {% else %}
               0
           {% endif %}
         unit_of_measurement: "Persons"
       felipe_office_occupancy:
         value_template: >
-          {% if states.image_processing.tensorflow_oficina.attributes.summary.person is defined %}
-            {{ states.image_processing.tensorflow_oficina.attributes.summary.person | int }}
+          {% if states.image_processing.doods_oficina_2.attributes.summary.person is defined %}
+            {{ states.image_processing.doods_oficina_2.attributes.summary.person | int }}
           {% else %}
               0
           {% endif %}
         unit_of_measurement: "Persons"      
       huerto_occupancy:
         value_template: >
-          {% if states.image_processing.tensorflow_huerto.attributes.summary.person is defined %}
-            {{ states.image_processing.tensorflow_huerto.attributes.summary.person | int }}
+          {% if states.image_processing.doods_patio_dome.attributes.summary.person is defined %}
+            {{ states.image_processing.doods_patio_dome.attributes.summary.person | int }}
           {% else %}
               0
           {% endif %}
@@ -70,24 +85,24 @@ automation:
     action:
     - service: image_processing.scan
       data:
-        entity_id: image_processing.tensorflow_hall
+        entity_id: image_processing.doods_hall
   - id: cam1222345
     alias: scan cam patio
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_camera_patio
+      entity_id: binary_sensor.motion_camera_patio_door
       to: 'on'
     action:
     - service: image_processing.scan
       data:
-        entity_id: image_processing.tensorflow_patio_door
+        entity_id: image_processing.doods_patio_door
   - id: cam12223458
-    alias: scan cam huerto
+    alias: scan cam patio door
     trigger:
       platform: state
-      entity_id: binary_sensor.motion_camera_huerto
+      entity_id: binary_sensor.motion_camera_patio_dome
       to: 'on'
     action:
     - service: image_processing.scan
       data:
-        entity_id: image_processing.tensorflow_huerto
+        entity_id: image_processing.doods_patio_dome
