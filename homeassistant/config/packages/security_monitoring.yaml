@@ -158,6 +158,13 @@ binary_sensor:
     payload_off: False
     device_class: motion
     off_delay: 30
+  - platform: mqtt
+    name: motion_tita
+    state_topic: "xbeebox/cuarto_teresita/motion/1/caja_teresita"
+    payload_on: True
+    payload_off: False
+    device_class: motion
+    off_delay: 30
 
 ## Camera motion
   - platform: mqtt
@@ -167,18 +174,17 @@ binary_sensor:
     # value_template: '{{ "OFF" }}'
     device_class: motion
   - platform: mqtt
-    name: motion_camera_huerto
+    name: motion_camera_patio_door
     state_topic: "xeoma_server/camera_patio_door"
     # value_template: '{{ "ON" }}'
     # value_template: '{{ "OFF" }}'
     device_class: motion
   - platform: mqtt
-    name: motion_camera_patio
+    name: motion_camera_patio_dome
     state_topic: "xeoma_server/camera_patio_dome"
     # value_template: '{{ "ON" }}'
     # value_template: '{{ "OFF" }}'
     device_class: motion
-    off_delay: 8 
   - platform: mqtt
     name: motion_camera_escaleras
     state_topic: "xeoma_server/camera_escalera"
@@ -252,6 +258,12 @@ binary_sensor:
     payload_off: 'off'
     payload_on: 'on'
     device_class: door
+  - platform: mqtt
+    name: cabecera_recamara
+    state_topic: 'ha_slave/recamara_cabecera'
+    payload_off: 'off'
+    payload_on: 'on'
+    device_class: motion
 
 input_boolean:
   high_temperature:
