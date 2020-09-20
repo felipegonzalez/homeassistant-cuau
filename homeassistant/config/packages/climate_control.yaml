@@ -3,13 +3,13 @@ climate:
     name: AC recamara
     unique_id: ac_recamara
     device_code: 1062
-    controller_data: 192.168.100.59
+    controller_data: remote.bedroom_broadlink_remote
     temperature_sensor: sensor.bedroom_temperature
   - platform: smartir
     name: AC Tita
     unique_id: ac_tita
     device_code: 1062
-    controller_data: 192.168.100.13
+    controller_data: remote.bedroom_tita_broadlink_remote
     temperature_sensor: sensor.temperatura_tita
 
 sensor:  
