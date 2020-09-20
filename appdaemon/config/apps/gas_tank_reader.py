@@ -38,7 +38,7 @@ class GasTankReader(hass.Hass):
     img_hsv=cv2.cvtColor(dst2, cv2.COLOR_BGR2HSV)
 
         # lower mask (0-10)
-    lower_red = np.array([0,20,20])
+    lower_red = np.array([0,50,50])
     upper_red = np.array([20,255,255])
     mask0 = cv2.inRange(img_hsv, lower_red, upper_red)
 
@@ -57,16 +57,16 @@ class GasTankReader(hass.Hass):
     res_write = cv2.imwrite("red.jpg",gray2)
     self.log("Sucess writing image: {}".format(res_write))
     img2 = image.copy()
-    minLineLength = 300
+    minLineLength = 400
     maxLineGap = 5
     lines = cv2.HoughLinesP(image=gray2, rho=1, 
-        theta=3.1416 / 180, threshold=8, minLineLength= minLineLength, maxLineGap = maxLineGap)
+        theta=3.1416 / 180, threshold=7, minLineLength= minLineLength, maxLineGap = maxLineGap)
     final_line_list = []
 
-    x_center = 780
-    y_center = 700
+    x_center = 700
+    y_center = 655
     
-    cv2.circle(img2,(int(x_center),int(y_center)), 10, (0,0,255), -1)
+    cv2.circle(img2,(int(x_center),int(y_center)), 5, (0,0,255), -1)
     for line in lines:
         for x1, y1, x2, y2 in lines[0]:
             final_line_list.append([x1, y1, x2, y2])
