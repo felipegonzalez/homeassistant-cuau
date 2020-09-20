@@ -1,6 +1,6 @@
 ## Indoors
   - platform: mqtt
-    name: "Felipe Desk"
+    name: "Escritorio de Felipe"
     state_topic: sonoff/lampara_oficina/stat/POWER
     command_topic: sonoff/lampara_oficina/cmnd/POWER
     payload_on: "ON"
@@ -81,29 +81,28 @@
     payload_not_available: "Offline"
 
   - platform: group
-    name: Garden lights
+    name: Luces del jardin
     entities:
       - light.garden_tree_lights
       - light.garden_bulbs
       - light.pool_lights
 
   - platform: group
-    name: Living room lights
+    name: Luces de sala
     entities:
-      - light.living_room
+      - light.sala
       - light.reflectores_sala
 
   - platform: group
-    name: Dining room lights
+    name: Luces del Comedor
     entities:
-      - light.dining_room
+      - light.comedor
       - light.hue_bloom_1
 
   - platform: group
-    name: Kitchen lights
+    name: Luces de la cocina
     entities:
-      - light.kitchen_one
-      - light.kitchen_two
+      - light.cocina
       - light.laundry_light
       - light.kitchen_strip
 
@@ -117,24 +116,24 @@
   - platform: group
     name: Study Felipe
     entities:
-      - light.study
-      - light.sillon_oficina
+      - light.oficina_de_felipe
+      - light.escritorio_de_felipe
       
   - platform: group
-    name: Entrance hall lights
+    name: Luces del hall de entrada
     entities:
       - light.entrance_hall
       - light.hue_ambiance_pendant_1
       - light.entrance_table
 
   - platform: group
-    name: Main bathroom
+    name: Luces del bano principal
     entities:
       - light.main_bath_three
       - light.main_bath_two
 
   - platform: group
-    name: Entrance
+    name: Entrada exterior
     entities:
       - light.patio_stairs
       - light.caballeriza
@@ -143,26 +142,25 @@
       - light.patio_strip
 
   - platform: group
-    name: Backyard terrace
+    name: Terraza de jardin
     entities:
-      - light.backyard
+      - light.terrace
       - light.garden_strip
-      - light.terraza_puerta_2
 
   - platform: group
-    name: Bedroom lights
+    name: Luces de recamara
     entities:
       - light.bedroom_one
       - light.bedroom_two
 
   - platform: group
-    name: Bedroom hall lights
+    name: Pasillo de recamaras
     entities:
       - light.stairs
       #- light.dressing_room
 
   - platform: group
-    name: Dining room hall
+    name: Luces del Pasillo del comedor
     entities:
       - light.dining_hall_1
       - light.dining_hall_2

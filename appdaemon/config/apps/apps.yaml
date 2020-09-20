@@ -30,20 +30,20 @@ Motion Lights:
   constrain_input_boolean: input_boolean.dark_house
   grouping: >
     {"binary_sensor.motion_vestidor":{"lights": "light.dressing_room", "delay":120, "use_sleep":"dim"},
-    "binary_sensor.motion_bano_visitas":{"lights": "light.downstairs_bath", "delay":240, "use_sleep":"no"},
-    "binary_sensor.motion_sala":{"lights":"light.living_room_lights", "delay":240, "use_sleep":"no"},
-    "binary_sensor.motion_bano_principal":{"lights":"light.main_bathroom","delay":240, "use_sleep":"dim"},
-    "binary_sensor.motion_cocina":{"lights":"light.kitchen_lights","delay":240, "use_sleep":"no"},
-    "binary_sensor.motion_comedor":{"lights":"light.dining_room_lights","delay":240, "use_sleep":"no"},
-    "binary_sensor.motion_estudiof":{"lights":"light.study_felipe","delay":600, "use_sleep":"no", "occupancy":"felipe_office_occupancy"},
+    "binary_sensor.motion_bano_visitas":{"lights": "light.bano_de_visitas", "delay":240, "use_sleep":"no"},
+    "binary_sensor.motion_sala":{"lights":"light.luces_de_sala", "delay":240, "use_sleep":"no"},
+    "binary_sensor.motion_bano_principal":{"lights":"light.bano_principal","delay":240, "use_sleep":"dim"},
+    "binary_sensor.motion_cocina":{"lights":"light.luces_de_la_cocina","delay":240, "use_sleep":"no"},
+    "binary_sensor.motion_comedor":{"lights":"light.comedor","delay":240, "use_sleep":"no"},
+    "binary_sensor.motion_estudiof":{"lights":"light.oficina_de_felipe","delay":600, "use_sleep":"no", "occupancy":"felipe_office_occupancy"},
     "binary_sensor.motion_estudiot":{"lights":"light.study_tere","delay":300, "use_sleep":"no"},
-    "binary_sensor.movimiento_hall":{"lights":"light.entrance_hall_lights","delay":120, "use_sleep":"dim"},
-    "binary_sensor.motion_pasillo_comedor_1":{"lights":"light.pasillo","delay":60, "use_sleep":"dim", "brightness":250},
-    "binary_sensor.motion_pasillo_comedor_2":{"lights":"light.pasillo","delay":60, "use_sleep":"dim", "brightness":250},
-    "binary_sensor.motion_pasillo_recamaras":{"lights":"light.bedroom_hall_lights","delay":30, "use_sleep":"dim", "brightness":250},
-    "binary_sensor.motion_recamara":{"lights":"light.bedroom_lights",  "delay":480, "use_sleep":"dark", "media":"media_player.bedroom"},
-    "binary_sensor.cabecera_recamara":{"lights":"light.bedroom_lights",  "delay":480, "use_sleep":"dark", "media":"media_player.bedroom"},
-    "binary_sensor.motion_terraza":{"lights":"light.backyard_terrace","delay":240, "use_sleep":"no"},
+    "binary_sensor.movimiento_hall":{"lights":"light.luces_del_hall_de_entrada","delay":120, "use_sleep":"dim"},
+    "binary_sensor.motion_pasillo_comedor_1":{"lights":"light.pasillo_del_comedor","delay":60, "use_sleep":"dim", "brightness":250},
+    "binary_sensor.motion_pasillo_comedor_2":{"lights":"light.pasillo_del_comedor","delay":60, "use_sleep":"dim", "brightness":250},
+    "binary_sensor.motion_pasillo_recamaras":{"lights":"light.pasillo_recamaras","delay":30, "use_sleep":"dim", "brightness":250},
+    "binary_sensor.motion_recamara":{"lights":"light.recamara_principal",  "delay":480, "use_sleep":"dark", "media":"media_player.bedroom"},
+    "binary_sensor.cabecera_recamara":{"lights":"light.recamara_principal",  "delay":480, "use_sleep":"dark", "media":"media_player.bedroom"},
+    "binary_sensor.motion_terraza":{"lights":"light.terraza_de_jardin","delay":240, "use_sleep":"no"},
     "binary_sensor.motion_tvroom":{"lights":"light.tv_room","delay":180, "use_sleep":"dark", "media": "media_player.family_room_apple_tv"}}
 
 

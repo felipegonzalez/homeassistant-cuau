@@ -122,7 +122,7 @@ views:
       - weather.dark_sky
     cards:
       - entities:
-          - entity: light.garden_lights
+          - entity: light.luces_del_jardin
             name: Luces Jardín
           - entity: switch.raised_beds_water
             name: Riego camas
@@ -306,11 +306,10 @@ views:
 
   - cards:
     - entities:
-      - light.tita
-      - light.backyard
-      - light.backyard_terrace
-      - light.bedroom
-      - light.entrance
+      - light.recamara_de_tita
+      - light.terraza_de_jardin
+      - light.recamara_principal
+      - light.entrada_exterior
       - light.tv_room
       - light.reflectores_sala
       show_header_toggle: false

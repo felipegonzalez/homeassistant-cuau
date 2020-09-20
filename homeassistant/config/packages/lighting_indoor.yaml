@@ -161,7 +161,7 @@ automation:
         below: 1.0
     action:
       service: light.turn_on
-      entity_id: light.felipe_desk
+      entity_id: light.escritorio_de_felipe
       data:
         brightness: 254
 
@@ -178,7 +178,7 @@ automation:
       state: 'on'
     action:
       service: light.turn_off
-      entity_id: light.felipe_desk
+      entity_id: light.escritorio_de_felipe
 
   - alias: Manual control bano visitas
     trigger:
@@ -186,4 +186,4 @@ automation:
       entity_id: switch.bano_visitas_switch
     action:
       service: light.toggle
-      entity_id: light.bathroom_downstairs
+      entity_id: light.bano_de_visitas

@@ -121,7 +121,7 @@ script:
     sequence:
       - service: light.turn_on
         data:
-          entity_id: light.entrance  
+          entity_id: light.entrada_exterior
           brightness: 250
           kelvin: 2000
       - service: light.turn_on
@@ -294,7 +294,7 @@ automation:
         to: above_horizon
     action:
       - service: light.turn_off
-        entity_id: light.entrance
+        entity_id: light.entrada_exterior
         data:
           transition: 120
       - service: light.turn_off
