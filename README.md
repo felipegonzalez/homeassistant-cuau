@@ -9,7 +9,7 @@ For our CCTV server we use [xeoma](https://felenasoft.com/xeoma/en/).
 
 - Macbook Pro 2011 running Home Assistant
 - MacMini 7,1 Late 2014 (Ubuntu) running [xeoma](https://felenasoft.com/xeoma/en/)
-- iMac running [doods+(https://github.com/snowzach/doods/) for image recognition
+- iMac running [doods](https://github.com/snowzach/doods/) for image recognition
 - Orbi AC3000 wireless Access point with Satellite
 - Airport Extreme 
 - Ring Doorbell Pro
@@ -18,6 +18,7 @@ For our CCTV server we use [xeoma](https://felenasoft.com/xeoma/en/).
 - Amazon Echo
 - Amazon Echo dot (x3)
 - Philips Hue lights (x32)
+- Gas tank level reader with Wyze cam 2 and custom image processing
 - [Kerui Avantgarde Door Windows Detector](https://www.amazon.com/gp/product/B011HOL9A2/) (x5)
 - [Sonoff Rf bridge](https://www.amazon.com/Sonoff-Bridge-433-Controllors-Controllor/dp/B076D7Q4J9) with [Tasmota](https://github.com/arendst/Sonoff-Tasmota) firmware
 - [Sonoff 4Ch switch](https://www.amazon.com/Sonoff-4CH-Appliances-independently-Compatible/dp/B071JB5LXR) with Tasmota
