@@ -49,7 +49,7 @@ sensor:
         window_size: 30
         radius: 10.0
       - filter: lowpass
-        time_constant: 15
+        time_constant: 8
         precision: 2
 
 input_number:
