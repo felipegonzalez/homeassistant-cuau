@@ -31,7 +31,7 @@ lovelace:
 
 recorder:
   db_url: !secret hass_db
-  purge_keep_days: 30
+  purge_keep_days: 60
   exclude: 
     entities:
       - weather.dark_sky 
@@ -50,8 +50,6 @@ recorder:
       - sensor.ups_time_left
       - sensor.ups_loadpct
       - image_processing.opencv_hall
-      - sensor.water_tank_distance_raw
-      - sensor.water_tank_distance_filtered
       - binary_sensor.high_water_usage
       - sensor.water_usage_rate
       - sensor.ups_load
@@ -113,13 +111,12 @@ notify:
     default_channel: '#home'
     username: cuau97hass
 
-switch:
-  - platform: broadlink
-    host: 192.168.100.59
-    mac: 'C8:F7:42:21:A7:46'
-  - platform: broadlink
-    host: 192.168.100.13
-    mac: 'C8:F7:42:21:B2:F8'
+
+sensor:
+  - platform: mqtt
+    name: xbee_network 
+    state_topic: "xbeebox/network/status"
+    expire_after: 5
 
 smartir:
 
@@ -138,6 +135,10 @@ input_boolean:
 cloud:
   alexa:
     entity_config:
+      binary_sensor.sensor_dormir_teresita:
+        name: "Modo dormir teresita"
+        description: "Modo dormir teresita"
+        display_categories: MOTION_SENSOR
       light.bedroom_lights:
         name: "Luces de la recamara"
         description: Luces de recamara principal

@@ -1,5 +1,4 @@
-bin
-lib
-share
-include
-pyvenv.cfg
+bin/
+lib/
+share/
+config/image/

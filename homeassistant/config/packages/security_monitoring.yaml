@@ -17,6 +17,13 @@ homeassistant:
 sensor:
 # Gas lp
   - platform: mqtt
+    name: rf_bridge_result
+    state_topic: tele/rfbridge/RESULT
+    availability_topic: tele/rfbridge/LWT
+    payload_available: "Online"
+    payload_not_available: "Offline"
+    value_template: '{{ value_json.RfReceived.Data }}'
+  - platform: mqtt
     name: Kitchen LP gas 
     state_topic: "xbeebox/cocina/gaslpg/1/cajacocina"
     unit_of_measurement: "V"

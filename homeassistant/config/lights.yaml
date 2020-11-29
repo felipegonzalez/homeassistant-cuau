@@ -1,4 +1,16 @@
 ## Indoors
+
+
+  - platform: switch
+    name: "bano_visitas_techo"
+    entity_id: switch.bano_visitas_switch
+
+  - platform: group
+    name: "bano_visitas_gp"
+    entities:
+      - light.bano_visitas_techo
+      - light.bano_de_visitas
+
   - platform: mqtt
     name: "Escritorio de Felipe"
     state_topic: sonoff/lampara_oficina/stat/POWER

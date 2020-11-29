@@ -3,6 +3,15 @@ input_boolean:
     name: "Dormir Teresita"
     initial: off
     icon: mdi:sleep
+  jugar_colores:
+    name: "Jugar colores"
+    initial: off
+
+binary_sensor:
+  - platform: template
+    sensors:
+      sensor_dormir_teresita:
+        value_template: "{{ states('input_boolean.dormir_tita') }}"
 
 sensor:
   - platform: mqtt
@@ -13,6 +22,61 @@ sensor:
 
 
 automation:
+  - alias: Colores Tita
+    trigger: 
+      - platform: state
+        entity_id: binary_sensor.tita_touchpad_1
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.dormir_tita
+        state: 'off'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.jugar_colores
+      - service: light.turn_on
+        data:
+          entity_id: light.recamara_de_tita
+          brightness: 255
+          effect: random
+
+  - alias: Salir de colores
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.tita_touchpad_2
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jugar_colores
+        state: 'on'
+    action:
+      - service: input_boolean.turn_off
+        entity_id: input_boolean.jugar_colores
+      - service: light.turn_on
+        data:
+          entity_id: light.recamara_de_tita
+          brightness: 255
+          kelvin: 2700
+
+  - alias: Modo dormir con boton
+    trigger:
+      - platform: state
+        entity_id: binary_sensor.tita_touchpad_2
+        from: 'off'
+        to: 'on'
+    condition:
+      - condition: state
+        entity_id: input_boolean.jugar_colores
+        state: 'off'
+      - condition: time
+        after: '18:00:00'
+        before: '02:00:00'
+    action:
+      - service: input_boolean.turn_on
+        entity_id: input_boolean.dormir_tita   
+
   - alias: Encender luz tita
     trigger:
       - platform: state
@@ -53,7 +117,7 @@ automation:
         entity_id: binary_sensor.motion_tita
         to: 'off'
         for:
-          minutes: 3
+          minutes: 5
     action:
       service: light.turn_off
       entity_id: light.recamara_de_tita

@@ -160,9 +160,9 @@ views:
   - badges:
       - sensor.ups_input_voltage
       - sensor.kitchen_lp_gas
-      - sensor.bedroom_lp_gas
       - binary_sensor.ups_online_status
       - sensor.ups_battery
+      - sensor.xbee_network
     cards:
       - entities:
           - entity: binary_sensor.felipe_window
@@ -187,6 +187,7 @@ views:
           - binary_sensor.motion_bano_principal
           - binary_sensor.movimiento_hall
           - binary_sensor.motion_pasillo_recamaras
+          - binary_sensor.cabecera_recamara
           - binary_sensor.motion_recamara
           - binary_sensor.motion_vestidor
           - binary_sensor.motion_tvroom
@@ -202,8 +203,8 @@ views:
           - binary_sensor.motion_terraza
           - binary_sensor.motion_camera_patio_door
           - binary_sensor.motion_camera_patio_dome
-          - entity: binary_sensor.front_door_motion
-            name: Front gate
+          - entity: binary_sensor.patio_ext_motion
+            name: Patio exterior
         #state_filter:
         #  - 'on'
         state_color: true
@@ -215,8 +216,10 @@ views:
             name: Xeoma free mem
           - entity: sensor.ups_status
         type: entities
-      - entity: camera.front_door
+      - entity: camera.porton
         type: picture-entity
+      - entity: camera.patio_ext
+        type: picture-entity    
       - type: picture-entity
         entity: camera.entrada_personas
       - type: picture-entity
@@ -235,6 +238,11 @@ views:
         entity: climate.ac_recamara
       - type: thermostat
         entity: climate.ac_tita
+      - entities:
+          - entity: switch.ventilador_de_la_oficina
+            icon: mdi:fan
+          - entity: binary_sensor.estado_ventilador
+        type: entities 
       - type: history-graph
         title: Temperatura
         hours_to_show: 4
@@ -259,7 +267,6 @@ views:
             name: Cocina
           - entity: sensor.living_room_humidity
             name: Sala
-
 
 
 

@@ -1,11 +1,5 @@
 
-  - platform: mqtt
-    name: rf_bridge_result
-    state_topic: tele/rfbridge/RESULT
-    availability_topic: tele/rfbridge/LWT
-    payload_available: "Online"
-    payload_not_available: "Offline"
-    value_template: '{{ value_json.RfReceived.Data }}'
+
 
   - platform: time_date
     display_options:

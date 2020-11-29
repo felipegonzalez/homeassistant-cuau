@@ -14,8 +14,6 @@ image_processing:
     scan_interval: 15
     labels:
       - person
-      - car
-      - truck
 
 #  - platform: tensorflow
 #    source:
@@ -73,6 +71,16 @@ sensor:
               0
           {% endif %}
         unit_of_measurement: "Persons"    
+
+binary_sensor:
+  - platform: template
+    sensors:
+      felipe_oficina_ocupada:
+        value_template: >-
+          {{ states('sensor.felipe_office_occupancy')|float > 0 }}
+      recamara_ocupada:
+        value_template: >
+          {{ is_state('media_player.bedroom','playing') }}
 
 automation:
 #image processing scans

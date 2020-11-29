@@ -172,10 +172,6 @@ automation:
       below: 1
       for:
         minutes: 5
-    condition:
-      condition: state
-      entity_id: light.felipe_desk
-      state: 'on'
     action:
       service: light.turn_off
       entity_id: light.escritorio_de_felipe
@@ -185,5 +181,10 @@ automation:
       platform: state
       entity_id: switch.bano_visitas_switch
     action:
-      service: light.toggle
+      service: > 
+        {% if states('switch.bano_visitas_switch') == 'off' %}
+          light.turn_off
+        {% else %}
+          light.turn_on
+        {% endif %}
       entity_id: light.bano_de_visitas
