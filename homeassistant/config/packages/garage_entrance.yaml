@@ -135,6 +135,26 @@ script:
 ######### Automations ###################
 
 automation:
+#   - alias: check garage connection
+#     trigger: 
+#     - platform: time_pattern
+#       minutes: 60
+#     action:
+#     - service: mqtt.publish
+#       data:
+#         topic: "xbeebox/caja_garage/send_tx"
+#         payload: "t"
+#   - alias: raise xbee error 
+#     trigger:
+#     - platform: state
+#       entity_id: xbee_network
+#       to: 36
+#     action:
+#     - service: notify.iphone_tyf
+#       data:
+#         message: "El porton puede estar desconectado"
+
+
   - alias: notify garage open
     trigger:
     - platform: state
@@ -156,13 +176,13 @@ automation:
     id: patiodoorbellring89102
     trigger:
       platform: state
-      entity_id: binary_sensor.patio_doorbell
+      entity_id: binary_sensor.patio_ding
       to: 'on'
     action:
     - service: script.sonos_play
       data:
-        sonos_entity: media_player.office
-        volume: 0.96
+        sonos_entity: media_player.living_room
+        volume: 0.90
         delay: 00:00:06
         media_content_id: http://192.168.100.50:8123/local/sounds/doorbell_o.mp3
     - service: mqtt.publish
@@ -174,7 +194,7 @@ automation:
     id: 99938832notifygatedoor
     trigger:
       platform: state
-      entity_id: binary_sensor.front_door_ding
+      entity_id: binary_sensor.porton_ding
       from: 'off'
       to: 'on'
     action:
@@ -184,9 +204,9 @@ automation:
         volume: 0.95
         delay: 00:00:06
         media_content_id: http://192.168.100.50:8123/local/sounds/store_bell.mp3
-    - service: notify.iphone_tyf
-      data:
-        message: "Alguien está tocando la puerta de la calle."
+    #- service: notify.iphone_tyf
+    #  data:
+    #    message: "Alguien está tocando la puerta de la calle."
 
   - alias: Patio door notification
     trigger:
@@ -207,9 +227,9 @@ automation:
       entity_id: binary_sensor.patio_gate
       to: 'on'
     condition:
-      condition: time
-      after: '20:00:00'
-      before: '05:00:00'
+      condition: state
+      entity_id: sun.sun
+      state: 'below_horizon'
     action:
       - service: notify.iphone_tyf
         data:
@@ -257,7 +277,7 @@ automation:
         to: 'on'
     condition:
       condition: time
-      after: '20:00:00'
+      after: '19:00:00'
       before: '05:00:00'
     action:
       - service: light.turn_on
@@ -271,13 +291,13 @@ automation:
         from: 'on'
         to: 'off'
         for:
-          minutes: 5
+          minutes: 3
       - platform: state
         entity_id: binary_sensor.motion_camera_patio_dome
         from: 'on'
         to: 'off'
         for:
-          minutes: 5
+          minutes: 3
     condition:
       condition: state
       entity_id: light.patio_floodlight

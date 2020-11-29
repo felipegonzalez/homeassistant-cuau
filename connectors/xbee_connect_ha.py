@@ -192,16 +192,27 @@ def monitor():
 
         response = {}
         response = xbee.wait_read_frame(timeout = 0.2)
+        if(len(response)>0 and response['id']=="tx_status"):
+            print(response)
+            deliver_status = int(response['deliver_status'].hex(), 16)
+            print(deliver_status)
+            if(deliver_status==0):
+                print("Comando recibido")
+            topic = "xbeebox/" + "network" + "/" + "status" 
+            payload = deliver_status
+            client.publish(topic, payload)
+
+            #print(response)
         if(len(response)>0 and response['id']!='tx_status'):
             response['source_addr_long'] = response['source_addr_long'].hex()
             response['source_addr'] = response['source_addr'].hex()
             #print(response)
-            if(xbee_dict[response['source_addr_long']]=='caja_teresita'):
-                print("Cuarto teresita: ")
-                print(response)
-            if(xbee_dict[response['source_addr_long']]=='cajarecamara'):
-                print("Recamara: ")
-                print(response)
+            #if(xbee_dict[response['source_addr_long']]=='caja_teresita'):
+            #    print("Cuarto teresita: ")
+                #print(response)
+            #if(xbee_dict[response['source_addr_long']]=='cajarecamara'):
+            #    print("Recamara: ")
+                #print(response)
                        
             if('rf_data' in response.keys()):
                 try:
