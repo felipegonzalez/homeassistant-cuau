@@ -64,9 +64,9 @@ class GasTankReader(hass.Hass):
     final_line_list = []
 
     x_center = 700
-    y_center = 655
+    y_center = 645
     
-    cv2.circle(img2,(int(x_center),int(y_center)), 5, (0,0,255), -1)
+    cv2.circle(img2,(int(x_center),int(y_center)), 5, (0,128,255), -1)
     for line in lines:
         for x1, y1, x2, y2 in lines[0]:
             final_line_list.append([x1, y1, x2, y2])
@@ -106,7 +106,7 @@ class GasTankReader(hass.Hass):
     cv2.imwrite("img_gauge.jpg", img2)
     self.log("Angle: {}".format(angle))
     if angle < 0:
-        reading = -((60-22)/90.0)*(angle+90.0) - 15.0
+        reading = ((60-22)/90.0)*(angle+90.0) + 50#- 15.0
     else:
-        reading = ((50-80)/(90-24))*(angle - 24) + 75.0
+        reading = ((50-80)/(90-24))*(angle - 24) + 85.0 #75.0
     return reading  
