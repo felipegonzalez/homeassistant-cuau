@@ -51,11 +51,18 @@ device_settings = {
         'addr_long':'0013a20040c2833b',
         'pins':{'dio-1':'motion'}
         },
-        'caja_puerta':{
-        'place':'hall_entrada',
+        # 'caja_puerta':{
+        # 'place':'hall_entrada',
+        # 'device_type':'xbeebox',
+        # 'addr_long':'0013a20040bef84d',
+        # 'pins':{'dio-1':'motion', 'dio-2':'door', 'adc-3':'photo', 'dio-0':'none',
+        # 'dio-12':'none', 'dio-4':'none'}
+        # },
+        'caja_hall':{
+        'place':'hall',
         'device_type':'xbeebox',
         'addr_long':'0013a20040bef84d',
-        'pins':{'dio-1':'motion', 'dio-2':'door', 'adc-3':'photo', 'dio-0':'none',
+        'pins':{'dio-1':'motion', 'dio-2':'motion', 'adc-3':'photo', 'dio-0':'none',
         'dio-12':'none', 'dio-4':'none'}
         },
         'caja_estudiof':{
@@ -119,7 +126,7 @@ for key in device_settings.keys():
 
 broker_address = "192.168.100.50"
 port = 1883
-user = "homeassistant"
+user = "mqttuser"
 
 #SERIAL_PORT = '/dev/ttyUSB0'
 SERIAL_PORT = '/dev/tty.usbserial-AH02VCE9'
@@ -167,8 +174,8 @@ def monitor():
     serialConnection = serial.Serial( SERIAL_PORT, 9600,timeout=0.5)
     xbee = ZigBee(serialConnection)
     print("Conexión xbee serial...OK")
-    client = mqtt.Client("xbee_reader", userdata = xbee)
-    client.username_pw_set(user)
+    client = mqtt.Client("xbee_reader", userdata = xbee)  
+    client.username_pw_set(user, password = "mqtt")
     client.on_connect = on_connect
     client.on_disconnect = on_disconnect
     client.connected_flag = False
@@ -192,8 +199,9 @@ def monitor():
 
         response = {}
         response = xbee.wait_read_frame(timeout = 0.2)
+        #print(response)
         if(len(response)>0 and response['id']=="tx_status"):
-            print(response)
+            #print(response)
             deliver_status = int(response['deliver_status'].hex(), 16)
             print(deliver_status)
             if(deliver_status==0):
@@ -207,9 +215,9 @@ def monitor():
             response['source_addr_long'] = response['source_addr_long'].hex()
             response['source_addr'] = response['source_addr'].hex()
             #print(response)
-            #if(xbee_dict[response['source_addr_long']]=='caja_teresita'):
-            #    print("Cuarto teresita: ")
-                #print(response)
+            if(xbee_dict[response['source_addr_long']]=='caja_garage'):
+                print("Porton: ")
+                print(response)
             #if(xbee_dict[response['source_addr_long']]=='cajarecamara'):
             #    print("Recamara: ")
                 #print(response)
@@ -236,6 +244,8 @@ def monitor():
                                 client.publish(topic, payload)
                                 #print(topic)
                                 #print(payload)
+                                #print("     ")
+                                #print("     ")
                         except:
                             print("xxError parsing element")
                             print(elem)
@@ -251,8 +261,8 @@ def monitor():
                 topic = "xbeebox/" + place + "/samples" + "/" + xbee_dict[response['source_addr_long']] 
                 payload = json.dumps(response['samples'])
                 #print(response["samples"])
-                #print(topic)
-                #print(payload)
+                print(topic)
+                print(payload)
                 client.publish(topic, payload)
 
 

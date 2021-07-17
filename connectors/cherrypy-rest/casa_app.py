@@ -34,17 +34,18 @@ for key in device_settings.keys():
 cherrypy.server.socket_host = '0.0.0.0'
 broker_address = "192.168.100.50"
 port = 1883
-user = "homeassistant"
+user = "mqttuser"
 
 
 def on_connect(client, userdata, flags, rc):
     pass
 
 client = mqttClient.Client("Python")
-client.username_pw_set(user)
+client.username_pw_set(user, password = "mqtt")
 client.on_connect = on_connect
+cherrypy.log("Connecting to mqtt")
 try:
-    print("Connected to mqtt server")
+    print("Connected to mqtt server!")
     client.connect(broker_address, port=port)
     client.loop_start()
 except:
@@ -84,9 +85,10 @@ class control(object):
                 event_type = value
                 value = "OFF"
             client.publish(device_name + "/" + event_type, value)
-            print(device_name + "/" + event_type)
+            cherrypy.log(device_name + "/" + event_type)
         except:
             print("not connected mqtt")
+            cherrypy.log("Not connected to mqtt")
         return json.dumps(ev)
 
 
